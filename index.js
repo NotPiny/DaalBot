@@ -61,22 +61,27 @@ client.on("message", msg => {
 
   if (msg.content === "→TestBot") {
     msg.channel.send("Bot is responding")
+    console.log(msg.author.tag + ' used →TestBot')
   }
 
   if (msg.content === "→BotInfo") {
     msg.channel.send('Bot Name: DaalBot, Bot Status: Online')
+        console.log(msg.author.tag + ' used →BotInfo')
   }
 
   if (msg.content === "$Help") {
     msg.channel.send("Hey i see you have ran my help command my prefix is normally [$] but for some commands it is [→] for a list of commands they are coming soon as piny is yet to make a list of command")
+  console.log(msg.author.tag + ' used $Help')
   }
   
   if (msg.content === "$Hello") {
     msg.channel.send("Hello there")
+          console.log(msg.author.tag + ' used $Hello')
   }
 
   if (msg.content === "$inspire") {
     getQuote().then(quote => msg.channel.send(quote))
+    console.log(msg.author.tag + ' used $inspire')
   }
 
   db.get("responding").then(responding => {
@@ -92,17 +97,20 @@ client.on("message", msg => {
     encouragingMessage = msg.content.split("$new ")[1]
     updateEncouragements(encouragingMessage)
     msg.channel.send("New encouraging message added.")
+          console.log(msg.author.tag + ' used $new')
   }
 
   if (msg.content.startsWith("$del")) {
     index = parseInt(msg.content.split("$del ")[1])
     deleteEncouragement(index)
     msg.channel.send("Encouraging message deleted.")
+          console.log(msg.author.tag + ' used $del')
   }
 
   if (msg.content.startsWith("$list")) {
     db.get("encouragements").then(encouragements => {
       msg.channel.send(encouragements)
+      console.log(msg.author.tag + ' used $list')
     })
   }
 
@@ -117,7 +125,6 @@ client.on("message", msg => {
       msg.channel.send("Responding is off.")
     }
   }
-
 })
 
 keepAlive()
