@@ -1,5 +1,5 @@
 # DaalBot
-Created by Piny (https://wbit.ly/NotPiny) </br>
+Created by Piny (https://bit.ly/NotPiny) </br>
 </br>
 Made for DaalSAVAGE (https://bit.ly/DaalSAVAGE) </br>
 </br>
