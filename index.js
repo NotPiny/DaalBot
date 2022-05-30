@@ -9,86 +9,52 @@ const client = new Client({
     Intents.FLAGS.GUILD_BANS,
   ],
 })
-const fetch = require("node-fetch")
-const keepAlive = require("./server")
-const Database = require("@replit/database")
-const TOKEN = process.env['TOKEN']
-const db = new Database()
+require('dotenv').config()
+path = require('path')
 const gmtDateTime = new Date().toUTCString();
 const currentYear = new Date().getFullYear();
-const input = require('prompt-sync')();
-const path = require('path')
 const DevIDs = [664859750285967371]
-const sadWords = ["sad", "depressed", "unhappy", "angry"]
-const express = require("express")
-const server = express()
-const starterEncouragements = [
-  "Cheer up!",
-  "Hang in there.",
-  "You are a great person / bot!",
-  "You can do anything"
-]
-//database stuff idk this was included in the template code to host the bot
-db.get("encouragements").then(encouragements => {
-  if (!encouragements || encouragements.length < 1) {
-    db.set("encouragements", starterEncouragements)
-  }
-})
-
-db.get("responding").then(value => {
-  if (value == null) {
-    db.set("responding", true)
-  }
-})
-
-function updateEncouragements(encouragingMessage) {
-  db.get("encouragements").then(encouragements => {
-    encouragements.push([encouragingMessage])
-    db.set("encouragements", encouragements)
-  })
-}
-
-function deleteEncouragement(index) {
-  db.get("encouragements").then(encouragements => {
-    if (encouragements.length > index) {
-      encouragements.splice(index, 1)
-      db.set("encouragements", encouragements)
-    }
-  })
-}
-
-function getQuote() {
-  return fetch("https://zenquotes.io/api/random")
-    .then(res => {
-      return res.json()
-    })
-    .then(data => {
-      return data[0]["q"] + " -" + data[0]["a"]
-    })
-}
+WOKCommands = require('wokcommands')
 
 client.on('ready', () => {
   //When bot loads
   console.log(`Logged in as ${client.user.tag}!`)
   client.user.setActivity('$Help to get started');
   console.log('Bot status has been set to "$Help to get started"')
+  
+  new WOKCommands(client, {
+    commandsDir: path.join(__dirname, 'commands'),
+    typeScript: false,
+    testServers: ['968288776268947566', '858790500605100062'],
+    botOwners: ['664859750285967371'],
+    mongoUri: process.env.MONGO_URI,
+  })
 })
+
 //Command Stuff :P
 client.on("messageCreate", msg => {
+//Tests & Var
   if (msg.author.bot) return
 
   let BotBanRole = msg.guild.roles.cache.get("973182673306660885");
-const FMT = msg.mentions.members.first();
+  const FMT = msg.mentions.members.first();
+  const cmd = `${msg.content.toLowerCase()}`
+  const commandList = `Dev: \n $Shutdown \n Admin: \n $Kick, $Ban, $BotBan \n User: \n Cmds, $CrashTest, $DevCheck, %Test, →TestBot, $DateTime, $PingMe, UserInfo, →BotInfo, :P (Activates when ":P" is located at the end of a message), $Help, Don't quote me on this (Activate when "Don't quote me on this" is located at the end of a message), $Hello`
 
   if (msg.member.roles.cache.some(role => role.name === 'BotBanned')) {
       return
     }
-  
-  if (msg.content === '$CrashTest') {
-    msg.reply('The bot did not crash')
+
+//Automatic
+
+  if (msg.content.toLowerCase().includes('poll')) {
+    msg.react('✅')
+    msg.react('❌')
   }
-  
-  if (msg.content.startsWith('$Kick')) {
+
+//Perms Needed
+
+  if (msg.content.toLowerCase().startsWith('$kick')) {
     if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
     if (!FMT) {
         msg.reply('Did not detect user')
@@ -102,7 +68,7 @@ const FMT = msg.mentions.members.first();
   }
 }
 
-  if (msg.content.startsWith('$Ban')) {
+  if (msg.content.toLowerCase().startsWith('$ban')) {
     if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
     if (!FMT) {
         msg.reply('Did not detect user')
@@ -117,7 +83,7 @@ const FMT = msg.mentions.members.first();
 }
   
   if (msg.content.toLowerCase() == "$shutdown") {
-    if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
+    if (msg.member.roles.cache.some(role => role.id === '980145544750063677')) {
         msg.reply("Shutting down...").then(() => {
           client.user.setActivity(`a dev has shut me down`);
           client.user.setStatus('idle'); 
@@ -126,11 +92,11 @@ const FMT = msg.mentions.members.first();
             client.destroy();
         })
     } else {
-      msg.reply('Sorry but you do not have permission to run the command `Shutdown` as you do not have the `Admin` role')
+      msg.reply('Sorry but you do not have permission to run the command `Shutdown` as you do not have the `Bot Dev` role')
     }
   }
   
-  if (msg.content.startsWith('$BotBan')) {
+  if (msg.content.toLowerCase().startsWith('$botban')) {
     if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
     if (!FMT) {
         msg.reply('Did not detect user')
@@ -143,8 +109,18 @@ const FMT = msg.mentions.members.first();
       msg.reply('No Perms!')
   }
 }
-  
-  if (msg.content.startsWith('$DevCheck')) {
+
+  //All Users
+
+  if (msg.content.toLowerCase().startsWith('$cmds')) {
+    msg.reply(commandList)
+  }
+
+  if (msg.content.toLowerCase().startsWith('$crashtest')) {
+    msg.reply('The bot did not crash')
+  }
+
+  if (msg.content.toLowerCase().startsWith('$devcheck')) {
     if (msg.author.tag === ('Piny#1000', 'DaalSAVAGE#8247')) {
       msg.reply('You are a dev!')
     }
@@ -153,27 +129,24 @@ const FMT = msg.mentions.members.first();
     }
   }
   
-  if (msg.content.startsWith('%Test')) {
-    msg.reply ({
-  files: ['https://cdn.discordapp.com/attachments/968109463758331914/979713863882772511/9ba2cde938dd3383.png']
-})
-    
+  if (cmd.startsWith('%test')) {
+    msg.reply('The test worked')
 }
 
-  if (msg.content === "→TestBot") {
+  if (msg.content.toLowerCase().startsWith("→testbot")) {
     msg.channel.send("Bot is responding")
     console.log(msg.author.tag + ' used →TestBot')
   }
 
-  if (msg.content === "$DateTime") {
+  if (msg.content.toLowerCase().startsWith("$datetime")) {
   msg.reply(gmtDateTime)
   }
 
-  if (msg.content.startsWith("$PingMe")) {
+  if (msg.content.toLowerCase().startsWith("$pingme")) {
     msg.reply("@" + msg.author.tag)
   }
   
-  if (msg.content.startsWith("$UserInfo")) {
+  if (msg.content.toLowerCase().startsWith("$userinfo")) {
     if (!FMT) {
     msg.channel.send('Username: ' + msg.author.username + ' Tag: ' + msg.author.tag + ' ID: ' + msg.author.id + " " + 'Avatar: ' + msg.author.displayAvatarURL())
   } else {
@@ -181,78 +154,31 @@ const FMT = msg.mentions.members.first();
   }
 }
   
-  if (msg.content === "→BotInfo") {
+  if (msg.content.toLowerCase().startsWith("→botinfo")) {
     msg.channel.send('Bot Name: ' + client.user.username + ',' + ' Bot Status: Responding')
         console.log(msg.author.tag + ' used →BotInfo')
   }
 
-  if (msg.content.endsWith(":P")) {
+  if (msg.content.toLowerCase().endsWith(":p")) {
     msg.channel.send(":P")
     console.log(msg.author.tag + ' used :P')
   }
 
-  if (msg.content === "$Help") {
-    msg.reply("Hey i see you have ran my help command my prefix is normally [$] for a list of commands they are coming soon as piny is yet to make a list of command")
+  if (msg.content.toLowerCase().startsWith("$help")) {
+    msg.reply("Hey i see you have ran my help command my prefix is normally [$] for a list of commands run `$Cmds`")
   console.log(msg.author.tag + ' used $Help')
   }
 
-  if (msg.content.endsWith("Don't quote me on this")) {
+  if (msg.content.toLowerCase().endsWith("don't quote me on this")) {
     msg.channel.send(msg.content + " - " + msg.author.username + " " + currentYear)
     console.log(msg.author.username + 'activated "Dont quote me"')
   }
-  
-  if (msg.content === "$Hello") {
+
+  if (msg.content.toLowerCase().startsWith("$hello")) {
     msg.reply("Hello there")
           console.log(msg.author.tag + ' used $Hello')
   }
 
-  if (msg.content === "$inspire") {
-    getQuote().then(quote => msg.channel.send(quote))
-    console.log(msg.author.tag + ' used $inspire')
-  }
-
-  db.get("responding").then(responding => {
-    if (responding && sadWords.some(word => msg.content.includes(word))) {
-      db.get("encouragements").then(encouragements => {
-        const encouragement = encouragements[Math.floor(Math.random() * encouragements.length)]
-        msg.reply(encouragement)
-      })
-    }
-  })
-  
-  if (msg.content.startsWith("$new")) {
-    encouragingMessage = msg.content.split("$new ")[1]
-    updateEncouragements(encouragingMessage)
-    msg.channel.send("New encouraging message added.")
-          console.log(msg.author.tag + ' used $new')
-  }
-
-  if (msg.content.startsWith("$del")) {
-    index = parseInt(msg.content.split("$del ")[1])
-    deleteEncouragement(index)
-    msg.channel.send("Encouraging message deleted.")
-          console.log(msg.author.tag + ' used $del')
-  }
-
-  if (msg.content.startsWith("$list")) {
-    db.get("encouragements").then(encouragements => {
-      msg.channel.send(encouragements)
-      console.log(msg.author.tag + ' used $list')
-    })
-  }
-
-  if (msg.content.startsWith("$responding")) {
-    value = msg.content.split("$responding ")[1]
-
-    if (value.toLowerCase() == "true") {
-      db.set("responding", true)
-      msg.channel.send("Responding is on.")
-    } else {
-      db.set("responding", false)
-      msg.channel.send("Responding is off.")
-    }
-  }
 })
 
-keepAlive()
 client.login(process.env.TOKEN)

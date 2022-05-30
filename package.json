@@ -1,5 +1,5 @@
 {
-  "name": "Encourage-Bot-JS",
+  "name": "daalbot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -20,7 +20,8 @@
     "wokcommands": "^1.5.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "launch": "node index.js"
   },
   "keywords": [],
   "author": "",
