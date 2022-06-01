@@ -15,6 +15,7 @@ const gmtDateTime = new Date().toUTCString();
 const currentYear = new Date().getFullYear();
 const DevIDs = [664859750285967371]
 WOKCommands = require('wokcommands')
+const fs = require('fs');
 
 client.on('ready', () => {
   //When bot loads
@@ -33,8 +34,22 @@ client.on('ready', () => {
 
 //Command Stuff :P
 client.on("messageCreate", msg => {
+
 //Log Msg
 console.log(`[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})`)
+
+if (msg.guildId === '975358046832304188') {
+  fs.appendFile('./chat/supreme.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+    if (err) throw err;
+  });
+}
+
+if (msg.guildId === '858790500605100062') {
+fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+  if (err) throw err;
+});
+}
+
 //Tests & Var
   if (msg.author.bot) return
 
