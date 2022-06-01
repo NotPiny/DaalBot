@@ -25,7 +25,7 @@ client.on('ready', () => {
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, 'commands'),
     typeScript: false,
-    testServers: ['968288776268947566', '858790500605100062'],
+    testServers: ['968288776268947566', '858790500605100062', '975358046832304188'],
     botOwners: ['664859750285967371'],
     mongoUri: process.env.MONGO_URI,
   })
@@ -33,13 +33,15 @@ client.on('ready', () => {
 
 //Command Stuff :P
 client.on("messageCreate", msg => {
+//Log Msg
+console.log(`[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})`)
 //Tests & Var
   if (msg.author.bot) return
 
   let BotBanRole = msg.guild.roles.cache.get("973182673306660885");
   const FMT = msg.mentions.members.first();
   const cmd = `${msg.content.toLowerCase()}`
-  const commandList = `Dev: \n $Shutdown \n Admin: \n $Kick, $Ban, $BotBan \n User: \n Cmds, $CrashTest, $DevCheck, %Test, →TestBot, $DateTime, $PingMe, UserInfo, →BotInfo, :P (Activates when ":P" is located at the end of a message), $Help, Don't quote me on this (Activate when "Don't quote me on this" is located at the end of a message), $Hello`
+  const commandList = `Dev: \n $Shutdown, /Status \n Admin: \n /send, /clear, $Kick, $Ban, $BotBan \n User: \n Cmds, $CrashTest, $DevCheck, %Test, →TestBot, $DateTime, $PingMe, UserInfo, →BotInfo, :P (Activates when ":P" is located at the end of a message), $Help, Don't quote me on this (Activate when "Don't quote me on this" is located at the end of a message), $Hello`
 
   if (msg.member.roles.cache.some(role => role.name === 'BotBanned')) {
       return

@@ -30,7 +30,10 @@ module.exports = {
     const reply = `Deleted ${size} message(s).`
 
     if (interaction) {
-      return reply
+      return {
+        content: reply,
+        ephemeral: true
+      }
     }
 
     channel.send(reply)
