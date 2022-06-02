@@ -13,6 +13,7 @@ module.exports = {
   testOnly: true,
 
   callback: async ({ message, interaction, channel, args }) => {
+    console.log(`${msg.author.tag} ran /clear`)
     const amount = parseInt(args.shift()/*!*/)
 
     if (message) {

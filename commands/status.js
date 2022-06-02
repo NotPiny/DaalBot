@@ -11,6 +11,7 @@ module.exports = {
   ownerOnly: true,
 
   callback: ({ client, text }) => {
+    console.log(`${msg.author.tag} ran /status`)
     client.user?.setPresence({
       status: 'online',
       activities: [
