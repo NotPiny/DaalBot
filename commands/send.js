@@ -15,7 +15,6 @@ module.exports = {
   guildOnly: true,
 
   callback: ({ message, interaction, args }) => {
-    console.log(`${msg.author.tag} ran /send`)
     const channel = (
       message
         ? message.mentions.channels.first()
