@@ -49,6 +49,9 @@ client.on("messageCreate", msg => {
 //Log Msg
 console.log(`[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})`)
 
+  fs.appendFile('./chat/all.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+    if (err) throw err;
+  });
 if (msg.guildId === '975358046832304188') {
   fs.appendFile('./chat/supreme.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
     if (err) throw err;
@@ -156,12 +159,20 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
 
   //All Users
 
+  if (msg.content.toLowerCase().startsWith('$site')) {
+    msg.reply('You can check out my website here: https://daalbot-a.web.app')
+  }
+
+  if (msg.content.toLowerCase().startsWith('$invite')) {
+    msg.reply('You can invite me to your server with this link: https://daalbot-a.web.app/Invite')
+  }
+
   if (msg.content.toLowerCase().startsWith('$nggyu')) {
     msg.channel.send(NeverGonnaL)
   }
 
   if (msg.content.toLowerCase().startsWith('$cmds')) {
-    msg.reply(commandList)
+    msg.reply(`${commandList} \n You can also see more info about commands at https://daalbot-a.web.app/Commands`)
   }
 
   if (msg.content.toLowerCase().startsWith('$crashtest')) {
