@@ -1,4 +1,7 @@
 //const stuff
+const { ReactionEmoji } = require('discord.js');
+const { ReactionManager } = require('discord.js');
+const { Message } = require('discord.js');
 const { Client, Intents } = require('discord.js')
 const client = new Client({
   intents: [
@@ -16,6 +19,8 @@ const currentYear = new Date().getFullYear();
 const DevIDs = [664859750285967371]
 WOKCommands = require('wokcommands')
 const fs = require('fs');
+const { reduceEachTrailingCommentRange } = require('typescript');
+const NeverGonnaL = `We're no strangers to love \nYou know the rules and so do I (do I) \nA full commitment's what I'm thinking of \nYou wouldn't get this from any other guy \nI just wanna tell you how I'm feeling \nGotta make you understand \nNever gonna give you up \nNever gonna let you down \nNever gonna run around and desert you \nNever gonna make you cry \nNever gonna say goodbye \nNever gonna tell a lie and hurt you \nWe've known each other for so long \nYour heart's been aching, but you're too shy to say it (say it) \nInside, we both know what's been going on (going on) \nWe know the game and we're gonna play it \nAnd if you ask me how I'm feeling \nDon't tell me you're too blind to see \nNever gonna give you up \nNever gonna let you down \nNever gonna run around and desert you \nNever gonna make you cry \nNever gonna say goodbye \nNever gonna tell a lie and hurt you \nNever gonna give you up \nNever gonna let you down \nNever gonna run around and desert you \nNever gonna make you cry \nNever gonna say goodbye \nNever gonna tell a lie and hurt you \nWe've known each other for so long \nYour heart's been aching, but you're too shy to say it (to say it) \nInside, we both know what's been going on (going on) \nWe know the game and we're gonna play it \nI just wanna tell you how I'm feeling \nGotta make you understand \nNever gonna give you up \nNever gonna let you down \nNever gonna run around and desert you \nNever gonna make you cry \nNever gonna say goodbye \nNever gonna tell a lie and hurt you \nNever gonna give you up \nNever gonna let you down \nNever gonna run around and desert you \nNever gonna make you cry \nNever gonna say goodbye \nNever gonna tell a lie and hurt you \nNever gonna give you up \nNever gonna let you down \nNever gonna run around and desert you \nNever gonna make you cry \nNever gonna say goodbye \nNever gonna tell a lie and hurt you`
 
 client.on('ready', () => {
   //When bot loads
@@ -26,10 +31,16 @@ client.on('ready', () => {
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, 'commands'),
     typeScript: false,
-    testServers: ['968288776268947566', '858790500605100062', '975358046832304188'],
+    testServers: [],
     botOwners: ['664859750285967371'],
     mongoUri: process.env.MONGO_URI,
   })
+})
+
+//On Join
+
+client.on('guildMemberAdd', (member) => {
+  member.send('Welcome to the server!')
 })
 
 //Command Stuff :P
@@ -52,7 +63,7 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
 
 //Tests & Var
   if (msg.author.bot) return
-
+  const Rcollector = msg.createReactionCollector()
   let BotBanRole = msg.guild.roles.cache.get("973182673306660885");
   const FMT = msg.mentions.members.first();
   const cmd = `${msg.content.toLowerCase()}`
@@ -61,15 +72,27 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
   if (msg.member.roles.cache.some(role => role.name === 'BotBanned')) {
       return
     }
+    var result = 'NO DATA'
 
 //Automatic
 
+//Poll
   if (msg.content.toLowerCase().includes('poll')) {
     msg.react('✅')
     msg.react('❌')
+    msg.react('➖')
   }
-
 //Perms Needed
+
+  // Management
+
+  if (msg.content.toLowerCase().startsWith('foo')) {
+    if (msg.guild.id === '986280643526795334') {
+    msg.react('✅')
+  }
+}
+
+  //
 
   if (msg.content.toLowerCase().startsWith('$kick')) {
     if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
@@ -84,6 +107,10 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
       msg.reply('No Perms!')
   }
 }
+
+  if (msg.content.toLowerCase().startsWith('$ChatLogs')) {
+    msg.reply('This command has not been setup yet')
+  }
 
   if (msg.content.toLowerCase().startsWith('$ban')) {
     if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
@@ -128,6 +155,10 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
 }
 
   //All Users
+
+  if (msg.content.toLowerCase().startsWith('$nggyu')) {
+    msg.channel.send(NeverGonnaL)
+  }
 
   if (msg.content.toLowerCase().startsWith('$cmds')) {
     msg.reply(commandList)

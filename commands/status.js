@@ -6,7 +6,7 @@ module.exports = {
   expectedArgs: '<status>',
 
   slash: 'both',
-  testOnly: true,
+  testOnly: false,
 
   ownerOnly: true,
 

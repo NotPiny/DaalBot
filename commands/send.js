@@ -11,7 +11,7 @@ module.exports = {
   expectedArgsTypes: ['CHANNEL', 'STRING'],
 
   slash: 'both',
-  testOnly: true,
+  testOnly: false,
   guildOnly: true,
 
   callback: ({ message, interaction, args }) => {
@@ -26,8 +26,9 @@ module.exports = {
 
     args.shift() // Remove the channel from the arguments array
     const text = args.join(' ')
+    const sendText = `${text}`
 
-    channel.send(text)
+    channel.send(sendText)
 
     if (interaction) {
       interaction.reply({
