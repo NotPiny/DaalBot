@@ -5,7 +5,7 @@ module.exports = {
     description: 'Displays info about the bot',
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     callback: () => {
       return `Name: ${Client.name}`

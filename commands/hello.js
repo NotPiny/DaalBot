@@ -3,7 +3,7 @@ module.exports = {
     description: 'Replies with Hello There!',
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     callback: () => {
       return 'Hello There'

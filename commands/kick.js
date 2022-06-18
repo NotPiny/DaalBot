@@ -6,7 +6,7 @@ module.exports = {
     requireRoles: true,
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     guildOnly: true,
   

@@ -3,7 +3,7 @@ module.exports = {
     description: 'Tags MrAshCreates',
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     callback: () => {
       return '<@617182787253960723>'

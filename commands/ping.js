@@ -3,7 +3,7 @@
     description: 'Replies with pong',
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     callback: () => {
       return 'Pong'

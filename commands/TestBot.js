@@ -3,7 +3,7 @@ module.exports = {
     description: 'Tests if the bot is responding',
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     callback: () => {
       return {

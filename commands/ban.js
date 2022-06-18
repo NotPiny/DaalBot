@@ -5,7 +5,7 @@ module.exports = {
   permissions: ['ADMINISTRATOR'],
 
   slash: true,
-  testOnly: true,
+  testOnly: false,
 
   guildOnly: true,
 

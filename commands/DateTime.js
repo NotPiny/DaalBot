@@ -4,7 +4,7 @@ module.exports = {
     description: 'Says the time in GMT (may be out of sync due to daylight savings)',
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     callback: () => {
       return {

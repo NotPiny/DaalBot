@@ -3,7 +3,7 @@ module.exports = {
     description: 'Checks if the bot crashes when a command is ran',
   
     slash: true,
-    testOnly: true,
+    testOnly: false,
   
     callback: () => {
       return 'The bot did not crash'

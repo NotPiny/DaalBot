@@ -5,7 +5,7 @@ module.exports = {
   minArgs: 1,
   expectedArgs: '<status>',
 
-  slash: 'both',
+  slash: true,
   testOnly: false,
 
   ownerOnly: true,
