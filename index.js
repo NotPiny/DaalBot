@@ -31,7 +31,7 @@ client.on('ready', () => {
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, 'commands'),
     typeScript: false,
-    testServers: [],
+    testServers: ['986280643526795334'],
     botOwners: ['664859750285967371'],
     mongoUri: process.env.MONGO_URI,
   })
@@ -67,10 +67,10 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
 //Tests & Var
   if (msg.author.bot) return
   const Rcollector = msg.createReactionCollector()
-  let BotBanRole = msg.guild.roles.cache.get("973182673306660885");
+  let BotBanRole = msg.guild.roles.cache.get(role => role.name === 'BotBanned');
   const FMT = msg.mentions.members.first();
   const cmd = `${msg.content.toLowerCase()}`
-  const commandList = `Dev: \n $Shutdown, /Status \n Admin: \n /send, /clear, $Kick, $Ban, $BotBan \n User: \n Cmds, $CrashTest, $DevCheck, %Test, →TestBot, $DateTime, $PingMe, UserInfo, →BotInfo, :P (Activates when ":P" is located at the end of a message), $Help, Don't quote me on this (Activate when "Don't quote me on this" is located at the end of a message), $Hello`
+  const commandList = `Dev: \n /Shutdown, /Status \n Admin: \n /send, /clear, /Kick, /Ban \n User: \n $Cmds, /CrashTest, $DevCheck, %Test, /TestBot, /DateTime, $PingMe, $UserInfo, /BotInfo, :P (Activates when ":P" is located at the end of a message), /Help, Don't quote me on this (Activate when "Don't quote me on this" is located at the end of a message), /Hello, /Site, /Invite`
 
   if (msg.member.roles.cache.some(role => role.name === 'BotBanned')) {
       return
@@ -89,13 +89,11 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
 
   // Management
 
-  if (msg.content.toLowerCase().startsWith('foo')) {
-    if (msg.guild.id === '986280643526795334') {
-    msg.react('✅')
+  if (msg.content.toLowerCase().startsWith('foo') && msg.guild.id === '986280643526795334') {
+    msg.reply('Command works 🥳🥳🥳🥳🥳')
   }
-}
 
-  //
+  //Other
 
   if (msg.content.toLowerCase().startsWith('$kick')) {
     if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
@@ -123,34 +121,6 @@ fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.auth
     } else {
         FMT.ban();
         msg.reply(`Banned ${FMT.user.username}`)
-    }
-  } else {
-      msg.reply('No Perms!')
-  }
-}
-  
-  if (msg.content.toLowerCase() == "$shutdown") {
-    if (msg.member.roles.cache.some(role => role.id === '980145544750063677')) {
-        msg.reply("Shutting down...").then(() => {
-          client.user.setActivity(`a dev has shut me down`);
-          client.user.setStatus('idle'); 
-          console.log(`${msg.author.tag} has shutdown the bot`)
-            client.channels.cache.find(channel => channel.id === 968188003375808552).send(`${msg.author.tag} has shutdown the bot`)
-            client.destroy();
-        })
-    } else {
-      msg.reply('Sorry but you do not have permission to run the command `Shutdown` as you do not have the `Bot Dev` role')
-    }
-  }
-  
-  if (msg.content.toLowerCase().startsWith('$botban')) {
-    if (msg.member.roles.cache.some(role => role.name === 'Admin')) {
-    if (!FMT) {
-        msg.reply('Did not detect user')
-        return;
-    } else {
-        FMT.roles.add(BotBanRole);
-        msg.reply(`Bot Banned ${FMT.user.username}`)
     }
   } else {
       msg.reply('No Perms!')
