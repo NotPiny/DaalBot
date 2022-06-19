@@ -25,8 +25,8 @@ const NeverGonnaL = `We're no strangers to love \nYou know the rules and so do I
 client.on('ready', () => {
   //When bot loads
   console.log(`Logged in as ${client.user.tag}!`)
-  client.user.setActivity('$Help to get started');
-  console.log('Bot status has been set to "$Help to get started"')
+  client.user.setActivity('/Cmds to get started');
+  console.log('Bot status has been set to "/Cmds to get started"')
   
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, 'commands'),
