@@ -1,5 +1,5 @@
 module.exports = {
-  category: 'Configuration',
+  category: 'Piny Only',
   description: 'Sets the bots status',
 
   minArgs: 1,

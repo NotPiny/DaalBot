@@ -1,7 +1,7 @@
 const { Interaction } = require("discord.js")
 
 module.exports = {
-    category: 'Configuration',
+    category: 'Piny Only',
     description: 'Takes the bot offline',
   
     slash: true,
