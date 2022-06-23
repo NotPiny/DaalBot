@@ -26,9 +26,8 @@ module.exports = {
 
     args.shift() // Remove the channel from the arguments array
     const text = args.join(' ')
-    const sendText = `${text}`
 
-    channel.send(sendText)
+    channel.send(text)
 
     if (interaction) {
       interaction.reply({
