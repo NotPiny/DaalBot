@@ -2,7 +2,7 @@ module.exports = {
     category: 'Testing',
     description: 'Replies with a link to invite the bot!',
   
-    slash: true,
+    slash: 'both',
     testOnly: false,
   
     callback: () => {

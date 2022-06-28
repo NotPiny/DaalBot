@@ -2,7 +2,7 @@ module.exports = {
     category: 'Testing',
     description: 'Replies with Hello There!',
   
-    slash: true,
+    slash: 'both',
     testOnly: false,
   
     callback: () => {

@@ -2,7 +2,7 @@ module.exports = {
     category: 'Testing',
     description: 'Tags MrAshCreates',
   
-    slash: true,
+    slash: 'both',
     testOnly: false,
   
     callback: () => {

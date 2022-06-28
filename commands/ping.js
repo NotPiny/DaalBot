@@ -2,7 +2,7 @@
     category: 'Testing',
     description: 'Replies with pong',
   
-    slash: true,
+    slash: 'both',
     testOnly: false,
   
     callback: () => {

@@ -2,7 +2,7 @@ module.exports = {
     category: 'Testing',
     description: 'Simulates a join.',
   
-    slash: true,
+    slash: 'both',
     testOnly: true,
   
     callback: ({ member, client }) => {

@@ -4,8 +4,6 @@ module.exports = {
   category: 'Configuration',
   description: 'Sends a message.',
 
-  permissions: ['ADMINISTRATOR'],
-
   minArgs: 2,
   expectedArgs: '<channel> <text>',
   expectedArgsTypes: ['CHANNEL', 'STRING'],
@@ -13,6 +11,7 @@ module.exports = {
   slash: 'both',
   testOnly: false,
   guildOnly: true,
+  ownerOnly: true,
 
   callback: ({ message, interaction, args }) => {
     const channel = (
@@ -29,6 +28,13 @@ module.exports = {
 
     channel.send(text)
 
+    if (interaction) {
+      interaction.reply({
+        content: 'Sent message!',
+        ephemeral: true,
+      })
+    } else {
       return 'Sent message!'
+    }
   },
 }

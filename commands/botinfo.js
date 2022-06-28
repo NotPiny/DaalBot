@@ -4,7 +4,7 @@ module.exports = {
     category: 'Testing',
     description: 'Displays info about the bot',
   
-    slash: true,
+    slash: 'both',
     testOnly: false,
   
     callback: () => {

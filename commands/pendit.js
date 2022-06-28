@@ -10,9 +10,7 @@ const {
   
   module.exports = {
     category: 'Configuration',
-    description: 'Edits a message sent by the bot.',
-  
-    permissions: ['ADMINISTRATOR'],
+    description: 'Why does this command exist?',
   
     minArgs: 3,
     maxArgs: 3,
@@ -22,6 +20,7 @@ const {
     slash: 'both',
     testOnly: false,
     guildOnly: true,
+    ownerOnly: true,
   
     callback: async ({ message, interaction, args, client }) => {
       const channel = (
@@ -54,6 +53,13 @@ const {
   
       targetMessage.edit(text)
   
-      return `Message has been edited`
+      if (interaction) {
+      return {
+        content: `Message has been edited`,
+        ephemeral: true,
+      }
+    } else {
+      return 'Message has been edited'
     }
-  }
+  },
+}

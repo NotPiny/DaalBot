@@ -4,7 +4,7 @@ module.exports = {
     category: 'Piny Only',
     description: 'Takes the bot offline',
   
-    slash: true,
+    slash: 'both',
     testOnly: true,
   
     ownerOnly: true,
@@ -18,7 +18,7 @@ module.exports = {
           },
         ],
       })
-      process.exit()
+      process.exit() 
     },
   }
   

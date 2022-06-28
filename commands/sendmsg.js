@@ -1,6 +1,6 @@
 module.exports = {
     category: 'Moderation',
-  description: 'Bans a user',
+  description: 'Messages a user from the bots account',
 
   permissions: ['ADMINISTRATOR'],
 
@@ -10,29 +10,22 @@ module.exports = {
   guildOnly: true,
 
   minArgs: 2,
-  expectedArgs: '<user> <reason>',
+  expectedArgs: '<user> <text>',
   expectedArgsTypes: ['USER', 'STRING'],
 
-  callback: ({ message, interaction, args }) => {
+  callback: ({ message, interaction, args, user }) => {
     const target = message
       ? message.mentions.members?.first()
       : (interaction.options.getMember('user'))
     if (!target) {
-      return 'Please tag someone to ban.'
-    }
-
-    if (!target.bannable) {
-      return 'Cannot ban that user.'
+      return 'Please tag someone to message'
     }
 
     args.shift()
-    const reason = args.join(' ')
+    const sendText = args.join(' ')
 
-    target.ban({
-      reason,
-      days: 7,
-    })
+    target.send(sendText)
 
-    return `You banned <@${target.id}>`
+    return `Sent message to <@${target.id}>`
   },
-} 
+}

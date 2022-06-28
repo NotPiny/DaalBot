@@ -5,7 +5,7 @@ module.exports = {
     // permissions: ['ADMINISTRATOR'],
     requireRoles: true,
   
-    slash: true,
+    slash: 'both',
     testOnly: false,
   
     guildOnly: true,
@@ -23,11 +23,7 @@ module.exports = {
       }
   
       if (!target.kickable) {
-        return {
-          custom: true,
-          content: 'Cannot kick that user.',
-          ephemeral: true,
-        }
+        return 'Cannot kick that user.'
       }
   
       args.shift()
@@ -35,10 +31,6 @@ module.exports = {
   
       target.kick(reason)
   
-      return {
-        custom: true,
-        content: `You kicked <@${target.id}>`,
-        ephemeral: true,
-      }
+      return `You kicked <@${target.id}>`
     },
   }

@@ -19,7 +19,7 @@ module.exports = {
   expectedArgs: '<channel> <messageId> <role>',
   expectedArgsTypes: ['CHANNEL', 'STRING', 'ROLE'],
 
-  slash: true,
+  slash: 'both',
   testOnly: false,
   guildOnly: true,
 
@@ -44,11 +44,15 @@ module.exports = {
         for (const id of values) {
           member.roles.add(id)
         }
-
+        
+        if (interaction) {
         interaction.reply({
           content: 'Roles updated!',
           ephemeral: true,
         })
+      } else {
+        return 'Roles updated'
+      }
       }
     })
   },

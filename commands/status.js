@@ -5,7 +5,7 @@ module.exports = {
   minArgs: 1,
   expectedArgs: '<status>',
 
-  slash: true,
+  slash: 'both',
   testOnly: false,
 
   ownerOnly: true,
@@ -20,6 +20,6 @@ module.exports = {
       ],
     })
 
-    return 'Status updated'
+    return `Status has been changed to \`${text}\``
   },
 }

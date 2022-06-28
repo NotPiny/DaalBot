@@ -3,7 +3,7 @@ module.exports = {
     category: 'Piny Only',
     description: 'Only Piny can run this secret command',
   
-    slash: true,
+    slash: 'both',
     testOnly: false,
 
     ownerOnly: true,
