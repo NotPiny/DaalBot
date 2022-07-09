@@ -32,5 +32,6 @@ module.exports = {
       target.kick(reason)
   
       return `You kicked <@${target.id}>`
+      .catch(() => {console.log(`Error: could not send reply`)});
     },
   }

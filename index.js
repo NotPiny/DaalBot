@@ -1,32 +1,21 @@
-//Options
-const prefix = '$'
-const LogIDs = [
-  '858790500605100062'
-]
 //const stuff
-const { Client, Intents, VoiceChannel, Message } = require('discord.js')
+const { Client, Intents, VoiceChannel, Message } = require('discord.js'); 
 const client = new Client({
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_PRESENCES,
-    Intents.FLAGS.GUILD_BANS,
-    Intents.FLAGS.GUILD_MEMBERS,
-  ],
-})
-require('dotenv').config()
-const path = require('path')
-WOKCommands = require('wokcommands')
-const fs = require('fs');
-const config = require('./config.json')
-const activities = config.activities
+   intents: [
+     Intents.FLAGS.GUILDS, 
+     Intents.FLAGS.GUILD_MESSAGES, 
+     Intents.FLAGS.GUILD_MESSAGE_REACTIONS, 
+     Intents.FLAGS.GUILD_PRESENCES, 
+     Intents.FLAGS.GUILD_BANS, 
+     Intents.FLAGS.GUILD_MEMBERS, 
+    ]
+  }); require('dotenv').config(); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const LogIDs = config.LogIDs; const activities = config.activities; const cmds = require('./cmds.js')
 
 client.on('ready', () => {
   //When bot loads
-  console.log(`Logged in as ${client.user.tag}!`)
+  console.log(`Logged in as ${client.user.tag}!`);
   client.user.setActivity('/Cmds to get started');
-  console.log('Bot status has been set to "/Cmds to get started"')
+  console.log('Bot status has been set to "/Cmds to get started"');
   
   //WOKCommands
   new WOKCommands(client, {
@@ -34,7 +23,7 @@ client.on('ready', () => {
     
     typeScript: false,
     testServers: ['986280643526795334'],
-    botOwners: ['664859750285967371'],
+    botOwners: ['664859750285967371', '678211265264484362'],
     mongoUri: process.env.MONGO_URI,
   })
 
@@ -48,15 +37,13 @@ client.on('ready', () => {
   }, 300000);
 })
 
-//On Join
-
-client.on('guildMemberAdd', (member, guild) => {
-  member.send(`Welcome to the server!\nMake sure to read the rules\n\nHave a great time`)
-})
-
 // Command Stuff :P
-
 client.on("messageCreate", msg => {
+  //Const stuff 2
+  const command = `${prefix}${msg.content.toLowerCase()}`
+  const SP = prefix;
+  const reply = msg.reply;
+  const channel = msg.channel;
   //Log Msg
 if (LogIDs.includes(msg.guild.id)) {
   console.log(`[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})`)
@@ -100,6 +87,15 @@ if (LogIDs.includes(msg.guild.id)) {
       if (msg.content.toLowerCase().endsWith("don't quote me on this")) {
         msg.channel.send(`${msg.content} \n-${msg.author.username} ${currentYear}`)
         console.log(msg.author.username + 'activated "Don\'t quote me"')
+      }
+
+      // Delay
+
+      if (msg.content.toLowerCase().startsWith(`${prefix}delay`)) {
+        msg.reply('Pinging <a:typing:976598236561289256>')
+        .then((message) => {
+          message.edit(`Pong \n${(Date.now() - msg.createdTimestamp)}ms`)
+        });
       }
 })
 

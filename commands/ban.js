@@ -34,5 +34,6 @@ module.exports = {
     })
 
     return `You banned <@${target.id}>`
+    .catch(() => {console.log(`Error: could not send reply`)});
   },
 } 

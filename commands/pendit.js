@@ -55,6 +55,7 @@ const {
   
       if (interaction) {
       return {
+        custom: true,
         content: `Message has been edited`,
         ephemeral: true,
       }

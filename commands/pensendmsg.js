@@ -2,10 +2,9 @@ module.exports = {
     category: 'Moderation',
   description: 'Messages a user from the bots account',
 
-  permissions: ['ADMINISTRATOR'],
-
   slash: true,
   testOnly: false,
+  ownerOnly: true,
 
   guildOnly: true,
 

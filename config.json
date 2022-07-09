@@ -8,7 +8,6 @@
     "with slash commands",
     "UNABLE TO GET STATUS",
     "Why are you reading this?",
-    "Happy Pride",
     "Hamburber",
     "B E A N S",
     "Changes every 30 seconds",
@@ -21,7 +20,6 @@
     "D A A L",
     "F O D",
     "A N O M",
-    "Love Is Love",
     "STATUS",
     "Pepsi > Coke",
     "There is not a 1/3 chance of getting this",
@@ -42,5 +40,10 @@
     "[̲̅A][̲̅N][̲̅O][̲̅M]",
     "How much wood could a woodchuck chuck if a woodchuck could chuck wood",
     "${statuses.length} chance!"
+    ],
+    "prefix": "$",
+    "LogIDs": [
+        "858790500605100062",
+        "975358046832304188"
     ]
 }
