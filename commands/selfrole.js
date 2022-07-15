@@ -58,7 +58,7 @@ module.exports = {
   },
 
   callback: async ({ message, interaction, args, client }) => {
-    return `This command has beem disabled to prevent crashes any existing self role menus should still work`
+    return `Sorry but this command has been disabled`
     // const channel = (
     //   message
     //     ? message.mentions.channels.first()
@@ -79,7 +79,7 @@ module.exports = {
     //   return 'Unknown role!'
     // }
 
-    // const targetMessage = await channel.messages.fetch(messageId, {
+    // const targetMessage = channel.messages.fetch(messageId, {
     //   cache: true,
     //   force: true,
     // })

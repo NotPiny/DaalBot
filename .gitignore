@@ -72,3 +72,9 @@ node_modules/
 /Site
 # Test Bot
 /Test_Bot
+
+# Music Bot
+/music
+
+# Game Data
+/game

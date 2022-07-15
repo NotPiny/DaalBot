@@ -13,20 +13,19 @@ module.exports = {
     testOnly: false,
   
     callback: async ({ message, interaction, channel, args }) => {
-      return 'Due to a crash bug this command has been disabled for the time being'
-      // const amount = parseInt(args.shift())
+      const amount = parseInt(args.shift())
   
-      // if (message) {
-      //   await message.delete()
-      // }
+      if (message) {
+        await message.delete()
+      }
   
-      // // Bulk delete
-      // if (amount > 100 || amount < 1) {
-      //   return 'Please pick a number from 1 to 100'
-      // }
+      // Bulk delete
+      if (amount > 100 || amount < 1) {
+        return 'Please pick a number from 1 to 100'
+      }
 
-      // const { size } = await channel.bulkDelete(amount, true)
+      const { size } = await channel.bulkDelete(amount, true)
   
-      // return `Deleted ${size} message(s).`
+      return `Deleted ${size} message(s).`
     },
   }

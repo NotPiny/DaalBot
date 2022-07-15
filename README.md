@@ -1,10 +1,13 @@
 # DaalBot
-V5
 
-A discord bot for all your random command needs i guess
+# Verison
+# 5.2
 
-Open source (I mean this is github so that is kind of obvious :P)
+# Description
+A fun discord bot for all your random command needs and also has some useful commands
 
-Moving to slash commands but some commands start with `$`
+# Prefix
+Can do both slash and prefix commands
+(some commands prefix's are set in config.json)
 
 ![DaalBot Icon](https://pinymedia.web.app/Daalbot.png)

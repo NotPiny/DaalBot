@@ -1,4 +1,23 @@
 {
+    "README": "Prefix only applies to commands in `cmds.js` and `index.js` any any other commands are slash commands or thier prefix is set per server",
+    "prefix": "$",
+    
+    "LogIDs": [
+        "858790500605100062",
+        "975358046832304188"
+    ],
+    
+    "READ ME": "username does not affect ./firebase_deploy.bat",
+    "username": "PinyLa",
+    
+    "TestServers": [
+        "986280643526795334"
+    ],
+    "BotOwners": [
+        "664859750285967371", 
+        "678211265264484362"
+    ],
+
     "activities": [
     "/Cmds to get started",
     "Don't be stupid",
@@ -40,10 +59,5 @@
     "[̲̅A][̲̅N][̲̅O][̲̅M]",
     "How much wood could a woodchuck chuck if a woodchuck could chuck wood",
     "${statuses.length} chance!"
-    ],
-    "prefix": "$",
-    "LogIDs": [
-        "858790500605100062",
-        "975358046832304188"
     ]
 }
