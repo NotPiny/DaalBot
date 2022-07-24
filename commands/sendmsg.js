@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 module.exports = {
     category: 'Moderation',
   description: 'Messages a user from the bots account',
@@ -27,6 +29,12 @@ module.exports = {
     target.send(sendText)
 
     console.log(`\n---A user (${user.id}) has sent a message to "${target.id}" with the text "${sendText}"---\n`)
+    // fs.appendFile('./logs/sendmsg.txt', `\n---A user (${user.id}) has sent a message to "${target.id}" with the text "${sendText}"---\n`, function (err) {
+    //   if (err) {
+    //     console.error()
+    //   }
+    //   console.log('Logged!');
+    // });
     return {
       custom: true,
       content: `Sent message to <@${target.id}>`,

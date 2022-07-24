@@ -12,21 +12,13 @@ const client = new Client({
   }); require('dotenv').config(); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const LogIDs = config.LogIDs; const activities = config.activities;
 // Command Stuff :P
 client.on("messageCreate", msg => {
-    if (!msg.guild.id === '858790500605100062') {
-        return
-    }
+    if (!msg.guild.id === '858790500605100062') { 
+      return 
+    } 
+    if (msg.author.bot) return
 
-    if (msg.author.id === '965264123246043156') {
-        msg.channel.send(`<@&965263575801298964>`)
-    }
-
-    if (msg.author.bot) {
-        //Detecting dyno and fixing it's message because it is broken
-        if (msg.content === '@TwitchPing Daal is live!') {
-            msg.channel.send('<@&965122064312860743>')
-        }
-    } else {
-        //STUFF
+    if(msg.content.toLowerCase().startsWith(`${prefix}pingadam`)) {
+        msg.channel.send(`<@800756963985719357>`)
     }
 })
 

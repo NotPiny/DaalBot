@@ -4,21 +4,26 @@
     
     "LogIDs": [
         "858790500605100062",
-        "975358046832304188"
+        "975358046832304188",
+        "887681132106235904"
     ],
     
-    "READ ME": "username does not affect ./firebase_deploy.bat",
+    "NOTE": "username does not affect ./firebase_deploy.bat",
     "username": "PinyLa",
     
     "TestServers": [
-        "986280643526795334"
+        "986280643526795334",
+        "997596430069940376"
     ],
     "BotOwners": [
         "664859750285967371", 
-        "678211265264484362"
+        "678211265264484362",
+        "988773090030932020",
+        "444921750455713795"
     ],
 
     "activities": [
+    "1/50 Chance!",
     "/Cmds to get started",
     "Don't be stupid",
     "HOTDOG!",
@@ -29,7 +34,7 @@
     "Why are you reading this?",
     "Hamburber",
     "B E A N S",
-    "Changes every 30 seconds",
+    "Changes every hour!",
     "Never Gonna Give You Up",
     "Piny is king",
     "VS CODE!",
@@ -39,6 +44,7 @@
     "D A A L",
     "F O D",
     "A N O M",
+    "O L I L Z",
     "STATUS",
     "Pepsi > Coke",
     "There is not a 1/3 chance of getting this",
@@ -46,6 +52,7 @@
     "with Fod",
     "with Anom",
     "with Daal",
+    "with Olilz",
     "with JavaScript",
     "undefined",
     "newActivity",
@@ -57,7 +64,14 @@
     "[̲̅D][̲̅A][̲̅A][̲̅L]",
     "[̲̅F][̲̅O][̲̅D]",
     "[̲̅A][̲̅N][̲̅O][̲̅M]",
+    "[̲̅O][̲̅L][̲̅I][̲̅L][̲̅Z]",
     "How much wood could a woodchuck chuck if a woodchuck could chuck wood",
-    "${statuses.length} chance!"
+    "${statuses.length} chance!",
+    "NOT true random!",
+    "Forza > Dirt",
+    ":)",
+    ":(",
+    "():()",
+    "Shut the front door - Anom"
     ]
 }
