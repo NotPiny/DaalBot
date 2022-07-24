@@ -78,3 +78,6 @@ node_modules/
 
 # Game Data
 /game
+
+# Command Logs
+command-log.txt
