@@ -8,7 +8,7 @@ module.exports = {
   expectedArgs: '<channel> <text>',
   expectedArgsTypes: ['CHANNEL', 'STRING'],
 
-  slash: 'both',
+  slash: true,
   testOnly: false,
   guildOnly: true,
   ownerOnly: true,
