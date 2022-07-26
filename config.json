@@ -1,26 +1,36 @@
 {
     "README": "Prefix only applies to commands in `cmds.js` and `index.js` any any other commands are slash commands or thier prefix is set per server",
     "prefix": "$",
-    
-    "LogIDs": [
-        "858790500605100062",
-        "975358046832304188",
-        "887681132106235904"
+
+    "globalMuteIDs": [
+        ""
     ],
     
     "NOTE": "username does not affect ./firebase_deploy.bat",
     "username": "PinyLa",
+
+    "WOKCommands":{
+    
+    "LogIDs": [
+        "858790500605100062",
+        "975358046832304188",
+        "887681132106235904",
+        "747728787797573656",
+        "929883659819962379"
+    ],
     
     "TestServers": [
         "986280643526795334",
         "997596430069940376"
     ],
+    
     "BotOwners": [
         "664859750285967371", 
         "678211265264484362",
         "988773090030932020",
         "444921750455713795"
-    ],
+    ]
+  },
 
     "activities": [
     "1/50 Chance!",
