@@ -1,6 +1,4 @@
 # DaalBot
-<br />
-<br />
 
 # Invite
 
@@ -22,6 +20,7 @@ Website: https://daalbot-a.web.app<br />
 Commands (Outdated): https://daalbot-a.web.app/Commands<br />
 Invite: https://daalbot-a.web.app/Invite<br />
 Socials: https://daalbot-a.web.app/Socials
+Download: https://github.com/NotPiny/DaalBot/archive/refs/heads/main.zip
 
 # 
 
