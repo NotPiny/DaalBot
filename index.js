@@ -22,8 +22,8 @@ client.on('ready', () => {
     commandsDir: path.join(__dirname, 'commands'),
     
     typeScript: false,
-    testServers: config.TestServers,
-    botOwners: config.BotOwners,
+    testServers: config.WOKCommands.TestServers,
+    botOwners: config.WOKCommands.BotOwners,
     mongoUri: process.env.MONGO_URI,
   })
 
@@ -40,6 +40,7 @@ client.on('ready', () => {
 // Command Stuff :P
 client.on("messageCreate", msg => {
   //Const stuff 2
+  const TimeGB = new Date().toLocaleTimeString('en-GB', { hour12: false, hour: "numeric", minute: "numeric"})
   const command = `${prefix}${msg.content.toLowerCase()}`
   const SP = prefix;
   const channel = msg.channel;
@@ -50,42 +51,43 @@ client.on("messageCreate", msg => {
     'https://img-comment-fun.9cache.com/media/axg0gjW/aVlg2wlQ_700w_0.jpg',
     'https://pbs.twimg.com/media/DAt7DzTUQAA7y1i.jpg'
   ]
-  const exampleEmbed = new MessageEmbed()
-	.setColor('#9f14ba')
-	.setTitle('DaalBot')
-	.setURL('https://daalbot-a.web.app')
-	.setAuthor({ name: 'DaalBot', iconURL: 'https://pinymedia.web.app/DaalBot.png', url: 'https://discord.js.org' })
-	.setDescription('Some description here')
-	.setThumbnail('https://pinymedia.web.app/DaalBot.png')
-	.addFields(
-		{ name: 'Regular field title', value: 'Some value here' },
-		{ name: '\u200B', value: '\u200B' },
-		{ name: 'Inline field title', value: 'Some value here', inline: true },
-		{ name: 'Inline field title', value: 'Some value here', inline: true },
-	)
-	.addField('Inline field title', 'Some value here', true)
-	.setImage('https://pinymedia.web.app/DaalBot.png')
-	.setTimestamp()
-	.setFooter({ text: 'Some footer text here', iconURL: 'https://pinymedia.web.app/DaalBot.png' });
+  //Global Mute
+  if (config.globalMuteIDs.includes(msg.author.id)) {
+    if (msg.deletable) {
+      msg.delete();
+    }
+  }
   //Log Msg
 if (LogIDs.includes(msg.guild.id)) {
   console.log(`[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})`)
   
-    fs.appendFile('./chat/all.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+    fs.appendFile('./chat/all.chatlog', `[${TimeGB}, ${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
       if (err) throw err;
     });
   
   if (msg.guildId === '975358046832304188') {
-    fs.appendFile('./chat/supreme.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+    fs.appendFile('./chat/supreme.chatlog', `[${TimeGB}, ${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
       if (err) throw err;
     });
   }
   
   if (msg.guildId === '858790500605100062') {
-  fs.appendFile('./chat/daal.txt', `[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+  fs.appendFile('./chat/daal.chatlog', `[${TimeGB}, ${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
     if (err) throw err;
         });
       }
+  
+  if (msg.guildId === '747728787797573656') {
+    fs.appendFile('./chat/olilz.chatlog', `[${TimeGB}, ${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+      if (err) throw err;
+          });
+  }
+
+  if (msg.guildId === '929883659819962379') {
+    fs.appendFile('./chat/adam.chatlog', `[${TimeGB}, ${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})\n`, function (err) {
+      if (err) throw err;
+          });
+  }
     }
 
     if (msg.author.bot) return
