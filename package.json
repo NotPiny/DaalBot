@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@discordjs/opus": "^0.7.0",
+    "@discordjs/rest": "^1.0.1",
     "@discordjs/voice": "github:discordjs/voice",
     "@replit/database": "^2.0.0",
     "discord": "^0.8.2",
