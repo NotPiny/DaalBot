@@ -9,8 +9,6 @@
     "NOTE": "username does not affect ./firebase_deploy.bat",
     "username": "PinyLa",
 
-    "WOKCommands":{
-    
     "LogIDs": [
         "858790500605100062",
         "975358046832304188",
@@ -18,6 +16,8 @@
         "747728787797573656",
         "929883659819962379"
     ],
+
+    "WOKCommands":{
     
     "TestServers": [
         "986280643526795334",
