@@ -23,7 +23,7 @@ module.exports = {
             },
             {
               name: 'url',
-              description: 'The URL that the embed links to (Must include `https://` at the start)',
+              description: 'The URL that the embed links to',
               type: 'STRING',
               required: true,
             },
