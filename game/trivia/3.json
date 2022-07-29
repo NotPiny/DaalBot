@@ -1,0 +1,31 @@
+{
+    "Q1": "What is the tallest building in the world?",
+    "A1": "Burj Khalifa",
+
+    "Q2": "What language is the bot coded in?",
+    "A2": "JavaScript",
+
+    "Q3": "What is the first ever owner only command in DaalBot?",
+    "A3": "/spo",
+
+    "Q4": "What hosts the bots website (Hint: it may lay in the url)?",
+    "A4": "Firebase",
+
+    "Q5": "What is the world's oldest cats name?",
+    "A5": "Creme Puff",
+
+    "Q6": "What is ||not|| hosting the bot?",
+    "A6": "A toaster",
+
+    "Q7": "Why was JavaScript picked as the language for the bot to use?\nOptions: `The python lib was outdated, speed, easier to code in`",
+    "A7": "The python lib was outdated",
+
+    "Q8": "What was the name of the first ever game added to the bot?",
+    "A8": "\"Test\"",
+
+    "Q9": "Is the bot working?",
+    "A9": "hopefully Yes",
+
+    "Q10": "How far of a jump can a squirrel survive?",
+    "A10": "♾️"
+}
