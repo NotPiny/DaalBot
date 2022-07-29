@@ -2,9 +2,7 @@
     "README": "Prefix only applies to commands in `cmds.js` and `index.js` any any other commands are slash commands or thier prefix is set per server",
     "prefix": "$",
 
-    "globalMuteIDs": [
-        ""
-    ],
+    "globalMuteIDs": [],
     
     "NOTE": "username does not affect ./firebase_deploy.bat",
     "username": "PinyLa",
