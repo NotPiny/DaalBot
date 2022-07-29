@@ -14,8 +14,7 @@ const client = new Client({
 client.on("messageCreate", msg => {
     if (!msg.guild.id === '858790500605100062') {
         return
-    }
-
+    } else {
     if (msg.author.id === '965264123246043156') {
         msg.channel.send(`<@&965263575801298964>`)
     }
@@ -28,6 +27,7 @@ client.on("messageCreate", msg => {
     } else {
         //STUFF
     }
+  }
 })
 
 client.login(process.env.TOKEN)
