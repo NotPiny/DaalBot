@@ -1,5 +1,5 @@
 //const stuff
-const { Client, Intents, VoiceChannel, Message, MessageEmbed, MessageAttachment } = require('discord.js'); 
+const { Client, Intents, VoiceChannel, Message, MessageEmbed, MessageAttachment, } = require('discord.js'); 
 const client = new Client({
    intents: [
      Intents.FLAGS.GUILDS, 
@@ -9,7 +9,7 @@ const client = new Client({
      Intents.FLAGS.GUILD_BANS, 
      Intents.FLAGS.GUILD_MEMBERS, 
     ]
-  }); require('dotenv').config(); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const LogIDs = config.LogIDs; const activities = config.activities; require('./daal.js'); require('./olilz.js')
+  }); require('dotenv').config(); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const activities = config.activities; require('./daal.js'); require('./olilz.js')
 
 client.on('ready', () => {
   //When bot loads
@@ -40,11 +40,13 @@ client.on('ready', () => {
 // Command Stuff :P
 client.on("messageCreate", msg => {
   //Const stuff 2
+  const LogIDs = config.LogIDs
   const TimeGB = new Date().toLocaleTimeString('en-GB', { hour12: false, hour: "numeric", minute: "numeric"})
   const command = `${prefix}${msg.content.toLowerCase()}`
   const SP = prefix;
   const channel = msg.channel;
-  const FMT = msg.mentions.members.first();
+  let FMT = msg.mentions.members.first();
+  let FMR = msg.mentions.roles.first();
   const deletImages = [
     'https://media.makeameme.org/created/delete-this-now-68a6f723c1.jpg',
     'https://i.kym-cdn.com/photos/images/original/001/462/418/021.png',
