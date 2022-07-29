@@ -11,11 +11,10 @@ const fs = require('fs')
     callback: async () => {
         fs.readFile('./chat/all.chatlog', 'utf8', function (err, data) {
             if (err) { console.log(err) } else {
-                const response = data.slice(data.length - 3500);
-                console.log(`Response set to "${data}"`)
+                const response = data.slice(data.length - 100);
             return {
                 custom: true,
-                content: `${response}\nOnly the last 3500 letters have been sent`,
+                content: `${response}\nOnly the last 100 letters have been sent`,
                 ephemeral: true,
               }
             }

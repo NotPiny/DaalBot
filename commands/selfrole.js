@@ -14,10 +14,10 @@ module.exports = {
 
   permissions: ['ADMINISTRATOR'],
 
-  minArgs: 3,
-  maxArgs: 3,
-  expectedArgs: '<channel> <messageId> <role>',
-  expectedArgsTypes: ['CHANNEL', 'STRING', 'ROLE'],
+  minArgs: 4,
+  maxArgs: 4,
+  expectedArgs: '<channel> <messageId> <place_holder> <role>',
+  expectedArgsTypes: ['CHANNEL', 'STRING', 'STRING', 'ROLE'],
 
   slash: true,
   testOnly: false,
@@ -47,7 +47,7 @@ module.exports = {
         }
 
         interaction.reply({
-          content: 'Roles update!',
+          content: 'Roles updated!',
           ephemeral: true,
         })
       }
@@ -65,6 +65,7 @@ module.exports = {
     }
 
     const messageId = args[1]
+    const place_holder = args[2]
 
     const role = (
       message
@@ -123,7 +124,7 @@ module.exports = {
           .setCustomId('auto_roles')
           .setMinValues(0)
           .setMaxValues(1)
-          .setPlaceholder('Select your roles...')
+          .setPlaceholder(place_holder)
           .addOptions(option)
       )
     }
