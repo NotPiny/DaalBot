@@ -77,7 +77,7 @@ node_modules/
 /music
 
 # Game Data
-/game
+/game/hidden
 
 # Command Logs
 command-log.txt
