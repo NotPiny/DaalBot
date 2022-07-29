@@ -14,12 +14,13 @@ const client = new Client({
 client.on("messageCreate", msg => {
     if (!msg.guild.id === '858790500605100062') { 
       return 
-    } 
+    } else {
     if (msg.author.bot) return
 
-    if(msg.content.toLowerCase().startsWith(`${prefix}pingadam`)) {
-        msg.channel.send(`<@800756963985719357>`)
-    }
+    // if(msg.content.toLowerCase().startsWith(`${prefix}pingadam`)) {
+    //     msg.channel.send(`<@800756963985719357>`)
+    // }
+  }
 })
 
 client.login(process.env.TOKEN)
