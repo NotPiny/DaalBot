@@ -1,4 +1,3 @@
-const login = require('../login.json')
 module.exports = {
     category: 'Other',
     description: "Brings up the bots twitter login",
