@@ -1,7 +1,7 @@
 const fs = require('fs')  
   module.exports = {
     category: 'Configuration',
-    description: 'Brings up server logs',
+    description: 'penlogs',
   
     slash: true,
     testOnly: true,

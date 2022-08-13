@@ -33,6 +33,9 @@ module.exports = {
       days: 7,
     })
 
+    // BUG
+    // Sometimes reason will not be sent in the ban data
+
     return `You banned <@${target.id}>`
   },
 } 

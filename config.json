@@ -1,10 +1,13 @@
 {
-    "README": "Prefix only applies to commands in `cmds.js` and `index.js` any any other commands are slash commands or thier prefix is set per server",
+    "Note": "This prefix is only for non WOKCommands commands the config for WOKCommands is below",
     "prefix": "$",
 
-    "globalMuteIDs": [],
-    
-    "NOTE": "username does not affect ./firebase_deploy.bat",
+    "globalMuteIDs": [
+    "950420724647075850"
+],
+
+    "botPath": "C:\\PinyLa\\Documents\\Code\\DaalBot\\DaalBot-V3",
+
     "username": "PinyLa",
 
     "LogIDs": [
@@ -16,6 +19,9 @@
     ],
 
     "WOKCommands":{
+
+    "INFO": "Sets the default prefix for WOKCommands though each server can have its own prefix",
+    "prefix": "$",
     
     "TestServers": [
         "986280643526795334",

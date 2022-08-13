@@ -9,23 +9,27 @@ const client = new Client({
      Intents.FLAGS.GUILD_BANS, 
      Intents.FLAGS.GUILD_MEMBERS, 
     ]
-  }); require('dotenv').config(); require('./vortex.js'); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const activities = config.activities; require('./daal.js'); require('./olilz.js')
+  }); /**require('./advanced-slash.js');*/ require('./edit.js'); const superLog = require('./superLog.js'); require('dotenv').config(); require('./vortex.js'); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const activities = config.activities; require('./daal.js'); require('./olilz.js')
 
 client.on('ready', () => {
   //When bot loads
   console.log(`Load > Logged in as ${client.user.tag}!`);
-  client.user.setActivity('/Cmds to get started');
+  client.user.setActivity("https://bit.ly/DaalBot", {
+    type: "STREAMING",
+    url: "https://www.twitch.tv/daalbott"
+  });
   console.log('Status > Bot status has been set to "/Cmds to get started"');
   
   //WOKCommands
   new WOKCommands(client, {
     commandsDir: path.join(__dirname, 'commands'),
-    
+    featuresDir: path.join(__dirname, 'features'),
     typeScript: false,
     testServers: config.WOKCommands.TestServers,
     botOwners: config.WOKCommands.BotOwners,
     mongoUri: process.env.MONGO_URI,
   })
+  .setDefaultPrefix(config.WOKCommands.prefix)
 
   // Global mute info
   console.log(`Global Mute > Loaded with users as [${config.globalMuteIDs}]`)
@@ -37,7 +41,12 @@ client.on('ready', () => {
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
 
-    client.user.setActivity(newActivity);
+    client.user.setActivity(newActivity, {
+    type: "STREAMING",
+    url: "https://www.twitch.tv/daalbott"
+    });
+
+    // client.user.setActivity(newActivity);
   }, 3600000);
 })
 
@@ -51,6 +60,11 @@ client.on("messageCreate", msg => {
   const channel = msg.channel;
   let FMT = msg.mentions.members.first();
   let FMR = msg.mentions.roles.first();
+  const iEmbed = new MessageEmbed()
+  .setTitle('Hello!')
+  .setDescription(`My default prefix is \`${config.WOKCommands.prefix}\` though it may change depending on what server your in\n\n**LINKS:**\nWebsite: https://daalbot-a.web.app/\nInvite: https://daalbot-a.web.app/Invite\nCommands: https://daalbot-a.web.app/Commands`)
+  .setTimestamp(msg.createdTimestamp)
+  .setImage('https://pinymedia.web.app/Daalbot.png')
   const deletImages = [
     'https://media.makeameme.org/created/delete-this-now-68a6f723c1.jpg',
     'https://i.kym-cdn.com/photos/images/original/001/462/418/021.png',
@@ -64,6 +78,10 @@ client.on("messageCreate", msg => {
     }
   }
   //Log Msg
+  fs.appendFile('./chat/raw-all.chatlog', `,\n{\ncontent: ${msg.content}\nID: ${msg.id}\nauthour: ${msg.author.id}\nTime Created: ${msg.createdTimestamp}\nChannel ID: ${msg.channelId}\nGuild ID: ${msg.guildId}\n}`, function (err) {
+    if (err) throw err;
+  });
+  
 if (LogIDs.includes(msg.guild.id)) {
   console.log(`[${msg.guild}, ${msg.channel.name}] ${msg.author.tag}: ${msg.content} (Message ID: ${msg.id})`)
   
@@ -98,17 +116,14 @@ if (LogIDs.includes(msg.guild.id)) {
 
     if (msg.author.bot) return
 
-    // Delet This
+    // Mention Info
 
-    // if (msg.content.toLowerCase().startsWith(`${prefix}delet`)) {
-    //   const randomImage = Math.floor(Math.random() * deletImages.length);
-    //   const Image = deletImages[randomImage];
-    //   const sendIMG = new MessageAttachment(`${Image}`)
-    //   msg.channel.send(`<@${FMT.id}>`, sendIMG)
-    //   if (msg.deletable) {
-    //     msg.delete()
-    //   }
-    // }
+    if (msg.content.toLowerCase().includes('<@965270659515183206>')) {
+      msg.reply({
+        content: 'Thanks for pinging me! Here is some info:',
+        embeds: [iEmbed]
+      })
+    }
 
     // Revive
 

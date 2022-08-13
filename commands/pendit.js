@@ -10,7 +10,7 @@ const {
   
   module.exports = {
     category: 'Configuration',
-    description: 'Why does this command exist?',
+    description: 'pendit',
   
     minArgs: 3,
     maxArgs: 3,

@@ -2,7 +2,7 @@ TextChannel = require('discord.js')
 
 module.exports = {
   category: 'Configuration',
-  description: 'Sends a message.',
+  description: 'pensend',
 
   minArgs: 2,
   expectedArgs: '<channel> <text>',

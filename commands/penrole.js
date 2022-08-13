@@ -2,7 +2,7 @@ const actions = ['give', 'remove', 'has']
 
 module.exports = {
   category: 'Configuration',
-  description: 'O_O',
+  description: 'penrole',
 
   minArgs: 3,
   expectedArgs: `<"${actions.join('", "')}"> <user @> <role @>`,

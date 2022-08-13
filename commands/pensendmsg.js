@@ -1,6 +1,6 @@
 module.exports = {
     category: 'Moderation',
-  description: 'Messages a user from the bots account',
+  description: 'pensendmsg',
 
   slash: true,
   testOnly: false,

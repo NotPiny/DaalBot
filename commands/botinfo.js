@@ -7,7 +7,7 @@ module.exports = {
     slash: 'both',
     testOnly: false,
   
-    callback: () => {
-      return `Name: ${Client.name}`
+    callback: (client) => {
+      return `Tag: ${client.tag}\nID: ${client.id}`
     },
   }

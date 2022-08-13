@@ -1,0 +1,6 @@
+{
+  "category": "Moderation",
+  "description": "Bans a user",
+  "permissions": ["ADMINISTRATOR"],
+  "options": ["User", "Reason"]
+}

@@ -84,3 +84,6 @@ command-log.txt
 
 # Login info
 # FILE REMOVED
+
+# Super logs for debug
+super-log.log

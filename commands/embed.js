@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
         category: 'Other',
-        description: 'Sends a customisable embed',
+        description: 'Sends a fully custom embed in a channel',
 
         permissions: ['ADMINISTRATOR'],
       
@@ -10,26 +10,21 @@ module.exports = {
         testOnly: false,
         guildOnly: true,
 
-        minArgs: 10,
-        expectedArgs: '<title> <url> <author> <description> <regular_field_title> <regular_field_text> <inline_field_title> <inline_field_text> <footer> <channel>',
-        expectedArgsTypes: ['STRING', 'STRING', 'STRING', 'STRING', 'STRING', 'STRING', 'STRING', 'STRING', 'STRING', 'CHANNEL'],
+        minArgs: 3,
+        maxArgs: 10,
+        expectedArgs: '<channel> <title> <description> <url> <author> <footer>',
+        expectedArgsTypes: ['CHANNEL', 'STRING', 'STRING', 'STRING', 'STRING', 'STRING'],
 
         options: [
             {
+              name: 'channel',
+              description: 'The channel to send the embed',
+              type: 'CHANNEL',
+              required: true,
+            },
+            {
               name: 'title',
               description: `The title of the embed`,
-              type: 'STRING',
-              required: true,
-            },
-            {
-              name: 'url',
-              description: 'The URL that the embed links to',
-              type: 'STRING',
-              required: true,
-            },
-            {
-              name: 'author',
-              description: 'Sets the author of the embed',
               type: 'STRING',
               required: true,
             },
@@ -40,79 +35,67 @@ module.exports = {
               required: true,
             },
             {
-              name: 'regular_field_title',
-              description: 'Sets the regular field title',
+              name: 'url',
+              description: 'The URL that the embed links to',
               type: 'STRING',
-              required: true,
+              required: false,
             },
             {
-                name: 'regular_field_text',
-                description: 'Sets the regular field text',
-                type: 'STRING',
-                required: true,
-            },
-            {
-              name: 'inline_field_title',
-              description: 'Sets the inline field title',
+              name: 'author',
+              description: 'Sets the author of the embed',
               type: 'STRING',
-              required: true,
-            },
-            {
-                name: 'inline_field_text',
-                description: 'Sets the inline field text',
-                type: 'STRING',
-                required: true,
+              required: false,
             },
             {
               name: 'footer',
               description: 'Sets the footer of the embed',
               type: 'STRING',
-              required: true,
+              required: false,
             },
-            {
-              name: 'channel',
-              description: 'The channel to send the embed',
-              type: 'CHANNEL',
-              required: true,
-            }
           ],
       
         callback: ({ interaction, channel, args }) => {
-            const title = args.shift()
-            const url = args.shift()
-            const author = args.shift()
-            const description = args.shift()
-            const RFT = args.shift()
-            const RFTXT = args.shift()
-            const IFT = args.shift()
-            const IFTXT = args.shift()
-            const footer = args.shift()
+          // return 'Command has been disabled'
+            const title = interaction.options.getString('title')
+            const url = interaction.options.getString('url')
+            const author = interaction.options.getString('author')
+            const description = interaction.options.getString('description')
+            // const RFT = interaction.options.getString('regular_field_title')
+            // const RFTXT = interaction.options.getString('regular_field_text')
+            // const IFT = interaction.options.getString('inline_field_title')
+            // const IFTXT = interaction.options.getString('inline_field_text')
+            const footer = interaction.options.getString('footer')
             const Tchannel = interaction.options.getChannel('channel')
 
             const Embed = new MessageEmbed()
             .setColor(0x0099FF)
             .setTitle(title)
-            .setURL(url)
-            .setAuthor({ name: author })
             .setDescription(description)
-            .addFields(
-                { name: RFT, value: RFTXT },
-                { name: IFT, value: IFTXT, inline: true }
-            )
-            .setFooter({ text: footer });
 
-            if (!url.startsWith('https://')) {
+            if (author === null) { Embed.setAuthor({name: ''}) } else { Embed.setAuthor({name: author}) }
+            if (footer === null) { Embed.setFooter({text: ''}) } else { Embed.setFooter(footer) }
+
+            if (!url === null) {
+              if (!url.startsWith('https://')) {
                 Embed.setURL(`https://${url}`)
+              } else {
+                Embed.setURL(`${url}`)
+              }
             }
 
+            try {
             Tchannel.send({
                 embeds: [Embed]
             })
+          } catch {
+            console.log('Something went wrong')
+            return `...Well this is awkward you are not meant to be able to see this`
+          }
 
             return {
                 custom: true,
                 content: 'Sent Embed!',
                 ephemeral: true,
             }
-        },
-}
+      }
+    }

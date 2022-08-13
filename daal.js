@@ -15,13 +15,13 @@ client.on("messageCreate", msg => {
     if (!msg.guild.id === '858790500605100062') {
         return
     } else {
-    if (msg.author.id === '965264123246043156') {
+    if (msg.author.id === '965264123246043156' && msg.channel.id === '859124610049507348') {
         msg.channel.send(`<@&965263575801298964>`)
     }
 
     if (msg.author.bot) {
         //Detecting dyno and fixing it's message because it is broken
-        if (msg.content === '@TwitchPing Daal is live!') {
+        if (msg.content === '@TwitchPing Daal is live!' && msg.channel.id === '859124610049507348') {
             msg.channel.send('<@&965122064312860743>')
         }
     } else {

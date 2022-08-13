@@ -28,7 +28,7 @@ module.exports = {
             if (err) {
                 console.log(err)
             }
-            const deploy = require('../firebase_deploy.bat')
+            require('../firebase_deploy.bat')
             return `Link Made!`
           });
         }

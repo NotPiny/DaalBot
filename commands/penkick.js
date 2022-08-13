@@ -1,12 +1,10 @@
 module.exports = {
     category: 'Moderation',
-    description: 'Kicks a user',
+    description: 'penkick',
   
-    permissions: ['ADMINISTRATOR'],
-  
-    slash: 'both',
+    slash: true,
     testOnly: false,
-  
+    ownerOnly: true,
     guildOnly: true,
   
     minArgs: 2,
@@ -30,6 +28,10 @@ module.exports = {
   
       target.kick(reason)
   
-      return `You kicked <@${target.id}>`
-    },
+      return {
+        custom: true,
+        content: `You kicked <@${target.id}>`,
+        ephemeral: true,
+    }
   }
+}
