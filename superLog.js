@@ -11,6 +11,11 @@ const client = new Client({
     ]
   }); require('dotenv').config(); const config = require('./config.json'); const fs = require('fs');
 
+  function botLog(text) {
+    client.channels.cache.find(channel => channel.id === config.Logchannel).send(text)
+    console.log(text)
+  }
+
 client.on('ready', () => {
   //When bot loads
   console.log(`Log > Super Logs loaded`);
@@ -58,7 +63,11 @@ client.on('error', err => {
 })
 
 client.on('guildCreate', guild => {
-  console.log(`\nBot added to server: {\nName: ${guild.name}\nID: ${guild.id}\nOwner: ${guild.ownerId}\n}\nNow in ${client.guilds.cache.size} servers`)
+  botLog(`\nBot added to server: {\nName: ${guild.name}\nID: ${guild.id}\nOwner: ${guild.ownerId}\n}\nNow in ${client.guilds.cache.size} servers`)
+})
+
+client.on('guildDelete', guild => {
+  botLog(`\nBot removed from server\nNow in ${client.guilds.cache.size} servers`)
 })
 
 client.login(process.env.TOKEN);

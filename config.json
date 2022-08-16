@@ -3,12 +3,17 @@
     "prefix": "$",
 
     "globalMuteIDs": [
-    "950420724647075850"
+    "950420724647075850",
+    "943310979930927184"
 ],
 
-    "botPath": "C:\\PinyLa\\Documents\\Code\\DaalBot\\DaalBot-V3",
+    "botPath": "C:\\Users\\PinyLa\\Documents\\Code\\DaalBot\\DaalBot-V3",
 
     "username": "PinyLa",
+
+
+    "!Warning!": "This needs to be a channel id or else it will crash apon launch",
+    "Logchannel": "1003825386045575168",
 
     "LogIDs": [
         "858790500605100062",

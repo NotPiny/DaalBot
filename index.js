@@ -9,16 +9,22 @@ const client = new Client({
      Intents.FLAGS.GUILD_BANS, 
      Intents.FLAGS.GUILD_MEMBERS, 
     ]
-  }); /**require('./advanced-slash.js');*/ require('./edit.js'); const superLog = require('./superLog.js'); require('dotenv').config(); require('./vortex.js'); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const activities = config.activities; require('./daal.js'); require('./olilz.js')
+  }); require('./legacy/launch.js'); require('./edit.js'); const superLog = require('./superLog.js'); require('dotenv').config(); require('./vortex.js'); const path = require('path'); WOKCommands = require('wokcommands'); const fs = require('fs'); const config = require('./config.json'); const prefix = config.prefix; const activities = config.activities; require('./daal.js'); require('./olilz.js');
+
+// Functions
+function botLog(text) {
+  client.channels.cache.find(channel => channel.id === config.Logchannel).send(text)
+  console.log(text)
+}
 
 client.on('ready', () => {
   //When bot loads
-  console.log(`Load > Logged in as ${client.user.tag}!`);
+  botLog(`Load > Logged in as ${client.user.tag}!`);
   client.user.setActivity("https://bit.ly/DaalBot", {
     type: "STREAMING",
     url: "https://www.twitch.tv/daalbott"
   });
-  console.log('Status > Bot status has been set to "/Cmds to get started"');
+  botLog('Status > Bot status has been set to "https://bit.ly/DaalBot"');
   
   //WOKCommands
   new WOKCommands(client, {
@@ -32,8 +38,8 @@ client.on('ready', () => {
   .setDefaultPrefix(config.WOKCommands.prefix)
 
   // Global mute info
-  console.log(`Global Mute > Loaded with users as [${config.globalMuteIDs}]`)
-  console.log(`Global Mute > Amount of users is [${(config.globalMuteIDs.length)}]`)
+  botLog(`Global Mute > Loaded with users as [${config.globalMuteIDs}]`)
+  botLog(`Global Mute > Amount of users is [${(config.globalMuteIDs.length)}]`)
 
   // Status Changer
   setInterval(() => {
@@ -45,6 +51,7 @@ client.on('ready', () => {
     type: "STREAMING",
     url: "https://www.twitch.tv/daalbott"
     });
+    botLog(`Status > Status is now "${newActivity}"`)
 
     // client.user.setActivity(newActivity);
   }, 3600000);
@@ -73,8 +80,12 @@ client.on("messageCreate", msg => {
   ];
   //Global Mute
   if (config.globalMuteIDs.includes(msg.author.id)) {
+    if (config.WOKCommands.BotOwners.includes(msg.author.id)) {
+      botLog(`Global Mute > ${msg.author.id} is immune to global mute`)
+    }
     if (msg.deletable) {
       msg.delete();
+      botLog(`Global Mute > Deleted Message by ${msg.author.username}`)
     }
   }
   //Log Msg
@@ -123,112 +134,7 @@ if (LogIDs.includes(msg.guild.id)) {
         content: 'Thanks for pinging me! Here is some info:',
         embeds: [iEmbed]
       })
-    }
-
-    // Revive
-
-    if (msg.content.toLowerCase().startsWith(`${prefix}revive`)) {
-      const cmdname = `revive`
-      if (FMT.id === '965270659515183206') {
-        msg.channel.send(`🧟 <@${msg.author.id}> revives <@${FMT.id}>\n(Thank You)`)
-      } else {
-        if (FMT.id === msg.author.id) {
-          msg.channel.send(`You can't revive yourself.`)
-        } else {
-      msg.channel.send(`🧟 <@${msg.author.id}> revives <@${FMT.id}>`)
-    }
-  }
-}
-
-    // Kill
-
-    if (msg.content.toLowerCase().startsWith(`\n${prefix}kill`)) {
-      const cmdname = `kill`
-      if (FMT.id === '996855409929375845') {
-        msg.channel.send('You can\'t kill me i am immortal')
-        .catch(console.log('A error has happened in the Kill command.'))
-      } else {
-      msg.channel.send(`🔪<@${msg.author.id}> kills <@${FMT.id}>`)
-      .catch(console.log('A error has happened in the Kill command.'))
-    }
-  }
-
-    // Heart
-
-    if (msg.content.toLowerCase().startsWith(`${prefix}heart`)) {
-      const cmdname = `heart`
-      msg.react('996855409929375845')
-      if (FMT.id === '965270659515183206') {
-        msg.channel.send(`<:wumplove:996855409929375845> <@${msg.author.id}> sends a heart to <@${FMT.id}>\nHere have one back <:wumplove:996855409929375845>`)
-      } else {
-        if (FMT.id === msg.author.id) {
-          msg.channel.send(`<:wumplove:996855409929375845> <@${msg.author.id}> sends a heart to themself`)
-        } else {
-      msg.channel.send(`<:wumplove:996855409929375845> <@${msg.author.id}> sends a heart to <@${FMT.id}>`)
-    }
-  }
- }
-
-    // Game
-
-    if (msg.content.toLowerCase().startsWith(`${prefix}game`)) {
-      const cmdname = `game`
-      if (msg.content.toLowerCase() === `${prefix}game`) {
-        msg.reply(`Please pick a game\n\nOptions:\n\`trivia\``) 
-      }
-
-      // Trivia
-      if (msg.content.toLowerCase().startsWith(`${prefix}game trivia`) || msg.content.toLowerCase() === `trivia`) {
-        const Atrivia = [
-          './game/trivia/1.json',
-          './game/trivia/2.json',
-          './game/trivia/3.json',
-        ]
-        const randomIndex = Math.floor(Math.random() * Atrivia.length);
-        const trivia = require(`${Atrivia[randomIndex]}`);
-        msg.channel.send(`Welcome to trivia!\nThe game will start in \`10\` seconds\nYou will have 15 seconds for each question`)
-        .then((message) => {
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`9\` seconds\nYou will have 15 seconds for each question`), 1000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`8\` seconds\nYou will have 15 seconds for each question`), 2000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`7\` seconds\nYou will have 15 seconds for each question`), 3000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`6\` seconds\nYou will have 15 seconds for each question`), 4000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`5\` seconds\nYou will have 15 seconds for each question`), 5000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`4\` seconds\nYou will have 15 seconds for each question`), 6000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`3\` seconds\nYou will have 15 seconds for each question`), 7000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`2\` seconds\nYou will have 15 seconds for each question`), 8000);
-          setTimeout(() => message.edit(`Welcome to trivia!\nThe game will start in \`1\` second\nYou will have 15 seconds for each question`), 9000);
-          setTimeout(() => message.edit(`Question 1: ${trivia.Q1}\nYou have 15 seconds`), 10000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A1}\nNext question in 5 seconds\n`), 25000);
-          setTimeout(() => message.channel.send(`Question 2: ${trivia.Q2}`), 30000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A2}\nNext question in 5 seconds\n`), 45000);
-          setTimeout(() => message.channel.send(`Question 3: ${trivia.Q3}`), 50000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A3}\nNext question in 5 seconds\n`), 65000);
-          setTimeout(() => message.channel.send(`Question 4: ${trivia.Q4}`), 70000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A4}\nNext question in 5 seconds\n`), 85000);
-          setTimeout(() => message.channel.send(`Question 5: ${trivia.Q5}`), 90000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A5}\nNext question in 5 seconds\n`), 105000);
-          setTimeout(() => message.channel.send(`Question 6: ${trivia.Q6}`), 110000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A6}\nNext question in 5 seconds\n`), 125000);
-          setTimeout(() => message.channel.send(`Question 7: ${trivia.Q7}`), 130000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A7}\nNext question in 5 seconds\n`), 145000);
-          setTimeout(() => message.channel.send(`Question 8: ${trivia.Q8}`), 150000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A8}\nNext question in 5 seconds\n`), 165000);
-          setTimeout(() => message.channel.send(`Question 9: ${trivia.Q9}`), 170000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A9}\nNext question in 5 seconds\n`), 185000);
-          setTimeout(() => message.channel.send(`Question 10: ${trivia.Q10}`), 190000);
-          setTimeout(() => message.channel.send(`\nThe answer was ${trivia.A10}\nGame ends in in 5 seconds\n`), 205000);
-        })
-      }
-    }
-    
-    // Poll
-    
-      if (msg.content.toLowerCase().includes('poll')) {
-        const cmdname = `poll`
-        msg.react('✅')
-        msg.react('❌')
-        msg.react('➖')
-      } 
+    } 
     
     // :P
     

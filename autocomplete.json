@@ -1,0 +1,17 @@
+{
+    "wok": {
+        "testOnly": "",
+        "ownerOnly": "",
+        "slash": "",
+        "category": "",
+        "description": ""
+    },
+    "msg": {
+        "deletable": "",
+        "delete": "",
+        "content": {
+            "toLowerCase": "",
+            "toUpperCase": ""
+        }
+    }
+}
