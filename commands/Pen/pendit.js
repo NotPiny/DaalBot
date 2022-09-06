@@ -30,6 +30,8 @@ const {
       )
       if (!channel || channel.type !== 'GUILD_TEXT') {
         return 'Please tag a text channel.'
+        
+        
       }
   
       const messageId = args[1]
@@ -41,10 +43,14 @@ const {
   
       if (!targetMessage) {
         return 'Unknown message ID.'
+        
+        
       }
   
       if (targetMessage.author.id !== client.user?.id) {
         return `Please provide a message ID that was sent from <@${client.user?.id}> (Don't have one? Just use /send to make one)`
+        
+        
       }
 
       args.shift() // Remove the channel from the arguments array
@@ -60,8 +66,12 @@ const {
         content: `Message has been edited`,
         ephemeral: true,
       }
+      
+      
     } else {
       return 'Message has been edited'
+      
+      
     }
   },
 }

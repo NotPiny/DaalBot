@@ -10,9 +10,9 @@ module.exports = {
         testOnly: false,
         guildOnly: true,
 
-        minArgs: 4,
-        maxArgs: 11,
-        expectedArgs: '<channel> <title> <url> <author> <description> <regular_field_title> <regular_field_text> <inline_field_title> <inline_field_text> <footer> <colour>',
+        minArgs: 2,
+        maxArgs: 7,
+        expectedArgs: '<channel> <title> <url> <author> <description> <footer> <colour>',
 
         options: [
             {
@@ -31,13 +31,13 @@ module.exports = {
               name: 'url',
               description: 'The URL that the embed links to',
               type: 'STRING',
-              required: true,
+              required: false,
             },
             {
               name: 'description',
               description: 'Sets the description of the embed',
               type: 'STRING',
-              required: true,
+              required: false,
             },
             {
               name: 'author',
@@ -53,7 +53,7 @@ module.exports = {
             },
             {
               name: 'colour',
-              description: `The action to perform. One of: ${colours.join(', ')}`,
+              description: `The colour of the embed. One of: ${colours.join(', ')}`,
               type: 'STRING',
               required: false,
               choices: colours.map((colour) => ({
@@ -71,67 +71,94 @@ module.exports = {
       
         callback: async ({ interaction, channel, args }) => {
           // return 'Command has been disabled'
-            const title = await interaction.options.getString('title')
-            const url = await interaction.options.getString('url')
-            const author = await interaction.options.getString('author')
-            const description = await interaction.options.getString('description')
-            const colour = await interaction.options.getString('colour')
-            const footer = await interaction.options.getString('footer')
-            const Tchannel = await interaction.options.getChannel('channel')
-            const messageId = await interaction.options.getString('message_id')
+            const title = await interaction.options.getString('title');
+            const url = await interaction.options.getString('url');
+            const author = await interaction.options.getString('author');
+            const description = await interaction.options.getString('description');
+            const colour = await interaction.options.getString('colour');
+            const footer = await interaction.options.getString('footer');
+            const Tchannel = await interaction.options.getChannel('channel');
+            const messageId = await interaction.options.getString('message_id');
 
             const Embed = new MessageEmbed()
             .setTitle(title)
-            .setURL(url)
-            .setDescription(description)
 
             if (author === null) { Embed.setAuthor({name: ''}) } else { Embed.setAuthor({name: author}) }
             if (footer === null) { Embed.setFooter({text: ''}) } else { Embed.setFooter(footer) }
+            if (description === null) { Embed.setDescription('') } else { Embed.setDescription(description.replace(/<nl>/g, '\n')) }
             
-            if (!colour === null) {
-            if (colour === 'red') { Embed.setColor(208227) }
-            if (colour === 'purple') { Embed.setColor(14419254) }
-            if (colour === 'blue') { Embed.setColor(74144226) }
-            if (colour === 'pink') { Embed.setColor(2550187) }
-            if (colour === 'green') { Embed.setColor(1362550) }
+            if (colour === null) {
+              Embed.setColor(0x0099FF)
             } else {
-                Embed.setColor(0x0099FF)
+            if (colour === 'red') { Embed.setColor(0xff0000) }
+            if (colour === 'purple') { Embed.setColor(0x6600ff) }
+            if (colour === 'blue') { Embed.setColor(0x00a6ff) }
+            if (colour === 'pink') { Embed.setColor(0xf603c6) }
+            if (colour === 'green') { Embed.setColor(0x13f603) }
             }
 
+
+            if (url === null) { Embed.setURL('') } else { 
+              Embed.setURL(url) 
             if (!url.startsWith('https://')) {
                 Embed.setURL(`https://${url}`)
             }
+          }
 
-            if (!messageId == null) {
+            if (messageId == null) {
               try {
-                const targetMessage = await channel.messages.fetch(messageId, {
-                  cache: true,
-                  force: true,
-                })
-                if (!targetMessage) {
-                  return 'Unknown message ID.'
-                }
-            
-                if (targetMessage.author.id !== client.user?.id) {
-                  return `Please provide a message ID that was sent from <@${client.user?.id}> (Don't have one? Just use /send to make one)`
-                }
-                const content = targetMessage.content;
-                targetMessage.edit({
-                  content: content,
+                Tchannel.send({
                   embeds: [Embed]
-                }) 
+                })
+                
+                
               } catch {
                 console.log('Something went wrong')
                 return `...Well this is awkward you are not meant to be able to see this`
+                
+                
               }
             } else {
             try {
-            Tchannel.send({
+              const targetMessage = await channel.messages.fetch(messageId, {
+                cache: true,
+                force: true,
+              })
+              if (!targetMessage) {
+                return 'Unknown message ID.'
+                
+                
+              }
+          
+              if (targetMessage.author.id !== client.user?.id) {
+                return `Please provide a message ID that was sent from <@${client.user?.id}> (Don't have one? Just use /send to make one)`
+                
+                
+              }
+              const content = targetMessage.content;
+              if (content === '') {
+                targetMessage.edit({
+                  embeds: [Embed]
+                })
+                .then(() => { console.log('Successfully edited the message'); })
+                
+              } else {
+              targetMessage.edit({
+                content: content,
                 embeds: [Embed]
-            })
+              })
+              .then(() => { console.log('Successfully edited the message'); })
+              
+            }
           } catch {
             console.log('Something went wrong')
-            return `...Well this is awkward you are not meant to be able to see this`
+            return {
+              custom: true,
+              content: `...Well this is awkward you are not meant to be able to see this`,
+              ephemeral: true,
+            }
+            
+            
           }
         }
 
@@ -140,5 +167,7 @@ module.exports = {
                 content: 'Sent Embed!',
                 ephemeral: true,
             }
+            
+            
       }
     }

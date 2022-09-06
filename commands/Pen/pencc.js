@@ -20,10 +20,16 @@ module.exports = {
       // Bulk delete
       if (amount > 100 || amount < 1) {
         return 'Please pick a number from 1 to 100'
+        
+        
       }
 
       const { size } = await channel.bulkDelete(amount, true)
+      .then(() => { console.log('Successfully deleted the message(s)'); })
+      
   
       return `Deleted ${size} message(s).`
+      
+      
     },
   }

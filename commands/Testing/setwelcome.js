@@ -29,6 +29,8 @@ module.exports = {
   callback: async ({ guild, message, interaction, args }) => {
     if (!guild) {
       return 'Please use this command within a server.'
+      
+      
     }
 
     const target = message
@@ -36,6 +38,8 @@ module.exports = {
       : interaction.options.getChannel('channel')
     if (!target || target.type !== 'GUILD_TEXT') {
       return 'Please tag a text channel.'
+      
+      
     }
 
     let text = interaction?.options.getString('text')
@@ -59,5 +63,7 @@ module.exports = {
     )
 
     return 'Welcome channel set!'
+    
+    
   },
 }

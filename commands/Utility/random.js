@@ -10,21 +10,12 @@ function getRandomInt(max) {
      slash: true,
      testOnly: true,
 
-     minArgs: 2,
-     maxArgs: 2,
-     expectedArgs: '<min> <max>',
-     expectedArgsTypes: ['INTEGER', 'INTEGER'],
-
      callback: ( interaction, args ) => {
-        const min = args.shift()
-        const max = args.shift()
 
-        let number = (getRandomInt(max) + 1)
+        const number = (getRandomInt(10000) + 1)
 
-        if (number > min) {
-          number = min
-        }
-
-        return number;
+        return number
+        
+        
   },
 }

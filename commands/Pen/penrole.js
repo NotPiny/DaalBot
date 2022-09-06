@@ -43,6 +43,8 @@ module.exports = {
       return `Unknown action! Please use one of the following: ${actions.join(
         ', '
       )}`
+      
+      
     }
 
     const memberId = args.shift().replace(/[<@!&>]/g, '')
@@ -53,21 +55,29 @@ module.exports = {
 
     if (!member) {
       return `Could not find member with ID ${memberId}`
+      
+      
     }
 
     if (!role) {
       return `Could not find role with ID ${roleId}`
+      
+      
     }
 
     if (action === 'has') {
       return member.roles.cache.has(roleId)
         ? 'User has role'
         : 'User does not have role'
+        
+        
     }
 
     if (action === 'give') {
       if (!member.bannable) {
         return `The bot is not high enough on the rank list to manage this user`
+        
+        
       } else {
       member.roles.add(role)
       return {
@@ -75,12 +85,16 @@ module.exports = {
         content: 'Role given',
         ephemeral: true,
     }
+    
+    
     }
   }
 
     if (action === 'remove') {
       if (!member.bannable) {
         return `The bot is not high enough on the rank list to manage this user`
+        
+        
       } else {
       member.roles.remove(role)
       return {
@@ -88,9 +102,13 @@ module.exports = {
         content: 'Role removed',
         ephemeral: true,
       }
+      
+      
     }
   }
 
     return 'Unknown action'
+    
+    
   },
 }

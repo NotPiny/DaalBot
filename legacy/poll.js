@@ -18,5 +18,3 @@ client.on("messageCreate", msg => {
         msg.react('➖')
       }
 })
-
-client.login(process.env.TOKEN)

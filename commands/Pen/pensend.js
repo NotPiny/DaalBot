@@ -1,5 +1,4 @@
 TextChannel = require('discord.js')
-
 module.exports = {
   category: 'Pen',
   description: 'pensend',
@@ -19,9 +18,6 @@ module.exports = {
         ? message.mentions.channels.first()
         : interaction.options.getChannel('channel')
     )
-    if (!channel || channel.type !== 'GUILD_TEXT') {
-      return 'Please tag a text channel.'
-    }
 
     args.shift() // Remove the channel from the arguments array
     const text = args.join(' ');
@@ -34,8 +30,14 @@ module.exports = {
         content: 'Sent message!',
         ephemeral: true,
       })
+      .then(() => { console.log(':)') })
+      .catch(() => { console.log('bruh') })
+      
+      
     } else {
       return 'Sent message!'
+      
+      
     }
   },
 }

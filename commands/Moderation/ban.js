@@ -2,7 +2,8 @@ module.exports = {
     category: 'Moderation',
   description: 'Bans a user',
 
-  permissions: ['ADMINISTRATOR'],
+  // permissions: ['ADMINISTRATOR'],
+  requireRoles: true,
 
   slash: 'both',
   testOnly: false,
@@ -19,10 +20,14 @@ module.exports = {
       : (interaction.options.getMember('user'))
     if (!target) {
       return 'Please tag someone to ban.'
+      
+      
     }
 
     if (!target.bannable) {
       return 'Cannot ban that user.'
+      
+      
     }
 
     args.shift()
@@ -33,9 +38,8 @@ module.exports = {
       days: 7,
     })
 
-    // BUG
-    // Sometimes reason will not be sent in the ban data
-
     return `You banned <@${target.id}>`
+    
+    
   },
 } 

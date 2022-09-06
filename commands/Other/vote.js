@@ -40,6 +40,8 @@ module.exports = {
             embeds: [Embed], 
             components: [linkRow]
         })
+        
+        
     //   } else {
     //     if (site === 'top.gg') {
     //         const tEmbed = new MessageEmbed()

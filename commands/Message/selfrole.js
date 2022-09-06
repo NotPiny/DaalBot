@@ -50,6 +50,8 @@ module.exports = {
           content: 'Roles updated!',
           ephemeral: true,
         })
+        .then(() => { console.log(':)') })
+        .catch(() => { console.log('bruh') })
       }
     })
   },
@@ -62,6 +64,8 @@ module.exports = {
     )
     if (!channel || channel.type !== 'GUILD_TEXT') {
       return 'Please tag a text channel.'
+      
+      
     }
 
     const messageId = args[1]
@@ -74,6 +78,8 @@ module.exports = {
     )
     if (!role) {
       return 'Unknown role!'
+      
+      
     }
 
     const targetMessage = await channel.messages.fetch(messageId, {
@@ -83,10 +89,14 @@ module.exports = {
 
     if (!targetMessage) {
       return 'Unknown message ID.'
+      
+      
     }
 
     if (targetMessage.author.id !== client.user?.id) {
       return `Please provide a message ID that was sent from <@${client.user?.id}>`
+      
+      
     }
 
     let row = targetMessage.components[0]
@@ -113,6 +123,8 @@ module.exports = {
             },
             ephemeral: true,
           }
+          
+          
         }
       }
 
@@ -141,5 +153,7 @@ module.exports = {
       },
       ephemeral: true,
     }
+    
+    
   },
 }

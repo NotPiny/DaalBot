@@ -18,6 +18,8 @@ module.exports = {
       : (interaction.options.getMember('user'))
     if (!target) {
       return 'Please tag someone to message'
+      
+      
     }
 
     args.shift()
@@ -31,5 +33,7 @@ module.exports = {
       content: `Sent message to <@${target.id}>`,
       ephemeral: true,
     }
+    
+    
   },
 }

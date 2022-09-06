@@ -17,10 +17,14 @@ module.exports = {
         : (interaction.options.getMember('user'))
       if (!target) {
         return 'Please tag someone to kick.'
+        
+        
       }
   
       if (!target.kickable) {
         return 'Cannot kick that user.'
+        
+        
       }
   
       args.shift()
@@ -33,5 +37,7 @@ module.exports = {
         content: `You kicked <@${target.id}>`,
         ephemeral: true,
     }
+    
+    
   }
 }

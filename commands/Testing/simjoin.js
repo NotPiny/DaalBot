@@ -8,5 +8,7 @@ module.exports = {
     callback: ({ member, client }) => {
       client.emit('guildMemberAdd', member)
       return 'Join simulated!'
+      
+      
     },
   }

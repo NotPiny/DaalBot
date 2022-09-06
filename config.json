@@ -2,15 +2,9 @@
     "Note": "This prefix is only for non WOKCommands commands the config for WOKCommands is below",
     "prefix": "$",
 
-    "globalMuteIDs": [
-    "950420724647075850",
-    "943310979930927184"
-],
-
     "botPath": "C:\\Users\\PinyLa\\Documents\\Code\\DaalBot\\DaalBot-V3",
 
     "username": "PinyLa",
-
 
     "!Warning!": "This needs to be a channel id or else it will crash apon launch",
     "Logchannel": "1003825386045575168",
@@ -34,7 +28,7 @@
     ],
     
     "BotOwners": [
-        "664859750285967371", 
+        "900126154881646634", 
         "678211265264484362",
         "988773090030932020",
         "444921750455713795"
@@ -42,7 +36,7 @@
   },
 
     "activities": [
-    "1/50 Chance!",
+    "1/52 Chance!",
     "/Cmds to get started",
     "Don't be stupid",
     "HOTDOG!",
@@ -91,6 +85,9 @@
     ":)",
     ":(",
     "():()",
-    "Shut the front door - Anom"
+    "Shut the front door - Anom",
+    "daalb0t.web.app/HQ",
+    "bit.ly/DaalBotINV",
+    "GOLANG = L"
     ]
 }

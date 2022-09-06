@@ -6,6 +6,8 @@ module.exports = {
     testOnly: false,
   
     callback: () => {
-      return 'The bot is responding'    
+      interaction.reply({content: 'The bot is responding'})
+      .then(() => { console.log(':)') })
+      .catch(() => { console.log('bruh') })
   }
 }

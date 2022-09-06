@@ -19,8 +19,12 @@ module.exports = {
   
     callback: async({ client, guild, args }) => {
         const id = args.shift()
-        const user = await client.users.fetch(id).catch(console.log('Error > NO DATA GIVEN'));
+        const user = await client.users.fetch(id)
+        .then(console.log('.'))
+        .catch(console.log('Error > NO DATA GIVEN'));
         console.log(user);
         return `ID: ${user.id}\nName: ${user.name}\nTag: #${user.discriminator}\nAvatar: ${user.avatarURL}`
+        
+        
     },
   }

@@ -1,4 +1,5 @@
 const actions = ['rock', 'paper', 'scissors']
+const { Message, MessageReaction, User, Interaction } = require('discord.js')
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -24,7 +25,7 @@ function getRandomInt(max) {
           },
      ],
 
-     callback: ( interaction ) => {
+     callback: ( interaction,  ) => {
         const answer = (getRandomInt(100) + 1) // Returns a random number from 1 -> 100
         // TODO
      }, 

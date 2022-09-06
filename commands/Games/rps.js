@@ -29,21 +29,29 @@ function getRandomInt(max) {
         const move = interaction.options.getString('move') // Gets the users move from the options
 
         if (!move || !actions.includes(move)) {
-            return `Unknown move! Please use one of the following: ${actions.join(
+            interaction.reply(`Unknown move! Please use one of the following: ${actions.join(
               ', '
-            )}`
+            )}`)
+          .then(() => { console.log(':)') })
+          .catch(() => { console.log('bruh') })
           }
 
         if (cpuP === 0) {
             // Runs if random number gen returns 0
             if(move === 'rock'){
                 return `CPU went for rock, \nYou went for ${move}, \nIts a tie!`
+                
+                
             }
             if(move === 'paper'){
                 return `CPU went for rock, \nYou went for ${move}, \nYou win :)`
+                
+                
             }
             if(move === 'scissors'){
                 return `CPU went for rock, \nYou went for ${move}, \nYou lost :(`
+                
+                
             }
         }
 
@@ -51,12 +59,18 @@ function getRandomInt(max) {
             // Runs if random number gen returns 1
             if(move === 'rock'){
                 return `CPU went for paper, \nYou went for ${move}, \nYou lost :(`
+                
+                
             }
             if(move === 'paper'){
                 return `CPU went for paper, \nYou went for ${move}, \nIts a tie!`
+                
+                
             }
             if(move === 'scissors'){
                 return `CPU went for paper, \nYou went for ${move}, \nYou win :)`
+                
+                
             }
         }
 
@@ -64,12 +78,18 @@ function getRandomInt(max) {
             // Runs if random number gen returns 2
             if(move === 'rock'){
                 return `CPU went for scissors, \nYou went for ${move}, \nYou win :)`
+                
+                
             }
             if(move === 'paper'){
                 return `CPU went for scissors, \nYou went for ${move}, \nYou lost :(`
+                
+                
             }
             if(move === 'scissors'){
                 return `CPU went for scissors, \nYou went for ${move}, \nIts a tie!`
+                
+                
             }
         }
      }, 

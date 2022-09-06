@@ -1,19 +1,19 @@
 const { MessageEmbed } = require('discord.js');
+const colours = ['red', 'green', 'blue', 'purple', 'pink']
 
 module.exports = {
-        category: 'Message',
+        category: 'Pen',
         description: 'Sends a fully custom embed in a channel',
-
-        permissions: ['ADMINISTRATOR'],
       
         slash: true,
+        ownerOnly: false,
         testOnly: false,
         guildOnly: true,
+        requireRoles: true,
 
-        minArgs: 3,
-        maxArgs: 10,
-        expectedArgs: '<channel> <title> <description> <url> <author> <footer>',
-        expectedArgsTypes: ['CHANNEL', 'STRING', 'STRING', 'STRING', 'STRING', 'STRING'],
+        minArgs: 2,
+        maxArgs: 7,
+        expectedArgs: '<channel> <title> <url> <author> <description> <footer> <colour>',
 
         options: [
             {
@@ -29,14 +29,14 @@ module.exports = {
               required: true,
             },
             {
-              name: 'description',
-              description: 'Sets the description of the embed',
-              type: 'STRING',
-              required: true,
-            },
-            {
               name: 'url',
               description: 'The URL that the embed links to',
+              type: 'STRING',
+              required: false,
+            },
+            {
+              name: 'description',
+              description: 'Sets the description of the embed',
               type: 'STRING',
               required: false,
             },
@@ -52,45 +52,51 @@ module.exports = {
               type: 'STRING',
               required: false,
             },
+            {
+              name: 'colour',
+              description: `The colour of the embed. One of: ${colours.join(', ')}`,
+              type: 'STRING',
+              required: false,
+              choices: colours.map((colour) => ({
+                name: colour,
+                value: colour,
+              })),
+            },
           ],
       
-        callback: ({ interaction, channel, args }) => {
+        callback: async ({ interaction, channel, args }) => {
           // return 'Command has been disabled'
-            const title = interaction.options.getString('title')
-            const url = interaction.options.getString('url')
-            const author = interaction.options.getString('author')
-            let description = interaction.options.getString('description')
-            description = description.replace(/<nl>/g, "\n");
-            // const RFT = interaction.options.getString('regular_field_title')
-            // const RFTXT = interaction.options.getString('regular_field_text')
-            // const IFT = interaction.options.getString('inline_field_title')
-            // const IFTXT = interaction.options.getString('inline_field_text')
-            const footer = interaction.options.getString('footer')
-            const Tchannel = interaction.options.getChannel('channel')
+            const title = await interaction.options.getString('title');
+            const url = await interaction.options.getString('url');
+            const author = await interaction.options.getString('author');
+            const description = await interaction.options.getString('description');
+            const colour = await interaction.options.getString('colour');
+            const footer = await interaction.options.getString('footer');
+            const Tchannel = await interaction.options.getChannel('channel');
 
             const Embed = new MessageEmbed()
-            .setColor(0x0099FF)
             .setTitle(title)
-            .setDescription(description)
 
             if (author === null) { Embed.setAuthor({name: ''}) } else { Embed.setAuthor({name: author}) }
             if (footer === null) { Embed.setFooter({text: ''}) } else { Embed.setFooter(footer) }
-
-            if (url === null) {/**Do nothing*/} else {
-              if (!url.startsWith('https://')) {
-                Embed.setURL(`https://${url}`)
-              } else {
-                Embed.setURL(`${url}`)
-              }
+            if (description === null) { Embed.setDescription('') } else { Embed.setDescription(description.replace(/<nl>/g, '\n')) }
+            
+            if (colour === null) {
+              Embed.setColor(0x0099FF)
+            } else {
+            if (colour === 'red') { Embed.setColor(0xff0000) }
+            if (colour === 'purple') { Embed.setColor(0x6600ff) }
+            if (colour === 'blue') { Embed.setColor(0x00a6ff) }
+            if (colour === 'pink') { Embed.setColor(0xf603c6) }
+            if (colour === 'green') { Embed.setColor(0x13f603) }
             }
 
-            try {
-            Tchannel.send({
-                embeds: [Embed]
-            })
-          } catch {
-            console.log('Something went wrong')
-            return `...Well this is awkward you are not meant to be able to see this`
+
+            if (url === null) { Embed.setURL('') } else { 
+              Embed.setURL(url) 
+            if (!url.startsWith('https://')) {
+                Embed.setURL(`https://${url}`)
+            }
           }
 
             return {
@@ -98,5 +104,7 @@ module.exports = {
                 content: 'Sent Embed!',
                 ephemeral: true,
             }
+            
+            
       }
     }

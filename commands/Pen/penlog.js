@@ -26,5 +26,7 @@ module.exports = {
         const sendText = text.replace(/<nl>/g, "\n");
         botLog(sendText)
         return `Logged:\n${sendText}`
+        
+        
     },
   }

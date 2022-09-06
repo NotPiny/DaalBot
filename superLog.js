@@ -18,7 +18,7 @@ const client = new Client({
 
 client.on('ready', () => {
   //When bot loads
-  console.log(`Log > Super Logs loaded`);
+  botLog(`Log > Super Logs loaded`);
   fs.appendFile('./super-log.log', `\nBot Started!`, function (err) {
     if (err) throw err;
   });
@@ -44,7 +44,7 @@ client.on('rateLimit', () => {
 })
 
 client.on('interactionCreate', interaction => {
-    fs.appendFile('./super-log.log', `\nInteraction created: {\nCreated: "${interaction.createdAt}" Timestamp: ${interaction.createdTimestamp}\nID: ${interaction.id}\n}`, function (err) {
+    fs.appendFile('./super-log.log', `\nInteraction created: {\nCreated: "${interaction.createdAt}" Timestamp: ${interaction.createdTimestamp}\nID: ${interaction.id}\n${interaction.user.id}`, function (err) {
         if (err) throw err;
     });
 })
@@ -69,5 +69,3 @@ client.on('guildCreate', guild => {
 client.on('guildDelete', guild => {
   botLog(`\nBot removed from server\nNow in ${client.guilds.cache.size} servers`)
 })
-
-client.login(process.env.TOKEN);

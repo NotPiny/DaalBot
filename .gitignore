@@ -7,10 +7,20 @@ yarn-error.log*
 firebase-debug.log*
 firebase-debug.*.log*
 
+# Global mute list (This is here so you don't have to deal with my settings)
+gmuted.list
+
 # Firebase cache
 .firebase/
 
-# Firebase config
+# Twitter related bits
+/twitter
+
+# DaalBot HQ code
+/hq
+
+# Localhost info
+/localhost/settings.json
 
 # Uncomment this if you'd like others to create their own Firebase project.
 # For a team working on the same Firebase project(s), it is recommended to leave
@@ -70,6 +80,7 @@ node_modules/
 /chat
 # Site
 /Site
+/commands/Utility/shorten.js
 # Test Bot
 /Test_Bot
 
@@ -87,3 +98,6 @@ command-log.txt
 
 # Super logs for debug
 super-log.log
+
+# HQ features
+/legacy/hq.js

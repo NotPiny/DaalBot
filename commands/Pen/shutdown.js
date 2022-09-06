@@ -1,5 +1,3 @@
-const { Interaction } = require("discord.js")
-
 module.exports = {
     category: 'Pen',
     description: 'Takes the bot offline',

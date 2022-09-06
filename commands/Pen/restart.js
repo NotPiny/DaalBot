@@ -1,5 +1,7 @@
-const { Interaction } = require("discord.js")
-const { botPath } = require('../../config.json')
+const { Interaction } = require("discord.js");
+const config = require('../../config.json');
+const botPath = config.botPath;
+const Logchannel = config.Logchannel;
 module.exports = {
     category: 'Pen',
     description: 'Restarts the bot',
@@ -9,7 +11,11 @@ module.exports = {
   
     ownerOnly: true,
   
-    callback: ({ message, client, text, interaction }) => {
+    callback: ({ message, user, client, text, interaction }) => {
+      function botLog(text) {
+        client.channels.cache.find(channel => channel.id === Logchannel).send(text)
+        console.log(text)
+      }
       client.user?.setPresence({
         status: 'online',
         activities: [
@@ -18,11 +24,14 @@ module.exports = {
           },
         ],
       })
+      require('child_process').exec(`start "" "${botPath}\\Batch/start.bat"`);
+      botLog(`<@${user.id}> restarted the bot`)
       interaction.reply({
         content: 'Restarting...'
       })
-      require('child_process').exec(`start "" "${botPath}/start.bat"`);
-      client.destroy();
+      .then(() => { console.log(':)') })
+      .catch(() => { console.log('bruh') })
+      process.exit();
     },
   }
   

@@ -22,6 +22,8 @@ module.exports = {
     )
     if (!channel || channel.type !== 'GUILD_TEXT') {
       return 'Please tag a text channel.'
+      
+      
     }
 
     args.shift() // Remove the channel from the arguments array
@@ -31,5 +33,7 @@ module.exports = {
     channel.send(result)
 
       return 'Sent message!'
+      
+      
   },
 }

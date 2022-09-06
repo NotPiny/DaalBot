@@ -6,6 +6,6 @@ module.exports = {
     testOnly: true,
   
     callback: (user) => {
-      return `${user}`
+      return `CHECK THE CONSOLE!!!!!!!!!!!!!`
     },
   }

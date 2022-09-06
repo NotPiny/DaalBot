@@ -79,24 +79,40 @@ module.exports = {
         guildId: guild?.id,
         reason,
       });
+      const embed = new MessageEmbed()
+      .setTitle('Success')
+      .setDescription(`Added warning to <@${user?.id}>`)
+      .setColor(0x40ff00)
+      .setFooter(`ID: ${warning.id}`)
 
       return {
         custom: true,
-        content: `Added warning ${warning.id} to <@${user?.id}>`,
+        content: `Done!`,
+        embeds: [embed],
         allowedMentions: {
           users: [],
         },
-      };
+      }
+      
+      
     } else if (subCommand === "remove") {
       const warning = await warnSchema.findByIdAndDelete(id);
+      const embed = new MessageEmbed()
+      .setTitle(`Success`)
+      .setDescription(`Removed warning from <@${user?.id}>`)
+      .setColor(0xff0000)
+      .setFooter(`ID: ${warning.id}`)
 
       return {
         custom: true,
-        content: `Removed warning ${warning.id} from <@${user?.id}>`,
+        content: `Done!`,
+        embeds: [embed],
         allowedMentions: {
           users: [],
         },
-      };
+      }
+      
+      
     } else if (subCommand === "list") {
       const warnings = await warnSchema.find({
         userId: user?.id,
@@ -114,7 +130,9 @@ module.exports = {
 
       const embed = new MessageEmbed().setDescription(description);
 
-      return embed;
+      return embed
+      
+      
     }
   },
 }

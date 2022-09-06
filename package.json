@@ -1,39 +1,28 @@
 {
   "name": "daalbot",
-  "version": "5.2.4",
-  "description": "",
+  "version": "6.0.0",
+  "description": "https://daalbot-a.web.app/Invite",
   "main": "index.js",
-  "dependencies": {
-    "@discordjs/opus": "^0.7.0",
-    "@discordjs/rest": "^1.0.1",
-    "@discordjs/voice": "github:discordjs/voice",
-    "@replit/database": "^2.0.0",
-    "discord": "^0.8.2",
-    "discord.js-commando": "^0.12.3",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.1",
-    "fetch": "^1.1.0",
-    "ffmpeg-static": "^5.0.0",
-    "firebase": "^9.8.0",
-    "link-preview-generator": "^1.1.0",
-    "mongoose": "^6.4.0",
-    "node-fetch": "^2.6.1",
-    "node.js": "^0.0.1-security",
-    "nodemon": "^2.0.19",
-    "npm": "^8.9.0",
-    "prompt-sync": "^4.2.0",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.4",
-    "wokcommands": "^1.5.3",
-    "xmlhttprequest": "^1.8.0",
-    "yt-search": "^2.10.3",
-    "ytdl-core": "^4.11.0"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "launch": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotPiny/DaalBot.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NotPiny/DaalBot/issues"
+  },
+  "homepage": "https://github.com/NotPiny/DaalBot#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "discord.js": "^13.10.3",
+    "expess": "^0.0.1-security",
+    "glob": "^8.0.3",
+    "tesseract.js": "^3.0.2",
+    "wokcommands": "^1.5.3"
+  }
 }

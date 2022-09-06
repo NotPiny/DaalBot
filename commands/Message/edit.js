@@ -42,10 +42,14 @@ const {
   
       if (!targetMessage) {
         return 'Unknown message ID.'
+        
+        
       }
   
       if (targetMessage.author.id !== client.user?.id) {
         return `Please provide a message ID that was sent from <@${client.user?.id}> (Don't have one? Just use /send to make one)`
+        
+        
       }
 
       args.shift() // Remove the channel from the arguments array
@@ -54,7 +58,11 @@ const {
       const result = text.replace(/<nl>/g, "\n");
   
       targetMessage.edit(result)
+      .then(() => { console.log('Successfully edited the message'); })
+      .catch(() => { console.log('Something went wrong') });
   
       return `Message has been edited`
+      
+      
     }
   }

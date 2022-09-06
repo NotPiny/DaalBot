@@ -30,5 +30,7 @@ module.exports = {
       const txt = interaction.options.getString('txt');
       console.log(`fetched data: ${text}, ${txt}`);
       return 'Check console'
+      
+      
     },
   }

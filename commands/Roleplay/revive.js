@@ -19,11 +19,17 @@ module.exports = {
 
         if (FMTId === '965270659515183206') {
             return `🧟 <@${user.id}> revives <@${FMTId}>\n(Thank You)`
+            
+            
           } else {
             if (FMTId === user.id) {
                 return `🧟 <@${user.id}>, You can't revive yourself`
+                
+                
             }
           return `🧟 <@${user.id}> revives <@${FMTId}>`
+          
+          
       }
     }
 }
