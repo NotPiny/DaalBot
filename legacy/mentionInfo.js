@@ -12,7 +12,7 @@ client.on('messageCreate', msg => {
 
     if (msg.author.bot) return;
     
-    if (msg.content.toLowerCase().includes('<@965270659515183206>')) {
+    if (msg.content.toLowerCase() === '<@1016086353085222993>') {
       msg.reply({
         content: 'Thanks for pinging me! Here is some info:',
         embeds: [iEmbed]

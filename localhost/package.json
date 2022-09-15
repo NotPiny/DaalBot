@@ -1,0 +1,15 @@
+{
+  "name": "localhost",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Info.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1"
+  }
+}

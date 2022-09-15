@@ -1,12 +1,9 @@
 const client = require('./client'); 
-require('./legacy/launch.js'); 
-require('./superLog.js'); 
 require('dotenv').config(); 
 const path = require('path'); 
 const WOKCommands = require('wokcommands'); 
 const config = require('./config.json');
-require('./daal.js'); 
-require('./localhost/launch');
+require('./launch-extra.js');
 
 // Functions
 function botLog(text) {
@@ -37,8 +34,8 @@ client.on('ready', () => {
   })
   .setDefaultPrefix(config.WOKCommands.prefix)
 
-  // Custom Loader
-  // require('./handler/exe.js');
+  // Backup custom handler
+  require('./handler/exe.js');
 })
 
 client.login(process.env.TOKEN)

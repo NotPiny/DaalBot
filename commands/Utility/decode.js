@@ -30,7 +30,6 @@ module.exports = {
             let buff = new Buffer(data, 'base64');
             let output = buff.toString('ascii');
 
-
             return output;
         }
 

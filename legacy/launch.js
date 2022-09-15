@@ -20,3 +20,5 @@ require('./quote.js');
 require('./mentionInfo.js');
 require('./status.js');
 require('./vortex.js');
+require('./stats.js');
+// require('./intRestart.js');

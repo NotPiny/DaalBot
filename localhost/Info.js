@@ -1,16 +1,16 @@
-const settings = require('./settings.json');
-const client = require('../client');
-const path = require('path');
-require('dotenv').config();
-
 const express = require('express');
 const app = express();
+const settings = require('./settings.json');
 const port = settings.infoPort;
+const client = require('../client');
+require('dotenv').config();
+
+client.login()
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/Info/index.html'));
+  res.send('Hello World!');
 })
 
 app.listen(port, () => {
-  console.log(`Info site ready`);
+  console.log(`Example app listening on port ${port}`);
 })

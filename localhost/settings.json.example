@@ -1,3 +1,4 @@
 {
-    "infoPort": PORT
+    "infoPort": PORT,
+    "Token": "TOKEN"
 }

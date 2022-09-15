@@ -1,6 +1,18 @@
 const { botPath } = require('../config.json');
 const config = require('../config.json')
 const fs = require('fs');
+function fetchList({a, t}) {
+  fs.readFile(`${botPath}/gmuted.list`, 'utf8', (err, data) => {
+    if (err) {
+      console.log(err);
+      return 'ERROR';
+    }
+    return {
+      data,
+      typeof: String,
+    }
+  });
+}
 
 module.exports = (client) => {
   function botLog(text) {
@@ -8,21 +20,8 @@ module.exports = (client) => {
     console.log(text)
   }
     client.on('messageCreate', message => {
-        fs.readFile(`${botPath}/gmuted.list`, 'utf8', (err, data) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            if (data.includes(message.author.id)) {
-              if (config.WOKCommands.BotOwners.includes(message.author.id)) {
-                botLog(`Global Mute > ${message.author.id} is immune to global mute`)
-              }
-              if (message.deletable) {
-                message.delete();
-                botLog(`Global Mute > Deleted Message by ${message.author.username}`)
-              }
-            }
-          });
+      const List = fetchList('');
+      if (List.includes(message.author.id)) {}
     })
-    module.exports = config;
+    module.exports = 'dummy export';
 }
