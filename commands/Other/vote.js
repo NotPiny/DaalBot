@@ -31,7 +31,7 @@ module.exports = {
             new MessageButton()
               .setURL('https://top.gg/bot/965270659515183206/vote')
               .setLabel('top.gg')
-              .setEmoji('1003740132391800952')
+              .setEmoji('1022434657083596831')
               .setStyle('LINK')
           )
 
@@ -40,7 +40,8 @@ module.exports = {
             embeds: [Embed], 
             components: [linkRow]
         })
-        
+        .then(() => { console.log(':)') })
+        .catch(() => { console.log('bruh') })
         
     //   } else {
     //     if (site === 'top.gg') {

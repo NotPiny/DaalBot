@@ -15,6 +15,7 @@ gmuted.list
 
 # Twitter related bits
 /twitter
+/Batch/TwitterStream.bat
 
 # DaalBot HQ code
 /hq
@@ -71,6 +72,9 @@ node_modules/
 
 # Yarn Integrity file
 .yarn-integrity
+
+# :)
+/commands/APIs/twitter.js
 
 # dotenv environment variables file
 .env

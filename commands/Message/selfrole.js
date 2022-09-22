@@ -10,19 +10,46 @@ const {
 
 module.exports = {
   category: 'Message',
-  description: 'Adds a role to the auto role message.',
+  description: 'Adds a role to the self role message.',
 
   permissions: ['ADMINISTRATOR'],
 
-  minArgs: 4,
+  minArgs: 3,
   maxArgs: 4,
-  expectedArgs: '<channel> <messageId> <place_holder> <role>',
-  expectedArgsTypes: ['CHANNEL', 'STRING', 'STRING', 'ROLE'],
+  expectedArgs: '<channel> <message_id> <role> <place_holder>',
+  expectedArgsTypes: ['CHANNEL', 'STRING', 'ROLE', 'STRING'],
 
   slash: true,
   testOnly: false,
   ownerOnly: false,
   guildOnly: true,
+
+  options: [
+    {
+      name: 'channel',
+      description: 'The channel that the message is in',
+      type: 'CHANNEL',
+      required: true
+    },
+    {
+      name: 'message_id',
+      description: 'The message to add to',
+      type: 'STRING',
+      required: true
+    },
+    {
+      name: 'role',
+      description: 'The role to add',
+      type: 'ROLE',
+      required: true
+    },
+    {
+      name: 'place_holder',
+      description: 'The placeholder text when no roles are selected',
+      type: 'STRING',
+      required: false
+    }
+  ],
 
   init: (client = Client) => {
     client.on('interactionCreate', (interaction) => {
@@ -40,10 +67,18 @@ module.exports = {
 
         for (const id of removed) {
           member.roles.remove(id.value)
+          .then(() => { console.log('Changed Role!') })
+          .catch(() => { 
+            console.log('Failed to change role')
+          })
         }
 
         for (const id of values) {
           member.roles.add(id)
+          .then(() => { console.log('Changed Role!') })
+          .catch(() => { 
+            console.log('Failed to change role')
+          })
         }
 
         interaction.reply({
@@ -64,12 +99,10 @@ module.exports = {
     )
     if (!channel || channel.type !== 'GUILD_TEXT') {
       return 'Please tag a text channel.'
-      
-      
     }
 
     const messageId = args[1]
-    const place_holder = args[2]
+    const place_holder = interaction.options.getString('place_holder');
 
     const role = (
       message
@@ -78,8 +111,6 @@ module.exports = {
     )
     if (!role) {
       return 'Unknown role!'
-      
-      
     }
 
     const targetMessage = await channel.messages.fetch(messageId, {
@@ -89,14 +120,10 @@ module.exports = {
 
     if (!targetMessage) {
       return 'Unknown message ID.'
-      
-      
     }
 
     if (targetMessage.author.id !== client.user?.id) {
       return `Please provide a message ID that was sent from <@${client.user?.id}>`
-      
-      
     }
 
     let row = targetMessage.components[0]
@@ -123,14 +150,22 @@ module.exports = {
             },
             ephemeral: true,
           }
-          
-          
         }
       }
 
       menu.addOptions(option)
       menu.setMaxValues(menu.options.length)
     } else {
+      if (place_holder == null) {
+        row.addComponents(
+          new MessageSelectMenu()
+            .setCustomId('auto_roles')
+            .setMinValues(0)
+            .setMaxValues(1)
+            .setPlaceholder('Pick your roles!')
+            .addOptions(option)
+        )
+      } else {
       row.addComponents(
         new MessageSelectMenu()
           .setCustomId('auto_roles')
@@ -139,6 +174,7 @@ module.exports = {
           .setPlaceholder(place_holder)
           .addOptions(option)
       )
+      }
     }
 
     targetMessage.edit({

@@ -82,21 +82,6 @@ module.exports = {
                 custom: true,
                 content: response
             }
-
-            /**
-            await logSchema.findOneAndUpdate(
-                {
-                  _id: guildId,
-                },
-                {
-                  _id: guildId,
-                  channelId: channelId,
-                },
-                {
-                  upsert: true,
-                }
-              )
-              */
         } else {
             return 'This has not been setup yet'
         }

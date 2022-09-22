@@ -4,6 +4,7 @@ const path = require('path');
 const WOKCommands = require('wokcommands'); 
 const config = require('./config.json');
 require('./launch-extra.js');
+client.setMaxListeners(0); // Sets max client listeners to infinity
 
 // Functions
 function botLog(text) {

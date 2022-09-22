@@ -21,4 +21,5 @@ require('./mentionInfo.js');
 require('./status.js');
 require('./vortex.js');
 require('./stats.js');
+require('./confess-secret.js');
 // require('./intRestart.js');

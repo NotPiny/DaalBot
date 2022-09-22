@@ -5,7 +5,7 @@ const port = settings.infoPort;
 const client = require('../client');
 require('dotenv').config();
 
-client.login()
+// client.login()
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
