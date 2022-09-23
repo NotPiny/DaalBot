@@ -8,7 +8,5 @@ module.exports = {
   
     callback: () => {
       return gmtDateTime
-      
-      
   }
 }
