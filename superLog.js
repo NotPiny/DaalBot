@@ -21,12 +21,6 @@ client.on('rateLimit', () => {
     });
 })
 
-client.on('interactionCreate', interaction => {
-    fs.appendFile('./super-log.log', `\nInteraction created: {\nCreated: "${interaction.createdAt}" Timestamp: ${interaction.createdTimestamp}\nID: ${interaction.id}`, function (err) {
-        if (err) throw err;
-    });
-})
-
 client.on('error', err => {
   console.log(`Log > Error: ${err.message}`)
   fs.appendFile('./super-log.log', `\nError: ${err.message}`, function (err) {
