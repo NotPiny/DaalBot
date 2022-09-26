@@ -1,16 +1,15 @@
-const actions = ['exit', 'undefined']
+const actions = ['exit', 'undefined', 'reply']
 
 module.exports = {
   category: 'Testing',
   description: 'Crashes the bot for debugging',
-
-  permissions: ['MANAGE_ROLES'],
 
   minArgs: 1,
   expectedArgs: `<"${actions.join('", "')}">`,
 
   slash: true,
   testOnly: true,
+  ownerOnly: true,
   guildOnly: true,
 
   options: [
@@ -23,18 +22,23 @@ module.exports = {
         name: action,
         value: action,
       })),
+    },
+    {
+      name: 'password',
+      description: 'The password to crash the bot',
+      type: 'STRING',
+      required: true
     }
   ],
 
-  callback: ({ guild, args, client }) => {
+  callback: ({ guild, args, client, interaction }) => {
     const action = args.shift()
     if (!action || !actions.includes(action)) {
-      return `Unknown action! Please use one of the following: ${actions.join(
-        ', '
-      )}`
+      console.log('oof.');
     }
 
-    if (action === 'exit') {
+    if (interaction.options.getString('password') === 'RandomPasswordLol') {
+      if (action === 'exit') {
         console.log(`|---------------|`);
         console.log(`|  Process.exit |`);
         console.log(`|has been called|`);
@@ -42,12 +46,16 @@ module.exports = {
         process.exit();
     }
 
-    if (action === 'undefined') {
-        const TJK = actions.till
+    if (action === 'reply') {
+      interaction.reply({
+        content: 'Done!',
+        ephemeral: true
+      })
+    }
+    } else {
+      return 'Wrong password!'
     }
 
     return 'Unknown action'
-    
-    
   },
 }
