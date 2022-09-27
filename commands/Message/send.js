@@ -1,5 +1,3 @@
-TextChannel = require('discord.js')
-
 module.exports = {
   category: 'Message',
   description: 'Sends a message.',
@@ -10,30 +8,35 @@ module.exports = {
   expectedArgs: '<channel> <text>',
   expectedArgsTypes: ['CHANNEL', 'STRING'],
 
-  slash: 'both',
+  slash: true,
   testOnly: false,
   guildOnly: true,
 
-  callback: ({ message, interaction, args }) => {
-    const channel = (
-      message
-        ? message.mentions.channels.first()
-        : interaction.options.getChannel('channel')
-    )
+  options: [
+    {
+      name: 'channel',
+      description: 'The channel to send the text to',
+      type: 'CHANNEL',
+      required: true
+    },
+    {
+      name: 'text',
+      description: 'The text to send',
+      type: 'STRING',
+      required: true
+    }
+  ],
+
+  callback: (interaction) => {
+    const channel = interaction.options.getChannel('channel')
     if (!channel || channel.type !== 'GUILD_TEXT') {
       return 'Please tag a text channel.'
-      
-      
     }
-
-    args.shift() // Remove the channel from the arguments array
-    const text = args.join(' ')
+    const text = interaction.options.getString('text');
     const result = text.replace(/<nl>/g, "\n");
 
     channel.send(result)
 
-      return 'Sent message!'
-      
-      
-  },
+    return 'Sent message!'
+  }
 }

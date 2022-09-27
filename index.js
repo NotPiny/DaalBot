@@ -15,6 +15,10 @@ function botLog(text) {
 client.on('ready', () => {
   //When bot loads
   botLog(`Load > Logged in as ${client.user.tag}!`);
+  console.log(`Running in ${client.guilds.cache.size} servers:`)
+  client.guilds.cache.forEach(guild => {
+    console.log(`${guild.name} / ${guild.id}`);
+  });
   const RandomIndex = Math.floor(Math.random() * (config.activities.length - 1) + 1);
   const NewActivity = config.activities[RandomIndex];
 

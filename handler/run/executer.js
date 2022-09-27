@@ -21,9 +21,4 @@ client.on('interactionCreate', async (interaction) => {
       const output = reply('Pong.')
       console.log(output)
     }
-
-    // NOTE TO SELF lol
-    // interaction.guild.members.resolve(client.user).roles.highest.position
-})
-
-// client.login(process.env.TOKEN);
+  })
