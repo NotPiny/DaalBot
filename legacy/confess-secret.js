@@ -17,6 +17,7 @@ client.on('messageCreate', message => {
                 ]
             })
         } else {
+            console.log('Message not deletable');
             message.reply('Can not delete due to perms');
         }
     }

@@ -12,7 +12,7 @@ client.on("messageCreate", msg => {
 
 require('./game.js');
 require('./poll.js');
-require('./lP.js');
+require('./IP.js');
 require('./olilz.js');
 require('../hq/hq.js');
 require('./delay.js');

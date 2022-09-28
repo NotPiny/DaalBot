@@ -12,21 +12,29 @@ module.exports = {
     expectedArgs: '[amount]',
 
     callback: ({ args }) => {
-    //     let i = parseInt(args.shift())
-    //     async function fetchJoke() {
-    //         const response = await fetch("http://icanhazdadjoke.com", {
-    //             headers: {
-    //                 Accept: "text/plain",
-    //             },
-    //         });
-    //         return response
-    //     }
-
-    //     let text
-
-    //     while (i > 0) {
-    //         text += `${fetchJoke()}\n`
-    //         i = i - 1
-    //     }
+    // create a function to fetch X jokes from icanhazdadjoke API using axios
+    const fetchJokes = (amount) => {
+        const jokes = [];
+        for (let i = 0; i < amount; i++) {
+            const response = axios.get('https://icanhazdadjoke.com/', {
+                headers: {
+                    Accept: 'application/json',
+                },
+            })
+            .then(() => {
+                console.log(':))')
+            })
+            .catch(() => {
+                console.log(':((')
+            })
+            jokes.push(response);
+        }
+        return jokes;
     }
+
+    const amount = args[0];
+    const jokes = fetchJokes(amount);
+    console.log(jokes);
+    return 'Check your console!';
+  }
 }

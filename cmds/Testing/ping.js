@@ -1,5 +1,1 @@
-const client = require('../../client');
-
-client.on('interactionCreate', interaction => {
-    // TODO
-})
+// This file is useless now, but it was used to test the bot's backup handler.
