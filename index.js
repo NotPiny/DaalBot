@@ -22,8 +22,6 @@ This is sending the text to the channel that was found in the first line. The te
 3. console.log(text)
 This is sending the message to the console. The console is the part of the bot that you use to run the bot. If you want to see the messages in the console, you can use the command 'node .' in the console.
 
-4. You can also send the message to the console and to the channel at the same time. All you have to do is copy the line of code that sends the message to the channel and paste it under the line of code that sends the message to the console. Then change the text to what you want to send to the channel. This will make the message send to the channel and to the console at the same time. 
-
 (thanks copilot lol)*/
 
 client.on('ready', () => {
