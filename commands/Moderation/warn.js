@@ -81,9 +81,18 @@ module.exports = {
       });
       const embed = new MessageEmbed()
       .setTitle('Success')
-      .setDescription(`Added warning to <@${user?.id}>`)
+      .setDescription(`Added warning to <@${user?.id}>\nReason: \`${reason}\``)
       .setColor(0x40ff00)
       .setFooter(`ID: ${warning.id}`)
+
+      user?.send(`You have been warned in ${guild?.name} for \`${reason}\``)
+      .then(() => {
+        console.log(`Warned ${user?.tag} for ${reason}`)
+      })
+      .catch(() => {
+        console.log(`Failed to send DM to ${user?.tag}`)
+        interaction.channel.send(`<@${user?.id}> you have been warned for \`${reason}\``)
+      });
 
       return {
         custom: true,
@@ -92,6 +101,7 @@ module.exports = {
         allowedMentions: {
           users: [],
         },
+        ephemeral: true,
       }
       
       
@@ -110,6 +120,7 @@ module.exports = {
         allowedMentions: {
           users: [],
         },
+        ephemeral: true,
       }
       
       
@@ -130,9 +141,15 @@ module.exports = {
 
       const embed = new MessageEmbed().setDescription(description);
 
-      return embed
-      
-      
+      return {
+        custom: true,
+        content: `Here are the warnings for <@${user?.id}>`,
+        embeds: [embed],
+        allowedMentions: {
+          users: [],
+        },
+        ephemeral: true,
+      }
     }
   },
 }

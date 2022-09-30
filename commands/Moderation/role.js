@@ -38,7 +38,7 @@ module.exports = {
     },
   ],
 
-  callback: ({ guild, args }) => {
+  callback: ({ guild, args, interaction }) => {
     const action = args.shift()
     if (!action || !actions.includes(action)) {
       return `Unknown action! Please use one of the following: ${actions.join(
@@ -65,6 +65,30 @@ module.exports = {
       
       
     }
+
+    // make sure the bot is higher than the role
+    // if (interaction.guild.me.roles.highest.comparePositionTo(role) < 0) {
+    //   return {
+    //     custom: true,
+    //     content: `My highest role must be higher than <@&${roleId}>`,
+    //     allowedMentions: {
+    //       roles: [],
+    //     },
+    //     ephemeral: true,
+    //   }
+    // }
+
+    // // make sure the user how ran the command is higher than the role
+    // if (interaction.member.roles.highest.comparePositionTo(role) < 0) {
+    //   return {
+    //     custom: true,
+    //     content: `Your highest role must be higher than <@&${roleId}>`,
+    //     allowedMentions: {
+    //       roles: [],
+    //     },
+    //     ephemeral: true,
+    //   }
+    // }
 
     if (action === 'has') {
       return member.roles.cache.has(roleId)

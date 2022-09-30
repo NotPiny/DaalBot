@@ -1,0 +1,452 @@
+const fs = require('fs'); 
+const config = require("../config.json");
+const botPath = config.botPath;
+const warnSchema = require('../models/warn-schema')
+const { MessageEmbed, Interaction } = require('discord.js');
+function read(file) {
+    try {
+        return fs.readFileSync(file, 'utf8');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports = ( Client ) => {
+    Client.on('messageCreate', async (message) => {
+        if (message.author.bot) return;
+        if (message.channel.type === 'DM') return;
+        if (message.channel.type === 'GUILD_NEWS_THREAD') return;
+
+        const guildId = message.guild.id;
+        const guild = message.guild;
+        const member = message.member;
+        const channel = message.channel;
+        const content = message.content;
+        const author = message.author;
+
+
+        if (fs.existsSync(`${config.botPath}/db/automod/${guildId}-invitelinks.json`)) {
+            const { action } = require(`${config.botPath}/db/automod/${guildId}-invitelinks.json`);
+            if (action === 'delete') {
+                if (content.match(/discord.gg\/\w+/g)) {
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted invite link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete invite link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                if (content.match(/discord.com\/invite\/\w+/g)) {
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted invite link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete invite link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'kick') {
+                if (content.match(/discord.gg\/\w+/g)) {
+                    member.kick()
+                    .then(() => {
+                        console.log(`Kicked ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to kick ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                if (content.match(/discord.com\/invite\/\w+/g)) {
+                    member.kick()
+                    .then(() => {
+                        console.log(`Kicked ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to kick ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'ban') {
+                if (content.match(/discord.gg\/\w+/g)) {
+                    member.ban()
+                    .then(() => {
+                        console.log(`Banned ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to ban ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                if (content.match(/discord.com\/invite\/\w+/g)) {
+                    member.ban()
+                    .then(() => {
+                        console.log(`Banned ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to ban ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'mute') {
+                if (!fs.existsSync(`${config.botPath}/db/automod/${guildId}-muted.role`)) return;
+                try {
+                const Mutedrole = guild.roles.cache.find(role => role.id == read(`${config.botPath}/db/automod/${guildId}-muted.role`))
+                if (content.match(/discord.gg\/\w+/g)) {
+                    member.roles.add(Mutedrole)
+                    .then(() => {
+                        console.log(`Muted ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to mute ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                if (content.match(/discord.com\/invite\/\w+/g)) {
+                    member.roles.add(Mutedrole)
+                    .then(() => {
+                        console.log(`Muted ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to mute ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                } catch {
+                    console.log(`Failed to mute ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                }
+            }
+
+            if (action === 'warn') {
+                if (content.match(/discord.gg\/\w+/g)) {
+                    await warnSchema.create({
+                        userId:  author?.id,
+                        staffId: Client?.user?.id,
+                        guildId: guild?.id,
+                        reason: 'Automod: Invite link',
+                      })
+                      .then(() => {
+                        console.log(`Warned ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                      })
+                      .catch((err) => {
+                        console.log(`Failed to warn ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                      });
+                }
+                if (content.match(/discord.com\/invite\/\w+/g)) {
+                    await warnSchema.create({
+                        userId:  author?.id,
+                        staffId: Client?.user?.id,
+                        guildId: guild?.id,
+                        reason: 'Automod: Invite link',
+                      })
+                      .then(() => {
+                        console.log(`Warned ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                      })
+                      .catch((err) => {
+                        console.log(`Failed to warn ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                      });
+                    interaction.channel.send(`<@${author.id}>, Invites are not allowed in this server!`)
+                    .then(() => {
+                        console.log(`Warned ${author.tag} for sending invite link in ${channel.name} in ${guild.name} (channel)`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to send message to ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                    });
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted invite link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete invite link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+        }
+
+        if (fs.existsSync(`${config.botPath}/db/automod/${guildId}-links.json`)) {
+            const action = require(`${config.botPath}/db/automod/${guildId}-links.json`).action;
+
+            if (action === 'delete') {
+                if (content.match(/https?:\/\/\S+\.\S+/g)) {
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'kick') {
+                if (content.match(/https?:\/\/\S+\.\S+/g)) {
+                    member.kick()
+                    .then(() => {
+                        console.log(`Kicked ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to kick ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'ban') {
+                if (content.match(/https?:\/\/\S+\.\S+/g)) {
+                    member.ban()
+                    .then(() => {
+                        console.log(`Banned ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to ban ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'mute') {
+                if (!fs.existsSync(`${config.botPath}/db/automod/${guildId}-muted.role`)) return;
+                try {
+                const Mutedrole = guild.roles.cache.find(role => role.id == read(`${config.botPath}/db/automod/${guildId}-muted.role`))
+                if (content.match(/https?:\/\/\S+\.\S+/g)) {
+                    member.roles.add(Mutedrole)
+                    .then(() => {
+                        console.log(`Muted ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to mute ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                } catch {
+                    console.log(`Failed to mute ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                }
+            }
+
+            if (action === 'warn') {
+                if (content.match(/https?:\/\/\S+\.\S+/g)) {
+                    await warnSchema.create({
+                        userId:  author?.id,
+                        staffId: Client?.user?.id,
+                        guildId: guild?.id,
+                        reason: 'Automod: link',
+                      })
+                      .then(() => {
+                        console.log(`Warned ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                        interaction.channel.send(`<@${author.id}>, Links are not allowed in this server!`)
+                        .then(() => {
+                            console.log(`Warned ${author.tag} for sending link in ${channel.name} in ${guild.name} (channel)`);
+                        })
+                        .catch((err) => {
+                            console.log(`Failed to send message to ${author.tag} for sending link in ${channel.name} in ${guild.name}`);
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(`Failed to warn ${author.tag} for sending invite link in ${channel.name} in ${guild.name}`);
+                      });
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete link from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+        }
+
+        if (fs.existsSync(`${botPath}/db/automod/${guildId}-profanity.json`)) {
+            const action = require(`${botPath}/db/automod/${guildId}-profanity.json`).action;
+            const profanity = require(`${botPath}/db/automod/lists.json`).profanityDefault;
+            function containsProfanity(str) {
+                if (str.toLowerCase().includes(profanity)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            if (action === 'delete') {
+                if (containsProfanity(content)) {
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted profanity from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete profanity from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'kick') {
+                if (containsProfanity(content)) {
+                    member.kick()
+                    .then(() => {
+                        console.log(`Kicked ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to kick ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'ban') {
+                if (containsProfanity(content)) {
+                    member.ban()
+                    .then(() => {
+                        console.log(`Banned ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to ban ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'mute') {
+                if (!fs.existsSync(`${config.botPath}/db/automod/${guildId}-muted.role`)) return;
+                try {
+                const Mutedrole = guild.roles.cache.find(role => role.id == read(`${config.botPath}/db/automod/${guildId}-muted.role`))
+                if (containsProfanity(content)) {
+                    member.roles.add(Mutedrole)
+                    .then(() => {
+                        console.log(`Muted ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to mute ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                } catch {
+                    console.log(`Failed to mute ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                }
+            }
+
+            if (action === 'warn') {
+                if (containsProfanity(content)) {
+                    await warnSchema.create({
+                        userId:  author?.id,
+                        staffId: Client?.user?.id,
+                        guildId: guild?.id,
+                        reason: 'Automod: profanity',
+                      })
+                      .then(() => {
+                        console.log(`Warned ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                        interaction.channel.send(`<@${author.id}>, Profanity is not allowed in this server!`)
+                        .then(() => {
+                            console.log(`Warned ${author.tag} for sending profanity in ${channel.name} in ${guild.name} (channel)`);
+                        })
+                        .catch((err) => {
+                            console.log(`Failed to send message to ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(`Failed to warn ${author.tag} for sending profanity in ${channel.name} in ${guild.name}`);
+                      });
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted profanity from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete profanity from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+        }
+
+        if (fs.existsSync(`${botPath}/db/automod/${guildId}-caps.json`)) {
+           function FullCaps(str) {
+            if (str.toUpperCase() === str) {
+                return true;
+            } else {
+                return false;
+            }
+           }
+
+            const action = require(`${botPath}/db/automod/${guildId}-caps.json`).action;
+            if (action === 'delete') {
+                if (FullCaps(content)) {
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted caps from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete caps from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'kick') {
+                if (FullCaps(content)) {
+                    member.kick()
+                    .then(() => {
+                        console.log(`Kicked ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to kick ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'ban') {
+                if (FullCaps(content)) {
+                    member.ban()
+                    .then(() => {
+                        console.log(`Banned ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to ban ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+
+            if (action === 'mute') {
+                if (!fs.existsSync(`${config.botPath}/db/automod/${guildId}-muted.role`)) return;
+                try {
+                const Mutedrole = guild.roles.cache.find(role => role.id == read(`${config.botPath}/db/automod/${guildId}-muted.role`))
+                if (FullCaps(content)) {
+                    member.roles.add(Mutedrole)
+                    .then(() => {
+                        console.log(`Muted ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to mute ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                    });
+                }
+                } catch {
+                    console.log(`Failed to mute ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                }
+            }
+
+            if (action === 'warn') {
+                if (FullCaps(content)) {
+                    await warnSchema.create({
+                        userId:  author?.id,
+                        staffId: Client?.user?.id,
+                        guildId: guild?.id,
+                        reason: 'Automod: caps',
+                      })
+                      .then(() => {
+                        console.log(`Warned ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                        interaction.channel.send(`<@${author.id}>, Caps are not allowed in this server!`)
+                        .then(() => {
+                            console.log(`Warned ${author.tag} for sending caps in ${channel.name} in ${guild.name} (channel)`);
+                        })
+                        .catch((err) => {
+                            console.log(`Failed to send message to ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(`Failed to warn ${author.tag} for sending caps in ${channel.name} in ${guild.name}`);
+                      });
+                    message.delete()
+                    .then(() => {
+                        console.log(`Deleted caps from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to delete caps from ${author.tag} in ${channel.name} in ${guild.name}`);
+                    });
+                }
+            }
+        }
+
+        // if (fs.existsSync(`${botPath}/db/automod/${guildId}-spam.json`)) {
+        //     // TODO add spam filter
+        // }
+    })
+}

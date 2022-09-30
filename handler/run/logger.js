@@ -5,5 +5,5 @@ client.on('interactionCreate', async (interaction) => {
     const { commandName, options } = interaction
     const Interaction = interaction
     
-    console.log(`${interaction.user.tag} ran ${commandName}`);
+    console.log(`${interaction.user.tag} ran ${commandName}`); // Logs the command name and user who ran it
   })
