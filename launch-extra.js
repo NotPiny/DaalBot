@@ -1,5 +1,5 @@
 require('./legacy/launch.js'); 
-require('./superLog.js');
+require('./logs.js');
 require('./daal.js'); 
 require('./localhost/launch');
-require('./XP/launch.js');
+require('./XP/message.js');
