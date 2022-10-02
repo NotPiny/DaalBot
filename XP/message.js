@@ -1,8 +1,7 @@
 const XPamount = 15;
 const client = require('../client.js');
 const fs = require('fs');
-const config = require('../config.json');
-const botPath = config.botPath;
+const botPath = '../';
 
 client.on('messageCreate', msg => {
     if (msg.author.bot) return;
@@ -16,7 +15,7 @@ client.on('messageCreate', msg => {
                 fs.writeFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, xp.toString());
             } else {
                 let xp = "0";
-                const oldxp = parseInt(fs.readFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, 'utf8'));
+                const oldxp = fs.readFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, 'utf8');
                 xp = parseInt(xp) + XPamount;
                 fs.appendFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, xp.toString());
             }
@@ -27,6 +26,6 @@ client.on('messageCreate', msg => {
             fs.appendFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, xp.toString());
         }
 } catch (err) {
-    console.log(`Error: Something went wrong while trying to add XP to ${msg.author.tag} in ${msg.guild.name}`);
+    console.log(err);
 }
 })

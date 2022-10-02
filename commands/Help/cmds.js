@@ -6,10 +6,10 @@ const { botPath } = require("../../config.json");
 
 module.exports = {
     name: "cmds",
-    description: "List all commands",
+    description: "Bring up a list of all commands",
     category: "Help",
-    testOnly: true,
-    ownerOnly: true,
+    testOnly: false,
+    ownerOnly: false,
     slash: true,
 
     callback: async ({ interaction, client }) => {
