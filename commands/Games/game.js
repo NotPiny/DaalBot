@@ -19,7 +19,6 @@ module.exports = {
 
         if (subCommand === 'trivia') {
 //             for (let i = 0; i < quiz.length; i++) {
-//                 // TODO
 //               }
 
 // const item = quiz[Math.floor(Math.random() * quiz.length)];

@@ -21,8 +21,6 @@ module.exports = {
       : (interaction.options.getMember('user'))
     if (!target) {
       return 'Please tag someone to message'
-      
-      
     }
 
     args.shift()
@@ -30,11 +28,8 @@ module.exports = {
     const sendText = text.replace(/<nl>/g, "\n");
 
     target.send(sendText)
-    
     .catch(() => { 
       return 'Something went wrong :('
-      
-      
      });
 
     console.log(`\n---A user (${user.id}) has sent a message to "${target.id}" with the text "${sendText}"---\n`)
@@ -49,7 +44,5 @@ module.exports = {
       content: `Sent message to <@${target.id}>`,
       ephemeral: true,
     }
-    
-    
   },
 }

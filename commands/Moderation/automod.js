@@ -28,10 +28,6 @@ module.exports = {
                             value: 'invitelinks'
                         },
                         {
-                            name: 'spam',
-                            value: 'spam'
-                        },
-                        {
                             name: 'profanity',
                             value: 'profanity'
                         },
@@ -122,10 +118,6 @@ module.exports = {
                                     value: 'invitelinks'
                                 },
                                 {
-                                    name: 'spam',
-                                    value: 'spam'
-                                },
-                                {
                                     name: 'profanity',
                                     value: 'profanity'
                                 },
@@ -164,33 +156,31 @@ module.exports = {
 
         if (subCommand === 'roles') {
             const mutedRole = interaction.options.getRole('muted');
-            const guildID = interaction.guild.id;
-            if (fs.existsSync(`${botPath}/db/${guildId}-mute.role`)) {
-                fs.writeFileSync(`${botPath}/db/${guildID}-mute.role`, mutedRole.id);
-                return {
-                    custom: true,
-                    content: `Muted role set to <@&${mutedRole.id}>`,
-                    allowedMentions: {
-                        users: [],
-                    },
-                }
+            if (fs.existsSync(`${botPath}/db/automod/${interaction.guild.id}-mute.role`)) {
+                fs.writeFileSync(`${botPath}/db/automod/${interaction.guild.id}-mute.role`, mutedRole.id);
             } else {
-                fs.appendFileSync(`${botPath}/db/${guildId}-mute.role`, mutedRole.id);
+                fs.appendFileSync(`${botPath}/db/automod/${interaction.guild.id}-mute.role`, mutedRole.id)
             }
+            return `Muted role set to ${mutedRole.name}`;
         }
 
         if (subCommand === 'modify') {
             const rule = interaction.options.getString('rule');
             const action = interaction.options.getString('action');
-            const actionJson = `{"action": "${action}"}`;
 
-            if (fs.existsSync(`${botPath}/db/automod/${interaction.guild.id}-${rule}.json`)) {
-                fs.writeFileSync(`${botPath}/db/automod/${interaction.guild.id}-${rule}.json`, actionJson);
+            if (fs.existsSync(`${botPath}/db/automod/${interaction.guild.id}-${rule}.action`)) {
+                fs.writeFileSync(`${botPath}/db/automod/${interaction.guild.id}-${rule}.action`, action);
             } else {
-                fs.appendFileSync(`${botPath}/db/automod/${interaction.guild.id}-${rule}.json`, actionJson);
+                fs.appendFileSync(`${botPath}/db/automod/${interaction.guild.id}-${rule}.action`, action);
             }
-
-            return `Automod rule \`${rule}\` has been set to \`${action}\``;
+            return {
+                custom: true,
+                content: `Automod rule ${rule} set to ${action}`,
+                allowedMentions: {
+                    users: [],
+                },
+                ephemeral: true,
+            }
         }
 
         if (subCommand === 'exeptions') {

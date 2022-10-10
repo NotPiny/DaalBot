@@ -22,4 +22,5 @@ require('./status.js');
 require('./vortex.js');
 require('./stats.js');
 require('./confess-secret.js');
+require('./gmute.js')
 // require('./intRestart.js');

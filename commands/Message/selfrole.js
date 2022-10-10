@@ -189,7 +189,5 @@ module.exports = {
       },
       ephemeral: true,
     }
-    
-    
   },
 }

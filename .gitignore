@@ -13,8 +13,6 @@ db/
 
 # Unsorted stuff
 /commands/Testing/crash.js
-
-# Global mute list (This is here so you don't have to deal with my settings)
 gmuted.list
 
 # Firebase cache

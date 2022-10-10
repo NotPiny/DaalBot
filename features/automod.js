@@ -1,11 +1,12 @@
 const fs = require('fs'); 
+const { readFileSync } = fs;
 const config = require("../config.json");
 const botPath = config.botPath;
-const warnSchema = require('../models/warn-schema')
+const warnSchema = require('../models/warn-schema');
 const { MessageEmbed, Interaction } = require('discord.js');
 function read(file) {
     try {
-        return fs.readFileSync(file, 'utf8');
+        return fs.readFileSync(file).toString();
     } catch (err) {
         console.log(err);
     }
@@ -25,8 +26,8 @@ module.exports = ( Client ) => {
         const author = message.author;
 
 
-        if (fs.existsSync(`${config.botPath}/db/automod/${guildId}-invitelinks.json`)) {
-            const { action } = require(`${config.botPath}/db/automod/${guildId}-invitelinks.json`);
+        if (fs.existsSync(`${config.botPath}/db/automod/${guildId}-invitelinks.action`)) {
+            const action = readFileSync(`${config.botPath}/db/automod/${guildId}-invitelinks.action`).toString();
             if (action === 'delete') {
                 if (content.match(/discord.gg\/\w+/g)) {
                     message.delete()
@@ -163,8 +164,8 @@ module.exports = ( Client ) => {
             }
         }
 
-        if (fs.existsSync(`${config.botPath}/db/automod/${guildId}-links.json`)) {
-            const action = require(`${config.botPath}/db/automod/${guildId}-links.json`).action;
+        if (fs.existsSync(`${config.botPath}/db/automod/${guildId}-links.action`)) {
+            const action = read(`${config.botPath}/db/automod/${guildId}-links.action`);
 
             if (action === 'delete') {
                 if (content.match(/https?:\/\/\S+\.\S+/g)) {
@@ -252,8 +253,8 @@ module.exports = ( Client ) => {
             }
         }
 
-        if (fs.existsSync(`${botPath}/db/automod/${guildId}-profanity.json`)) {
-            const action = require(`${botPath}/db/automod/${guildId}-profanity.json`).action;
+        if (fs.existsSync(`${botPath}/db/automod/${guildId}-profanity.action`)) {
+            const action = read(`${botPath}/db/automod/${guildId}-profanity.action`);
             const profanity = require(`${botPath}/db/automod/lists.json`).profanityDefault;
             function containsProfanity(str) {
                 if (str.toLowerCase().includes(profanity)) {
@@ -349,7 +350,7 @@ module.exports = ( Client ) => {
             }
         }
 
-        if (fs.existsSync(`${botPath}/db/automod/${guildId}-caps.json`)) {
+        if (fs.existsSync(`${botPath}/db/automod/${guildId}-caps.action`)) {
            function FullCaps(str) {
             if (str.toUpperCase() === str) {
                 return true;
@@ -358,7 +359,7 @@ module.exports = ( Client ) => {
             }
            }
 
-            const action = require(`${botPath}/db/automod/${guildId}-caps.json`).action;
+            const action = read(`${botPath}/db/automod/${guildId}-caps.action`);
             if (action === 'delete') {
                 if (FullCaps(content)) {
                     message.delete()
@@ -444,9 +445,5 @@ module.exports = ( Client ) => {
                 }
             }
         }
-
-        // if (fs.existsSync(`${botPath}/db/automod/${guildId}-spam.json`)) {
-        //     // TODO add spam filter
-        // }
     })
 }

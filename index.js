@@ -21,8 +21,7 @@ This is sending the text to the channel that was found in the first line. The te
 
 3. console.log(text)
 This is sending the message to the console. The console is the part of the bot that you use to run the bot. If you want to see the messages in the console, you can use the command 'node .' in the console.
-
-(thanks copilot lol)*/
+*/
 
 client.on('ready', () => {
   //When bot loads

@@ -1,7 +1,7 @@
 const XPamount = 15;
 const client = require('../client.js');
 const fs = require('fs');
-const botPath = '../';
+const botPath = '..';
 
 client.on('messageCreate', msg => {
     if (msg.author.bot) return;
@@ -20,12 +20,12 @@ client.on('messageCreate', msg => {
                 fs.appendFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, xp.toString());
             }
         } else {
-            fs.mkdirSync(`${botPath}/db/xp/${msg.guild.id}`);
+            fs.mkdirSync(`${botPath}/db/xp/${msg.guild.id}`, { recursive: true });
             let xp = "0";
             xp = parseInt(xp) + XPamount;
             fs.appendFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, xp.toString());
         }
 } catch (err) {
-    console.log(err);
+    console.log(`Error in ${msg.guildId} (${msg.guild.name}) trying to add XP to ${msg.author.id} (${msg.author.username}) {\n${err}\n}`);
 }
 })
