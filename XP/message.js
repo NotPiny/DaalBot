@@ -26,6 +26,6 @@ client.on('messageCreate', msg => {
             fs.appendFileSync(`${botPath}/db/xp/${msg.guildId}/${msg.author.id}.xp`, xp.toString());
         }
 } catch (err) {
-    console.log(`Error in ${msg.guildId} (${msg.guild.name}) trying to add XP to ${msg.author.id} (${msg.author.username}) {\n${err}\n}`);
+    return;
 }
 })
