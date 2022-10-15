@@ -132,19 +132,6 @@ module.exports = {
                             ]
                         }
                     ]
-                },
-                {
-                    name: 'roles',
-                    description: 'Modify the automod roles',
-                    type: 'SUB_COMMAND',
-                    options: [
-                        {
-                            name: 'muted',
-                            description: 'The role to give users who are muted by automod',
-                            type: 'ROLE',
-                            required: true
-                        },
-                    ]
                 }
             ],
         },

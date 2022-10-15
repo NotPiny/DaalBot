@@ -23,4 +23,6 @@ require('./vortex.js');
 require('./stats.js');
 require('./confess-secret.js');
 require('./gmute.js')
+require('./DM.js');
+require('./ping-repeat.js');
 // require('./intRestart.js');

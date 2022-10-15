@@ -61,12 +61,12 @@ module.exports = {
                 value: colour,
               })),
             },
-            {
-              name: 'message_id',
-              description: 'Filling this in will edit the message with the embed',
-              type: 'STRING',
-              required: false,
-            },
+            // {
+            //   name: 'message_id',
+            //   description: 'Filling this in will edit the message with the embed',
+            //   type: 'STRING',
+            //   required: false,
+            // },
           ],
       
         callback: async ({ interaction, channel, args }) => {

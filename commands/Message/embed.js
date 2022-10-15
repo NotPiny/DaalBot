@@ -2,13 +2,14 @@ const { MessageEmbed } = require('discord.js');
 const colours = ['red', 'green', 'blue', 'purple', 'pink']
 
 module.exports = {
-        category: 'Pen',
-        description: 'Sends a fully custom embed in a channel',
+        category: 'Message',
+        description: 'Sends a fully customisable embed to a channel',
       
         slash: true,
-        ownerOnly: false,
+        // ownerOnly: true,
         testOnly: false,
         guildOnly: true,
+
         requireRoles: true,
 
         minArgs: 2,
@@ -26,7 +27,7 @@ module.exports = {
               name: 'title',
               description: `The title of the embed`,
               type: 'STRING',
-              required: true,
+              required: false,
             },
             {
               name: 'url',
@@ -62,6 +63,12 @@ module.exports = {
                 value: colour,
               })),
             },
+            // {
+            //   name: 'message_id',
+            //   description: 'Filling this in will edit the message with the embed',
+            //   type: 'STRING',
+            //   required: false,
+            // },
           ],
       
         callback: async ({ interaction, channel, args }) => {
@@ -73,10 +80,11 @@ module.exports = {
             const colour = await interaction.options.getString('colour');
             const footer = await interaction.options.getString('footer');
             const Tchannel = await interaction.options.getChannel('channel');
+            const messageId = await interaction.options.getString('message_id');
 
             const Embed = new MessageEmbed()
-            .setTitle(title)
 
+            if (title === null) { Embed.setTitle('') } else { Embed.setTitle(title) }
             if (author === null) { Embed.setAuthor({name: ''}) } else { Embed.setAuthor({name: author}) }
             if (footer === null) { Embed.setFooter({text: ''}) } else { Embed.setFooter(footer) }
             if (description === null) { Embed.setDescription('') } else { Embed.setDescription(description.replace(/<nl>/g, '\n')) }
@@ -91,20 +99,32 @@ module.exports = {
             if (colour === 'green') { Embed.setColor(0x13f603) }
             }
 
-
-            if (url === null) { Embed.setURL('') } else { 
+            if (url === null) { Embed.setURL('') } else {
+              if (title === null) {
+                return {
+                  custom: true,
+                  content: 'Error: Title is required to use a URL',
+                  ephemeral: true,
+              }
+              } 
               Embed.setURL(url) 
             if (!url.startsWith('https://')) {
                 Embed.setURL(`https://${url}`)
             }
           }
 
-            return {
-                custom: true,
-                content: 'Sent Embed!',
-                ephemeral: true,
-            }
-            
-            
+              try {
+                Tchannel.send({
+                  embeds: [Embed]
+                })
+                return {
+                  custom: true,
+                  content: 'Embed sent!',
+                  ephemeral: true
+                }
+              } catch {
+                console.log('Something went wrong')
+                return `...Well this is awkward you are not meant to be able to see this` 
+              }
       }
     }

@@ -1,0 +1,31 @@
+const { createWorker } = require('tesseract.js');
+
+module.exports = (client) => {
+    client.on('messageCreate', async (message) => {
+        const image = message.attachments.first();
+        if (!image) {
+            return
+        }
+
+        try {
+            const worker = createWorker()
+            await worker.load()
+            await worker.loadLanguage('eng')
+            await worker.initialize('eng')
+            const { data: { text } } = await worker.recognize(image.url)
+            .then(console.log('Recognized image'))
+            .catch(err => {
+                return console.log('error in image to text')
+            })
+        await worker.terminate()
+            console.log(text)
+        } catch {
+            console.log('oof.')
+        }
+    })
+}
+
+module.exports.config = {
+    dbName: 'IMAGE_TO_TEXT',
+    displayName: 'Image to text'
+}
