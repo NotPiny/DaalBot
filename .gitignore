@@ -11,6 +11,9 @@ firebase-debug.*.log*
 db/
 /db
 
+# Site again
+/New-Site
+
 # Unsorted stuff
 /commands/Testing/crash.js
 gmuted.list

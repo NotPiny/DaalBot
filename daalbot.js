@@ -2,7 +2,9 @@
 // It is not meant to be run on its own, but rather to be included in other files.
 
 const client = require('./client.js');
-
+const config = require('./config.json');
+const fs = require('fs');
+const path = require('path');
 
 const serverAmount = client.guilds.cache.size
 
@@ -74,9 +76,96 @@ function getUser(user) {
     }
 }
 
+function getMember(server, member) {
+    if (client.guilds.cache.get(server) == undefined) {
+        return "Server not found.";
+    } else {
+        if (client.guilds.cache.get(server).members.cache.get(member)) {
+            return client.guilds.cache.get(server).members.cache.get(member);
+        } else {
+            return "Member not found.";
+        }
+    }
+}
+   
+function db_read(category, subcategory, entry) {
+    if (category) {
+        if (subcategory) {
+            if (entry) {
+                return fs.readFileSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`, 'utf8');
+            } else {
+                return fs.readdirSync(`${config.botPath}/db/${category}/${subcategory}`);
+            }
+        } else {
+            if (entry) {
+                return fs.readFileSync(`${config.botPath}/db/${category}/${entry}`, 'utf8');
+            } else {
+                return fs.readdirSync(`${config.botPath}/db/${category}`);
+            }
+        }
+    } else {
+        return fs.readdirSync(`${config.botPath}/db`);
+    }
+}
+
+function db_write(category, subcategory, entry, data) {
+    if (category) {
+        if (subcategory) {
+            if (entry) {
+                if (fs.existsSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`)) {
+                fs.writeFileSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`, data);
+                } else {
+                    fs.appendFileSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`, data);
+                }
+            } else {
+                fs.mkdirSync(`${config.botPath}/db/${category}/${subcategory}`);
+            }
+        } else {
+            if (entry) {
+                fs.writeFileSync(`${config.botPath}/db/${category}/${entry}`, data);
+            } else {
+                fs.mkdirSync(`${config.botPath}/db/${category}`);
+            }
+        }
+    } else {
+        return "No category specified.";
+    }
+}
+
+function db_mongo_warn_create(userId, guildId, staffId, reason) {
+    const warnSchema = require('./models/warn-schema.js');
+    warnSchema.create({
+        userId: userId,
+        guildId: guildId,
+        staffId: staffId,
+        reason: reason
+    })
+}
+
+function db_mongo_warn_delete(id) {
+    const warnSchema = require('./models/warn-schema.js');
+    warnSchema.findByIdAndDelete(id).then(() => {
+        return `Deleted warn with id "${id}"`;
+    }).catch(() => {
+        return `Failed to delete warn with id "${id}"`;
+    })
+}
+
+const database = {
+    read: db_read,
+    write: db_write
+}
+
+const warnings = {
+    create: db_mongo_warn_create,
+    delete: db_mongo_warn_delete
+}
+
 module.exports = {
     client,
     serverAmount,
+    database,
+    warnings,
     findServerVanity,
     fetchServer,
     fetchServerName,
@@ -84,4 +173,5 @@ module.exports = {
     getRole,
     getChannel,
     getUser,
+    getMember
 }

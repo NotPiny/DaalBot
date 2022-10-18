@@ -61,6 +61,18 @@ module.exports = {
                 value: colour,
               })),
             },
+            {
+              name: 'thumbnail',
+              description: 'Sets the thumbnail of the embed',
+              type: 'ATTACHMENT',
+              required: false,
+            },
+            {
+              name: 'image',
+              description: 'Sets the main image of the embed',
+              type: 'ATTACHMENT',
+              required: false,
+            }
             // {
             //   name: 'message_id',
             //   description: 'Filling this in will edit the message with the embed',
@@ -79,6 +91,8 @@ module.exports = {
             const footer = await interaction.options.getString('footer');
             const Tchannel = await interaction.options.getChannel('channel');
             const messageId = await interaction.options.getString('message_id');
+            const thumbnail = await interaction.options.getAttachment('thumbnail');
+            const image = await interaction.options.getAttachment('image');
 
             const Embed = new MessageEmbed()
             .setTitle(title)
@@ -86,6 +100,16 @@ module.exports = {
             if (author === null) { Embed.setAuthor({name: ''}) } else { Embed.setAuthor({name: author}) }
             if (footer === null) { Embed.setFooter({text: ''}) } else { Embed.setFooter(footer) }
             if (description === null) { Embed.setDescription('') } else { Embed.setDescription(description.replace(/<nl>/g, '\n')) }
+            if (thumbnail === null) { Embed.setThumbnail('') } else { if (thumbnail.contenttype === 'image/png') { Embed.setThumbnail(thumbnail.url) } else if (thumbnail.contenttype === 'image/jpeg') { Embed.setThumbnail(thumbnail.url) } else { return 'Thumbnail is not a PNG or JPEG' } }
+            if (image === null) { Embed.setImage('') } else { 
+              if (image.contenttype === 'image/png') { 
+                Embed.setImage(image.url) 
+              } else { 
+                if (image.contenttype === 'image/jpeg') { 
+                  Embed.setImage(image.url) 
+                } else { 
+                  return 'Image is not a PNG or JPEG' 
+                }}}
             
             if (colour === null) {
               Embed.setColor(0x0099FF)

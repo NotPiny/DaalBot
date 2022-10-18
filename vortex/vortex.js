@@ -2,12 +2,17 @@
 const client = require('../client'); // Loads all info needed to login as the bot 
 const daalbot = require('../daalbot.js');
 const warnSchema = require('../models/warn-schema');
-const profanity = require('../db/automod/lists.json').profanityDefault
+const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
+const fs = require('fs');
+
+// Loading commands
+require('./commands/featured/command.js');
 
 // If you want to see this code in action join the vortex discord server https://discord.gg/byBXVJbsYe
 
 client.on("messageCreate", msg => {
     if (msg.guild.id === '973711816226136095') { // Checks if guild id is the same as the vortex server
+        const profanity = require('../db/automod/lists.json').profanityDefault; // Loads the profanity list
         profanity.forEach(word => {
             if (msg.content.toLowerCase().includes(word)) {
                 if (msg.channelId === '974533113042599966') return;
@@ -34,9 +39,15 @@ client.on("messageCreate", msg => {
             }
         })
         if (msg.channel.id === '1005373380075192360') { // Checks if message was sent in the hi channel
-            if (msg.author.id === client.user.id) return;
             if (msg.content.toLowerCase().startsWith('hi')) { // Checks if message begins with "hi"
+                if (msg.author.id === client.user.id) return; // Checks if the author is the bot
+                // const hi = fs.readFileSync('./data/hi.amount', 'utf8'); // Reads the current hi count
+                // const newHi = parseInt(hi) + 1; // Adds 1 to the hi count
+                // fs.writeFileSync('./data/hi.amount', newHi); // Writes the new hi count
+                // msg.channel.setTopic(`Hi Count: ${newHi}`); // Sets the hi channel topic to the new hi count
                 msg.channel.send('hi') // Sends "hi" to the channel
+            } else {
+                msg.delete(); // Deletes the message if it doesn't start with "hi"
             }
         } else if (msg.channel.id === '974375088642228344') {
             if (msg.author.id === client.user.id) return;
@@ -51,6 +62,7 @@ client.on("messageCreate", msg => {
 
 client.on('messageUpdate', (oldMessage, newMessage) => {
     if (oldMessage.guild.id === '973711816226136095') {
+        const profanity = require('../db/automod/lists.json').profanityDefault; // Loads the profanity list
         profanity.forEach(word => {
             if (newMessage.content.toLowerCase().includes(word)) {
                 if (newMessage.channelId === '974533113042599966') return;

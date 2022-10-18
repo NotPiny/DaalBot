@@ -1,6 +1,7 @@
 // JAVASCRIPT:
 const warnSchema = require('../../models/warn-schema')
 const { MessageEmbed } = require('discord.js')
+const daalbot = require('../../daalbot.js');
 
 module.exports = {
   category: "Moderation",
@@ -91,7 +92,7 @@ module.exports = {
       })
       .catch(() => {
         console.log(`Failed to send DM to ${user?.tag}`)
-        interaction.channel.send(`<@${user?.id}> you have been warned for \`${reason}\``)
+        interaction.channel.send(`<@${user?.id}>, you have been warned for \`${reason}\``)
       });
 
       return {
@@ -106,12 +107,12 @@ module.exports = {
       
       
     } else if (subCommand === "remove") {
-      const warning = await warnSchema.findByIdAndDelete(id);
+      daalbot.warnings.delete(id);
       const embed = new MessageEmbed()
       .setTitle(`Success`)
       .setDescription(`Removed warning from <@${user?.id}>`)
       .setColor(0xff0000)
-      .setFooter(`ID: ${warning.id}`)
+      .setFooter(`ID: ${id}`)
 
       return {
         custom: true,
@@ -122,8 +123,6 @@ module.exports = {
         },
         ephemeral: true,
       }
-      
-      
     } else if (subCommand === "list") {
       const warnings = await warnSchema.find({
         userId: user?.id,

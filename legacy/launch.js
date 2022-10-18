@@ -19,7 +19,7 @@ require('./delay.js');
 require('./quote.js');
 require('./mentionInfo.js');
 require('./status.js');
-require('./vortex.js');
+// require('./vortex/vortex.js');
 require('./stats.js');
 require('./confess-secret.js');
 require('./gmute.js')
