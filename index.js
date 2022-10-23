@@ -1,4 +1,4 @@
-const client = require('./client'); 
+const client = require('./client');
 require('dotenv').config(); 
 const path = require('path'); 
 const WOKCommands = require('wokcommands'); 

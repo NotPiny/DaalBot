@@ -109,6 +109,7 @@ function db_read(category, subcategory, entry) {
 }
 
 function db_write(category, subcategory, entry, data) {
+    try {
     if (category) {
         if (subcategory) {
             if (entry) {
@@ -130,6 +131,9 @@ function db_write(category, subcategory, entry, data) {
     } else {
         return "No category specified.";
     }
+} catch {
+    return "An error occured.";
+}
 }
 
 function db_mongo_warn_create(userId, guildId, staffId, reason) {

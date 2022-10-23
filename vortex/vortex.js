@@ -3,10 +3,26 @@ const client = require('../client'); // Loads all info needed to login as the bo
 const daalbot = require('../daalbot.js');
 const warnSchema = require('../models/warn-schema');
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
+const DJS = require('discord.js');
 const fs = require('fs');
+function AutomodLog(word, message) {
+    const embed = new MessageEmbed()
+        .setTitle('Info')
+        .setDescription(`**Message:** ${message.content}\n**Word:** ${word}\n**User:** ${message.author.tag}\n**Channel:** ${message.channel}`)
+        .setTimestamp()
+        .setColor('RED')
+    daalbot.getChannel('973711816226136095', '974376513891860511').send({
+        content: 'Automod blocked a message.',
+        embeds: [embed]
+    })
+}
 
 // Loading commands
 require('./commands/featured/command.js');
+require('./commands/tests/simjoin.js');
+
+// Loading events
+require('./events/join.js');
 
 // If you want to see this code in action join the vortex discord server https://discord.gg/byBXVJbsYe
 
@@ -36,6 +52,7 @@ client.on("messageCreate", msg => {
                 console.log(`Failed to warn ${msg.author.tag} in ${msg.guild.name} for saying ${word}`)
             })
             msg.channel.send(`Hey <@${msg.author.id}>, please don't use that word!`); // Sends a message to the channel
+            AutomodLog(word, msg); // Sends a message to the automod log channel
             }
         })
         if (msg.channel.id === '1005373380075192360') { // Checks if message was sent in the hi channel
@@ -86,6 +103,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
                 console.log(`Failed to warn ${newMessage.author.tag} in ${newMessage.guild.name} for saying ${word}`)
             })
             newMessage.channel.send(`Hey <@${newMessage.author.id}>, please don't use that word!`); // Sends a message to the channel
+            AutomodLog(word, newMessage); // Sends a message to the automod log channel
             }
         })
     }

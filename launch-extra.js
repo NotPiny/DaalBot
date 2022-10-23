@@ -6,3 +6,5 @@ require('./XP/message.js');
 require('./custom/launch.js');
 require('./automod/automod.js');
 require('./vortex/vortex.js');
+require('./buttons/ticket.js');
+require('./logging/load.js');
