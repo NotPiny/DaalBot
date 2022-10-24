@@ -20,6 +20,7 @@ function AutomodLog(word, message) {
 // Loading commands
 require('./commands/featured/command.js');
 require('./commands/tests/simjoin.js');
+require('./commands/tests/ticket-drop.js');
 
 // Loading events
 require('./events/join.js');
@@ -32,6 +33,10 @@ client.on("messageCreate", msg => {
         profanity.forEach(word => {
             if (msg.content.toLowerCase().includes(word)) {
                 if (msg.channelId === '974533113042599966') return;
+                // if (daalbot.getChannel(msg.guildId, msg.channelId).parentId == [
+                //     '975404577232928808',
+                //     '974532542541742090'
+                // ])
             msg.delete()
             .then(() => {
                 console.log(`Deleted message from ${msg.author.tag} in ${msg.guild.name} for saying ${word}`)

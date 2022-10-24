@@ -5,24 +5,23 @@ const path = require('path');
 const { MessageEmbed } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
-client.on('guildBanRemove', async (ban, other) => {
+client.on('roleCreate', async (role) => {
     try {
-        const enabled = fs.readFileSync(path.resolve(`./db/logging/${ban.guild.id}/GUILDBANREMOVE.enabled`), 'utf8');
+        const enabled = fs.readFileSync(path.resolve(`./db/logging/${role.guild.id}/ROLECREATE.enabled`), 'utf8');
         if (enabled == 'true') {
-            if (!fs.existsSync(`./db/logging/${ban.guild.id}/channel.id`)) return;
+            if (!fs.existsSync(`./db/logging/${role.guild.id}/channel.id`)) return;
 
-            const channelID = fs.readFileSync(path.resolve(`./db/logging/${ban.guild.id}/channel.id`), 'utf8');
+            const channelID = fs.readFileSync(path.resolve(`./db/logging/${role.guild.id}/channel.id`), 'utf8');
             const logChannel = client.channels.cache.get(channelID);
 
             const embed = new MessageEmbed()
-                .setTitle('User Unbanned')
-                .setDescription(`User: ${ban.user.tag}\nID: ${ban.user.id}`)
-                .setThumbnail(ban.user.displayAvatarURL())
+                .setTitle('Role Created')
+                .setDescription(`Role: ${role.name}\nID: ${role.id}`)
                 .setColor('GREEN')
                 .setTimestamp()
 
             logChannel.send({
-                content: `User Unbanned`,
+                content: `Role Created`,
                 embeds: [embed]
             })
         }

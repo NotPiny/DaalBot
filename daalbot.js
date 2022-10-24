@@ -155,6 +155,11 @@ function db_mongo_warn_delete(id) {
     })
 }
 
+function botLog(text) {
+    client.channels.cache.find(channel => channel.id === config.Logchannel).send(text);
+    console.log(text);
+}
+
 const database = {
     read: db_read,
     write: db_write
@@ -177,5 +182,6 @@ module.exports = {
     getRole,
     getChannel,
     getUser,
-    getMember
+    getMember,
+    log: botLog
 }

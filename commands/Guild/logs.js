@@ -7,23 +7,26 @@ const events = [
     'channelCreate',
     'channelDelete',
     'channelUpdate',
-    'emojiCreate',
-    'emojiDelete',
-    'emojiUpdate',
     'guildBanAdd',
     'guildBanRemove',
     'guildMemberAdd',
     'guildMemberRemove',
-    'guildMemberUpdate'
+    'guildMemberUpdate',
+    'messageDelete',
+    'messageDeleteBulk',
+    'messageUpdate',
+    'roleCreate',
+    'roleDelete',
+    'roleUpdate'
 ]
 
 module.exports = {
     name: 'logs',
-    description: 'Modifies the server\'s logging settings.',
+    description: 'Modifies the logging settings for the server.',
     category: 'Guild',
 
     slash: true,
-    testOnly: true,
+    testOnly: false,
     requireRoles: true,
 
     options: [
