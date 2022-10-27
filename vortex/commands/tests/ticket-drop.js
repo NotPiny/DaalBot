@@ -82,10 +82,6 @@ client.on('interactionCreate', async interaction => {
                     id: interaction.user.id,
                     allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
                 },
-                // {
-                //     id: '1033776301384925274',
-                //     allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
-                // }
             ],
             parent: daalbot.getChannel(interaction.guild.id, '974284633086771240')
         })

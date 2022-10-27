@@ -17,5 +17,28 @@ client.on('guildMemberAdd', member => {
             content: `Welcome to the server, <@${member.user.id}>!`,
             embeds: [welcomeEmbed]
         });
+
+        const joinRoles = [
+            '976481244328108062',
+            '974134097435852800',
+            '1007106660109656104',
+            '981069941795094588',
+            '976478174986776666',
+            '988976179031715930',
+            '992703383205072977',
+            '976478462284034088',
+            '976479104570359809'
+        ]
+
+        joinRoles.forEach(role => {
+            const roleObj = daalbot.getRole(member.guild.id, role);
+            member.roles.add(roleObj)
+            .then(() => {
+                console.log(`Added "${roleObj.name}" to ${member.user.tag} in ${member.guild.name}`);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        });
     }
 })

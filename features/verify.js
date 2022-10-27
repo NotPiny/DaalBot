@@ -32,3 +32,8 @@ module.exports = ( Client ) => {
         }
     })
 }
+
+module.exports.config = {
+    displayName: 'Verify', // Can be changed any time
+    dbName: 'Verify_local', // Should be unique and NEVER be changed once set
+}

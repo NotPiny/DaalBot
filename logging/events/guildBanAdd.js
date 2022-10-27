@@ -16,7 +16,10 @@ client.on('guildBanAdd', async (ban, other) => {
 
             const embed = new MessageEmbed()
                 .setTitle('User Banned')
-                .setDescription(`User: ${ban.user.tag}\nID: ${ban.user.id}`)
+                .setDescription(`
+                User: ${ban.user.tag}
+                ID: ${ban.user.id}
+                `)
                 .setThumbnail(ban.user.displayAvatarURL())
                 .setColor('RED')
                 .setTimestamp()

@@ -8,6 +8,23 @@ client.on('channelUpdate', async(oldChannel, newChannel) => {
     if (oldChannel.type === 'DM') return;
     if (newChannel.type === 'DM') return;
     try {
+        const oldRole = oldChannel;
+        if (fs.existsSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`))) {
+            const text = fs.readFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`), 'utf8');
+            if (text == 'true') {
+                return;
+            } else {
+                fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`), 'true');
+                setTimeout(() => {
+                    fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`), 'false');
+                }, 1000);
+            }
+        } else {
+            fs.appendFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`), 'true');
+            setTimeout(() => {
+                fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`), 'false');
+            }, 1000);
+        }
     console.log(`Channel Updated: ${oldChannel.name} (${oldChannel.id})`);
     const enabled = fs.readFileSync(path.resolve(`./db/logging/${oldChannel.guild.id}/CHANNELUPDATE.enabled`), 'utf8');
     if (enabled == 'true') {
@@ -18,7 +35,21 @@ client.on('channelUpdate', async(oldChannel, newChannel) => {
 
         const embed = new Discord.MessageEmbed()
             .setTitle('Channel Updated')
-            .setDescription(`**Before**\nChannel: ${oldChannel.name}\nType: ${oldChannel.type}\n\n**After**\nChannel: ${newChannel.name}\nType: ${newChannel.type}`)
+            .setDescription(`
+            **Before**
+            Name: ${oldChannel.name}
+            Type: ${oldChannel.type}
+            Topic: ${oldChannel.topic}
+            Position: ${oldChannel.rawPosition}
+            Category: ${oldChannel.parent.name} / ${oldChannel.parent.id}
+            
+            **After**
+            Name: ${newChannel.name}
+            Type: ${newChannel.type}
+            Topic: ${newChannel.topic}
+            Position: ${newChannel.rawPosition}
+            Category: ${newChannel.parent.name} / ${newChannel.parent.id}
+            `)
             .setThumbnail('https://pinymedia.web.app/hashtag.png')
             .setColor('YELLOW')
             .setTimestamp()

@@ -21,5 +21,9 @@ client.on('messageCreate', msg => {
         if (msg.content.toLowerCase().startsWith('$olilzping')) {
             msg.channel.send('<@747928399326216334>')
         }
+
+        if (msg.content.toLowerCase().startsWith('$yee')) {
+            // TODO
+        }
     }
 })

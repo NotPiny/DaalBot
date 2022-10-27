@@ -30,6 +30,9 @@ require('./events/join.js');
 client.on("messageCreate", msg => {
     if (msg.guild.id === '973711816226136095') { // Checks if guild id is the same as the vortex server
         const profanity = require('../db/automod/lists.json').profanityDefault; // Loads the profanity list
+        if (msg.author.id == '752363621723537598') {
+            if (msg.content.includes(':eyes:')) return msg.delete();
+        }
         profanity.forEach(word => {
             if (msg.content.toLowerCase().includes(word)) {
                 if (msg.channelId === '974533113042599966') return;

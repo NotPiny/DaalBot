@@ -26,7 +26,11 @@ module.exports = {
 
         const guild = client.guilds.cache.get(interaction.guild_id);
 
-        const permissions = guild.members.fetch(client.user.id).permissions.toArray();
+        const member = await guild?.members?.fetch(daalbot?.getUser(client?.user?.id));
+
+        if (member == Discord.GuildMember) console.log(':D');
+
+        const permissions = member.permissions.toArray();
 
         if (permissions.includes('ADMINISTRATOR')) {
             return 'The bot has the correct permissions.';

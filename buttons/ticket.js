@@ -8,14 +8,17 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         if (interaction.customId == 'create_ticket') {
             const ticketCategory = daalbot.getChannel(interaction.guild.id, fs.readFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}.category`, 'utf8'));
+            if (!ticketCategory) return interaction.reply({ content: 'The ticket category is not set up.', ephemeral: true });
 
-            // Check if the user already has a ticket.
-            if (fs.existsSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${interaction.user.id}.ticket`)) return interaction.reply({
-                content: 'You already have a ticket open.',
-                ephemeral: true
-            });
+            // Check the ticket amount
+            if (!fs.existsSync(`${config.botPath}/db/tickets/${interaction.guild.id}/`)) {
+                fs.mkdirSync(`${config.botPath}/db/tickets/${interaction.guild.id}/`);
+            }
+            let ticketAmount = fs.readdirSync(`${config.botPath}/db/tickets/${interaction.guild.id}/`).length;
+            ticketAmount++;
+            fs.appendFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${ticketAmount}.ticket`, `${interaction.user.id}`);
 
-            const ticketChannel = await interaction.guild.channels.create(`ticket-${interaction.user.id}`, {
+            const ticketChannel = await interaction.guild.channels.create(`ticket-${ticketAmount}`, {
                 type: 'GUILD_TEXT',
                 parent: ticketCategory,
                 permissionOverwrites: [
@@ -29,13 +32,6 @@ client.on('interactionCreate', async (interaction) => {
                     }
                 ]
             })
-
-            if (fs.existsSync(`${config.botPath}/db/tickets/${interaction.guild.id}`)) {
-                fs.appendFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${interaction.user.id}.txt`, `${interaction.user.id}`);
-            } else {
-                fs.mkdirSync(`${config.botPath}/db/tickets/${interaction.guild.id}`);
-                fs.appendFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${interaction.user.id}.txt`, `${interaction.user.id}`);
-            }
 
             const attentionMessage = await ticketChannel.send(`<@${interaction.user.id}>`);
 

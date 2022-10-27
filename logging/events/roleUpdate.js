@@ -10,18 +10,21 @@ client.on('roleUpdate', (oldRole, newRole) => {
         if (fs.existsSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`))) {
             const text = fs.readFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'utf8');
             if (text == 'true') {
-                return;
+                // Check if all that has changed is the position of the role
+                if (oldRole.name == newRole.name && oldRole.color == newRole.color && oldRole.hoist == newRole.hoist && oldRole.mentionable == newRole.mentionable && oldRole.permissions == newRole.permissions) {
+                    return;
+                }
             } else {
                 fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'true');
                 setTimeout(() => {
                     fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'false');
-                }, 5000);
+                }, 1000);
             }
         } else {
             fs.appendFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'true');
             setTimeout(() => {
                 fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'false');
-            }, 5000);
+            }, 1000);
         }
 
         const enabled = fs.readFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/ROLEUPDATE.enabled`), 'utf8');
@@ -54,7 +57,7 @@ client.on('roleUpdate', (oldRole, newRole) => {
                 **IDs:**
                 Role: ${newRole.id}
                 `)
-                .setColor('GREEN')
+                .setColor('YELLOW')
                 .setTimestamp()
 
             logChannel.send({
