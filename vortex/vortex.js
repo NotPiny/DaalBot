@@ -34,6 +34,8 @@ client.on("messageCreate", msg => {
             if (msg.content.includes(':eyes:')) return msg.delete();
         }
         profanity.forEach(word => {
+            // Check if the user has the bypass role
+            // if (msg.member.roles.cache.has('974376513891860511')) return;
             if (msg.content.toLowerCase().includes(word)) {
                 if (msg.channelId === '974533113042599966') return;
                 // if (daalbot.getChannel(msg.guildId, msg.channelId).parentId == [
