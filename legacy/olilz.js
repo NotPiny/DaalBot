@@ -18,6 +18,7 @@ const { MessageEmbed } = require('discord.js');
 
 client.on('messageCreate', msg => {
     if (msg.guild.id === '1015322440152383539') {
+        if (msg.channelId == '1035965541120225350' && msg.content !== 'DaalBot') return msg.delete();
         if (msg.content.toLowerCase().startsWith('$olilzping')) {
             msg.channel.send('<@747928399326216334>')
         }

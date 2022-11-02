@@ -5,7 +5,7 @@ module.exports = {
     slash: 'both',
     testOnly: false,
   
-    callback: () => {
+    callback: (interaction) => {
       interaction.reply({content: 'The bot is responding'})
       .then(() => { console.log(':)') })
       .catch(() => { console.log('bruh') })

@@ -11,8 +11,12 @@ const { MessageEmbed } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 const get = async (url) => {
+    try {
     const response = await axios.get(url);
     return response.data;
+    } catch {
+        console.log('Bruh')
+    }
 };
 
 module.exports = {
@@ -50,7 +54,7 @@ module.exports = {
 
         if (validTypes.includes(type)) {
             try {
-            interaction.reply({
+            await interaction.reply({
                 content: 'Please wait...',
                 ephemeral: true
             })

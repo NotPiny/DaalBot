@@ -19,17 +19,11 @@ module.exports = {
 
         if (FMTId === '965270659515183206') {
             return `🔪 <@${user.id}>, I cannot be killed`
-            
-            
           } else {
             if (FMTId === user.id) {
                 return `🔪 <@${user.id}> kills <@${user.id}>`
-                
-                
             }
-          return `🔪 <@${user.id}> kills <@${FMTId}>`
-          
-          
+          return `🔪 <@${user.id}> kills <@${FMTId}>`          
       }
     }
 }
