@@ -1,5 +1,4 @@
 {
-    "Note": "This prefix is only for non WOKCommands commands the config for WOKCommands is below",
     "prefix": "$",
 
     "botPath": "C:\\Users\\PinyLa\\Documents\\Code\\DaalBot\\DaalBot-V3",
@@ -18,8 +17,6 @@
     ],
 
     "WOKCommands":{
-
-    "INFO": "Sets the default prefix for WOKCommands though each server can have its own prefix",
     "prefix": "$",
     
     "TestServers": [

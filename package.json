@@ -4,7 +4,9 @@
   "description": "https://daalbot-a.web.app/Invite",
   "main": "index.js",
   "scripts": {
-    "launch": "node index.js"
+    "launch": "node index.js",
+    "dev": "nodemon index.js",
+    "pulse": "node pulse.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
     "canvas": "^2.10.1",
     "discord.js": "^13.10.3",
     "expess": "^0.0.1-security",
+    "express": "^4.18.2",
     "glob": "^8.0.3",
     "tesseract.js": "^3.0.2",
     "twit": "^2.2.11",

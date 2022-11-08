@@ -11,7 +11,7 @@ module.exports = {
     permissions: ['MANAGE_GUILD'],
 
     slash: true,
-    testOnly: true,
+    testOnly: false,
     guildOnly: true,
 
     options: [
@@ -52,10 +52,10 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
         const role = interaction.options.getRole('role');
         const dbFolder = path.resolve(`./db/autorole/${interaction.guild.id}`)
-        const roleID = role.id;
 
         if (subcommand === 'add') {
             // Add role to autorole list
+            const roleID = role.id;
             if (fs.existsSync(`${dbFolder}`)) {
                 if (fs.existsSync(`${dbFolder}/${roleID}.id`)) {
                     return 'That role is already in the autorole list.';
@@ -81,6 +81,53 @@ module.exports = {
                         roles: []
                     }
                 }
+            }
+        } else if (subcommand === 'remove') {
+            // Remove role from autorole list
+            const roleID = role.id;
+            if (fs.existsSync(`${dbFolder}`)) {
+                if (fs.existsSync(`${dbFolder}/${roleID}.id`)) {
+                    fs.unlinkSync(`${dbFolder}/${roleID}.id`);
+                    return {
+                        custom: true,
+                        content: `Removed <@&${roleID}> from the autorole list.`,
+                        ephemeral: true,
+                        allowedMentions: {
+                            roles: []
+                        }
+                    }
+                } else {
+                    return 'That role is not in the autorole list.';
+                }
+            } else {
+                return 'There are no roles in the autorole list.';
+            }
+        } else if (subcommand === 'list') {
+            // List roles in autorole list
+            if (fs.existsSync(`${dbFolder}`)) {
+                const files = fs.readdirSync(`${dbFolder}`);
+                if (files.length === 0) {
+                    return 'There are no roles in the autorole list.';
+                } else {
+                    let roles = [];
+                    files.forEach(file => {
+                        roles.push(`<@&${file.replace('.id', '')}>`);
+                    });
+                    let rolesString = '';
+                    roles.forEach(role => {
+                        rolesString += `${role}\n`;
+                    })
+                    return {
+                        custom: true,
+                        content: `Roles in the autorole list:\n${rolesString}`,
+                        ephemeral: true,
+                        allowedMentions: {
+                            roles: []
+                        }
+                    }
+                }
+            } else {
+                return 'There are no roles in the autorole list.';
             }
         }
     }

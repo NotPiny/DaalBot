@@ -38,6 +38,7 @@ client.on("messageCreate", msg => {
             // if (msg.member.roles.cache.has('974376513891860511')) return;
             if (msg.content.toLowerCase().includes(word)) {
                 if (msg.channelId === '974533113042599966') return;
+                if (msg.member.roles.cache.has('1037796843603644578')) return; 
                 // if (daalbot.getChannel(msg.guildId, msg.channelId).parentId == [
                 //     '975404577232928808',
                 //     '974532542541742090'
@@ -93,6 +94,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
         profanity.forEach(word => {
             if (newMessage.content.toLowerCase().includes(word)) {
                 if (newMessage.channelId === '974533113042599966') return;
+                if (newMessage.member.roles.cache.has('1037796843603644578')) return; 
             newMessage.delete()
             .then(() => {
                 console.log(`Deleted message from ${newMessage.author.tag} in ${newMessage.guild.name} for saying ${word}`)

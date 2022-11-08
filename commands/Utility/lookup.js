@@ -18,6 +18,10 @@ module.exports = {
                 {
                     name: 'User',
                     value: 'user'
+                },
+                {
+                    name: 'Role',
+                    value: 'role'
                 }
             ]
         },
@@ -39,7 +43,14 @@ module.exports = {
             if (server === 'Server not found.') {
                 return 'Server not found.';
             } else {
-                return `Server Name: ${server.name}\nServer ID: ${server.id}\nServer Owner: ${daalbot.getUser(server.ownerId).tag}\nServer Owner ID: ${server.ownerId}\nServer Member Count: ${server.memberCount}`
+                return `Result: 
+                \`\`\`
+Server Name: ${server.name}
+Server ID: ${server.id}
+Server Owner: ${daalbot.getUser(server.ownerId).tag}
+Server Owner ID: ${server.ownerId}
+Server Member Count: ${server.memberCount}
+                \`\`\``
             }
         }
 
@@ -49,6 +60,15 @@ module.exports = {
                 return 'User not found.';
             } else {
                 return `User Tag: ${user.tag}\nUser ID: ${user.id}\nUser Avatar: ${user.displayAvatarURL()}\nBot: ${user.bot}\nCreated Timestamp: ${user.createdTimestamp}\nCreated At: ${user.createdAt}`
+            }
+        }
+
+        if (type === 'role') {
+            const role = daalbot.getRole(id);
+            if (role === 'Role not found.') {
+                return 'Role not found.';
+            } else {
+                return `Role Name: ${role.name}\nRole ID: ${role.id}\nRole Color: ${role.hexColor}\nRole Created Timestamp: ${role.createdTimestamp}\nRole Created At: ${role.createdAt}`
             }
         }
     }

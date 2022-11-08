@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const config = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { channel } = require('diagnostics_channel');
 const embedColours = [
     'Red',
     'Orange',
@@ -83,10 +82,28 @@ module.exports = {
                     required: true
                 }
             ]
+        },
+        {
+            name: 'permissions',
+            description: 'Modifies the permissions for the ticket channels.',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'role',
+                    description: 'The role to modify the permissions for.',
+                    type: 'ROLE',
+                    required: true
+                },
+                {
+                    name: 'allow',
+                    description: 'Whether to allow or deny the role to see the tickets.',
+                    type: 'BOOLEAN',
+                }
+            ]
         }
     ],
 
-    callback: async ({ interaction }) => {
+    callback: ({ interaction }) => {
         const subCommand = interaction.options.getSubcommand();
 
         if (subCommand === 'send') {
@@ -143,9 +160,64 @@ module.exports = {
 
             if (!ticket.name.startsWith('ticket-')) return 'That is not a ticket.';
 
-            ticket.delete();
+            if (fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`))) {
+                fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`));
+                ticket.delete();
+                return 'Successfully closed the ticket.';
+            } else {
+                return 'We could not find that ticket in the database.';
+            }
+        }
 
-            return 'Successfully closed the ticket.';
+        if (subCommand === 'permissions') {
+            const role = interaction.options.getRole('role');
+            const allow = interaction.options.getBoolean('allow');
+
+            const guild = interaction.guild;
+            const guildId = guild.id;
+
+            const folder = path.resolve(`./db/tickets/`);
+
+            if (fs.existsSync(`${folder}/${guildId}.permissions`)) {
+                const permissions = fs.readFileSync(`${folder}/${guildId}.permissions`, 'utf8').split('\n');
+                let newPerms = [];
+                let found = false;
+
+                for (let i = 0; i < permissions.length; i++) {
+                    const data = permissions[i].split(':');
+
+                    if (data[0] === role.id) {
+                        found = true;
+                        if (allow) {
+                            newPerms.push(`${role.id}:allow`);
+                        } else {
+                            newPerms.push(`${role.id}:deny`);
+                        }
+                    } else {
+                        newPerms.push(permissions[i]);
+                    }
+
+                    if (i === permissions.length - 1 && !found) {
+                        if (allow) {
+                            newPerms.push(`${role.id}:allow`);
+                        } else {
+                            newPerms.push(`${role.id}:deny`);
+                        }
+                    }
+                }
+
+                // Reset the file
+                fs.writeFileSync(`${folder}/${guildId}.permissions`, '');
+
+                newPerms.forEach(perm => {
+                    if (perm == '') return;
+                    fs.appendFileSync(`${folder}/${guildId}.permissions`, `${perm}\n`);
+                })
+                return 'Successfully updated the permissions.';
+            } else {
+                fs.appendFileSync(`${folder}/${guildId}.permissions`, `${role.id}:allow`);
+                return 'Successfully updated the permissions.';
+            }
         }
     }
 }

@@ -81,7 +81,7 @@ client.on('interactionCreate', async interaction => {
                 {
                     id: interaction.user.id,
                     allow: ['VIEW_CHANNEL', 'SEND_MESSAGES']
-                },
+                }
             ],
             parent: daalbot.getChannel(interaction.guild.id, '974284633086771240')
         })
@@ -89,6 +89,20 @@ client.on('interactionCreate', async interaction => {
         interaction.reply({
             content: 'Your ticket has been created!',
             ephemeral: true
+        })
+
+        const supportRole = daalbot.getRole(interaction.guild.id, '974534922125594626')
+        
+        if (supportRole == 'Role not found.' || supportRole == 'Server not found.' || supportRole == undefined) {
+            return interaction.editReply({
+                content: 'Error: \`\`\`\nDaalbot was unable to find the support role.\n\`\`\`',
+                ephemeral: true
+            })
+        }
+
+        await ticketChannel.permissionOverwrites.edit(supportRole, {
+            VIEW_CHANNEL: true,
+            SEND_MESSAGES: true
         })
 
         const embed = new Discord.MessageEmbed()

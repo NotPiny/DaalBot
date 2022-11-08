@@ -170,11 +170,35 @@ const warnings = {
     delete: db_mongo_warn_delete
 }
 
+function betterFS_write(path, data) {
+    if (fs.existsSync(path)) {
+        fs.writeFileSync(path, data);
+        return "Success";
+    } else {
+        fs.appendFileSync(path, data);
+        return "Success";
+    }
+}
+
+function betterFS_read(path) {
+    if (fs.existsSync(path)) {
+        return fs.readFileSync(path, 'utf8');
+    } else {
+        return "File not found.";
+    }
+}
+
+const better_fs = {
+    write: betterFS_write,
+    read: betterFS_read
+}
+
 module.exports = {
     client,
     serverAmount,
     database,
     warnings,
+    fs: better_fs,
     findServerVanity,
     fetchServer,
     fetchServerName,

@@ -3,8 +3,10 @@ const config = require('../config.json');
 const daalbot = require('../daalbot.js');
 const Discord = require('discord.js');
 const fs = require('fs');
+const path = require('path');
 
 client.on('interactionCreate', async (interaction) => {
+    try {
     if (interaction.isButton()) {
         if (interaction.customId == 'create_ticket') {
             const ticketCategory = daalbot.getChannel(interaction.guild.id, fs.readFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}.category`, 'utf8'));
@@ -33,6 +35,25 @@ client.on('interactionCreate', async (interaction) => {
                 ]
             })
 
+            const permsFolder = path.resolve(`./db/tickets/`);
+
+            if (fs.existsSync(`${permsFolder}/${interaction.guild.id}.permissions`)) {
+                const permissions = fs.readFileSync(`${permsFolder}/${interaction.guild.id}.permissions`, 'utf8').split('\n');
+
+                for (let i = 0; i < permissions.length; i++) {
+                    const data = permissions[i].split(':');
+                    const role = daalbot.getRole(interaction.guild.id, data[0]);
+                    if (role == 'Role not found.') continue;
+                    if (role == 'Server not found.') continue;
+                    if (role == undefined) continue;
+                    if (data[1] == 'allow') {
+                        ticketChannel.permissionOverwrites.edit(role, {
+                            VIEW_CHANNEL: true
+                        })
+                    } else { continue }
+                }
+            }
+
             const attentionMessage = await ticketChannel.send(`<@${interaction.user.id}>`);
 
             attentionMessage.delete();
@@ -40,4 +61,8 @@ client.on('interactionCreate', async (interaction) => {
             interaction.reply({ content: 'Your ticket has been created.', ephemeral: true });
         }
     }
+} catch {
+    console.log('Tickets > Error encountered while creating a ticket.');
+    return interaction.reply({ content: 'An error occurred while creating your ticket.', ephemeral: true });
+}
 })
