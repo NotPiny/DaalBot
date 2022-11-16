@@ -16,7 +16,13 @@ client.on('interactionCreate', async (interaction) => {
             if (!fs.existsSync(`${config.botPath}/db/tickets/${interaction.guild.id}/`)) {
                 fs.mkdirSync(`${config.botPath}/db/tickets/${interaction.guild.id}/`);
             }
-            let ticketAmount = fs.readdirSync(`${config.botPath}/db/tickets/${interaction.guild.id}/`).length;
+            let ticketFiles = fs.readdirSync(`${config.botPath}/db/tickets/${interaction.guild.id}/`);
+            let ticketAmount = 0;
+            ticketFiles.forEach(file => {
+                if (file.endsWith('.ticket')) {
+                    ticketAmount++;
+                }
+            });
             ticketAmount++;
             fs.appendFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${ticketAmount}.ticket`, `${interaction.user.id}`);
 
@@ -57,6 +63,16 @@ client.on('interactionCreate', async (interaction) => {
             const attentionMessage = await ticketChannel.send(`<@${interaction.user.id}>`);
 
             attentionMessage.delete();
+
+            if (interaction.guild.id != '973711816226136095') {
+            const ticketEmbed = new Discord.MessageEmbed()
+                .setTitle('Ticket')
+                .setDescription(`Hello ${interaction.user.username}, welcome to your ticket\nSomeone will be with you shortly`)
+                .setColor('PURPLE')
+                .setTimestamp();
+
+            ticketChannel.send({ embeds: [ticketEmbed] });
+            }
 
             interaction.reply({ content: 'Your ticket has been created.', ephemeral: true });
         }

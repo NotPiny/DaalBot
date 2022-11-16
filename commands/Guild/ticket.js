@@ -19,7 +19,7 @@ const embedColours = [
 
 module.exports = {
     name: 'ticket',
-    description: 'You should not be able to see the description of this command.',
+    description: 'Manages tickets for the server.',
     category: 'Guild',
 
     slash: true,
@@ -66,6 +66,12 @@ module.exports = {
                     name: 'ticket',
                     description: 'The ticket to close.',
                     type: 'CHANNEL',
+                    required: false
+                },
+                {
+                    name: 'transcript',
+                    description: 'Whether or not to send the transcript of the ticket.',
+                    type: 'BOOLEAN',
                     required: false
                 }
             ]
@@ -153,9 +159,14 @@ module.exports = {
 
         if (subCommand === 'close') {
             let ticket = interaction.options.getChannel('ticket');
+            let transcript = interaction.options.getBoolean('transcript');
 
             if (ticket == null) {
                 ticket = interaction.channel;
+            }
+
+            if (transcript == null) {
+                transcript = false;
             }
 
             if (!ticket.name.startsWith('ticket-')) return 'That is not a ticket.';
@@ -163,13 +174,68 @@ module.exports = {
             if (fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`))) {
                 fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`));
                 ticket.delete();
-                return 'Successfully closed the ticket.';
+
+                // Log the ticket closing if enabled.
+                if (fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCLOSE.enabled`))) {
+                    if (!fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`))) return 'We were unable to find a log channel to send the close message to.';
+                    const logChannel = daalbot.getChannel(interaction.guild.id, fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`), 'utf8'));
+
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle('Ticket Closed')
+                        .setDescription(`Ticket ${ticket.name.replace('ticket-', '')} was closed by ${interaction.user.tag}.`)
+                        .setColor('RED')
+                        .setTimestamp();
+
+                    logChannel.send({ content: 'Ticket Closed.', embeds: [embed] });
+                }
+
+                // Sends transcript if enabled
+                if (transcript) {
+                    // Basic fs.existsSync checks to make sure the transcript can be sent.
+                    if (fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`))) {
+                        if (!fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`))) return 'We were unable to find a log channel to send the transcript to.';
+                        if (!fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`))) return 'We were unable to find a transcript to send.';
+
+                        // Fetches the log channel and sends the transcript.
+                        const logChannelID = fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`), 'utf8');
+
+                        const logChannel = daalbot.getChannel(interaction.guild.id, logChannelID);
+
+                        logChannel.send({
+                            content: `Transcript for ticket #${ticket.name.replace('ticket-', '')}`,
+                            files: [path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`)]
+                        });
+
+                        // Tells the user that the transcript was sent.
+                        interaction.reply({
+                            content: `Ticket closed. Transcript sent to <#${logChannelID}>`,
+                            ephemeral: true
+                        })
+
+                        // Deletes the transcript but with a delay to make sure the file still exists when it gets sent to the log channel.
+                        setTimeout(() => {
+                            fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`));
+                        }, 2500);
+                    }
+                } else {
+                    interaction.reply({
+                        content: 'Ticket closed.',
+                        ephemeral: true
+                    });
+
+                    if (!fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`))) {
+                        console.log('No transcript found.');
+                    } else {
+                        fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`));
+                    }
+                }
             } else {
                 return 'We could not find that ticket in the database.';
             }
         }
 
         if (subCommand === 'permissions') {
+            // return 'Disabled for now.';
             const role = interaction.options.getRole('role');
             const allow = interaction.options.getBoolean('allow');
 
@@ -194,6 +260,7 @@ module.exports = {
                             newPerms.push(`${role.id}:deny`);
                         }
                     } else {
+                        if (permissions[i] == '') continue;
                         newPerms.push(permissions[i]);
                     }
 

@@ -34,15 +34,10 @@ client.on("messageCreate", msg => {
             if (msg.content.includes(':eyes:')) return msg.delete();
         }
         profanity.forEach(word => {
-            // Check if the user has the bypass role
-            // if (msg.member.roles.cache.has('974376513891860511')) return;
+            let content = msg.content.toLowerCase()
             if (msg.content.toLowerCase().includes(word)) {
                 if (msg.channelId === '974533113042599966') return;
                 if (msg.member.roles.cache.has('1037796843603644578')) return; 
-                // if (daalbot.getChannel(msg.guildId, msg.channelId).parentId == [
-                //     '975404577232928808',
-                //     '974532542541742090'
-                // ])
             msg.delete()
             .then(() => {
                 console.log(`Deleted message from ${msg.author.tag} in ${msg.guild.name} for saying ${word}`)

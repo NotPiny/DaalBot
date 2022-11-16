@@ -17,12 +17,13 @@ const events = [
     'messageUpdate',
     'roleCreate',
     'roleDelete',
-    'roleUpdate'
+    'roleUpdate',
+    'ticketClose'
 ]
 
 module.exports = {
     name: 'logs',
-    description: 'Modifies the logging settings for the server.',
+    description: 'Modifies the log settings for the server.',
     category: 'Guild',
 
     slash: true,
@@ -98,7 +99,7 @@ module.exports = {
         } else if (subCommand === 'toggle') {
             const event = interaction.options.getString('event');
             const enabled = `${interaction.options.getBoolean('enabled')}`;
-            const guild = interaction.guild;
+            const guild = daalbot.fetchServer(interaction.guild.id);
 
             if (!fs.existsSync(dbFolder)) {
                 try {
@@ -110,10 +111,10 @@ module.exports = {
             } else {
                 if (fs.existsSync(`${dbFolder}/${event}.enabled`)) {
                     fs.writeFileSync(`${dbFolder}/${event}.enabled`, enabled);
-                    return `Successfully ${enabled === 'true' ? 'enabled' : 'disabled'} logging for ${event}.`;
+                    return `Successfully ${enabled == 'true' ? 'enabled' : 'disabled'} logging for ${event}.`;
                 } else {
                     fs.appendFileSync(`${dbFolder}/${event}.enabled`, enabled);
-                    return `Successfully ${enabled === 'true' ? 'enabled' : 'disabled'} logging for ${event}.`;
+                    return `Successfully ${enabled == 'true' ? 'enabled' : 'disabled'} logging for ${event}.`;
                 }
             }
         }

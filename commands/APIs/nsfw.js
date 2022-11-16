@@ -1,12 +1,5 @@
 const axios = require('axios');
-const validTypes = [
-    '4k',
-    'anal',
-    'pussy',
-    'ass',
-    'hentai',
-    'boobs'
-];
+const validTypes = 'hass,pgif,4k,hentai,anal,hanal,gonewild,ass,pussy,thigh,hthigh,paizuri,tentacle,boobs,hboobs'.split(',');
 const { MessageEmbed } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
@@ -77,7 +70,7 @@ module.exports = {
                 } else {
                     const loopTillGif = async() => {
                         const data = await get(`https://nekobot.xyz/api/image?type=${type}`);
-                        if (data.message.endsWith('.gif')) {
+                        if (`${data.message}`.endsWith('.gif')) {
                             embed.setImage(data.message);
                             try {
                             interaction.editReply({

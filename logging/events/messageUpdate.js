@@ -14,13 +14,28 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 
             const channelID = fs.readFileSync(path.resolve(`./db/logging/${oldMessage.guild.id}/channel.id`), 'utf8');
             const logChannel = client.channels.cache.get(channelID);
+            const description = `**Before**
+            Content: ${oldMessage.content}
+            Embeds: ${oldMessage.embeds.length}
+            Attachments: ${oldMessage.attachments.size}
+            Components: ${oldMessage.components.length}
+            
+            **After**
+            Content: ${newMessage.content}
+            Embeds: ${newMessage.embeds.length}
+            Attachments: ${newMessage.attachments.size}
+            Components: ${newMessage.components.length}`;
 
             const embed = new MessageEmbed()
                 .setTitle('Message Edited')
-                .setDescription(`Message: ${oldMessage.content}\nNew Message: ${newMessage.content}`)
+                .setDescription(description)
                 .setThumbnail(oldMessage.author.displayAvatarURL())
                 .setColor('YELLOW')
                 .setTimestamp()
+
+            if (description.length >= 4000) {
+                embed.setDescription('Data too long to display.');
+            }
 
             logChannel.send({
                 content: `Message Edited`,
