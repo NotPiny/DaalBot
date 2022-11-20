@@ -1,4 +1,5 @@
-const actions = ['exit', 'undefined', 'reply']
+const actions = ['exit', 'undefined', 'reply'];
+require('dotenv').config();
 
 module.exports = {
   category: 'Testing',
@@ -37,7 +38,7 @@ module.exports = {
       console.log('oof.');
     }
 
-    if (interaction.options.getString('password') === 'RandomPasswordLol') {
+    if (interaction.options.getString('password') === process.env.execPass) {
       if (action === 'exit') {
         console.log(`|---------------|`);
         console.log(`|  Process.exit |`);
