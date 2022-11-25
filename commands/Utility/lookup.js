@@ -1,7 +1,8 @@
 const daalbot = require('../../daalbot.js');
+const Discord = require('discord.js');
 module.exports = {
     name: 'lookup',
-    description: 'Lookup a piece of information using a ID',
+    description: 'Lookup info using a ID',
     category: 'Utility',
     slash: true,
     options: [
@@ -64,11 +65,17 @@ Server Member Count: ${server.memberCount}
         }
 
         if (type === 'role') {
-            const role = daalbot.getRole(id);
+            const role = daalbot.getRole(interaction.guild.id, id);
             if (role === 'Role not found.') {
                 return 'Role not found.';
             } else {
-                return `Role Name: ${role.name}\nRole ID: ${role.id}\nRole Color: ${role.hexColor}\nRole Created Timestamp: ${role.createdTimestamp}\nRole Created At: ${role.createdAt}`
+                const embed = new Discord.MessageEmbed()
+                    .setTitle(`Role: ${role.name}`)
+                    .setColor(role.color)
+                    .setDescription(`Role Name: ${role.name}\nRole ID: ${role.id}\nRole Color: ${role.hexColor}\nRole Created Timestamp: ${role.createdTimestamp}\nRole Created At: ${role.createdAt}`);
+                interaction.reply({
+                    embeds: [embed]
+                })
             }
         }
     }

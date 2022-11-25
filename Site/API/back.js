@@ -49,6 +49,10 @@ app.get('/api/get/general/serverAmount', (req, res) => {
 //     }
 // })
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Client', 'about.html'));
+})
+
 // app.get('/api/callback/oauth', async(req, res) => {
 //     try {
 //     const code = req.query.code;

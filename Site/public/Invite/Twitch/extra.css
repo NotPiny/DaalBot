@@ -1,0 +1,10 @@
+.buttons {
+    position: absolute;
+    bottom: 0px;
+    right: 50%;
+}
+
+.buttons button {
+    position: absolute;
+    right: 50%;
+}

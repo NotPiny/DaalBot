@@ -5,6 +5,7 @@ const client = require('./client.js');
 const config = require('./config.json');
 const fs = require('fs');
 const path = require('path');
+const Discord = require('discord.js');
 
 const serverAmount = client.guilds.cache.size
 
@@ -188,6 +189,18 @@ function betterFS_read(path) {
     }
 }
 
+function betterDate() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+    let millisecond = date.getMilliseconds();
+    return `${day}.${month}.${year} ${hour}:${minute}:${second}:${millisecond}`;
+}
+
 const better_fs = {
     write: betterFS_write,
     read: betterFS_read
@@ -199,6 +212,7 @@ module.exports = {
     database,
     warnings,
     fs: better_fs,
+    embed: Discord.MessageEmbed,
     findServerVanity,
     fetchServer,
     fetchServerName,

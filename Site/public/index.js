@@ -1,6 +1,6 @@
 const ServerAmountElement = document.getElementById('serverAmount');
 
-const API = 'http://178.62.73.54:3000/api';
+const API = 'https://api.daalbot.xyz:3000/api';
 
 if (ServerAmountElement) {
     (async() => {
@@ -14,8 +14,7 @@ if (ServerAmountElement) {
     } catch {
         console.log('Error: Could not fetch server amount');
     }
-    })();
-    
+    })();   
 }
 
 const unknownServers = document.getElementById('unknownServers');

@@ -24,6 +24,7 @@ module.exports = {
 
     slash: true,
     testOnly: false,
+    guidlOnly: true,
 
     requireRoles: true,
 

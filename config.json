@@ -34,7 +34,7 @@
   },
 
     "activities": [
-    "1/103 Chance!",
+    "1/104 Chance!",
     "/Cmds to get started",
     "Don't be stupid",
     "HOTDOG!",
@@ -136,6 +136,7 @@
     "The duck is a lie, the duck is not a lie",
     "This status is lying",
     "This status is not lying",
-    "Status #100"
+    "Status #100",
+    "daalbot.xyz!"
     ]
 }
