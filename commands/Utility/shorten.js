@@ -35,7 +35,7 @@
         },
         {
             name: 'back-half',
-            description: 'The back half of the url (daalb0t.web.app/BACKHALF)',
+            description: 'The back half of the url (lnk.daalbot.xyz/BACKHALF)',
             type: 'STRING',
             required: true
         }
@@ -78,7 +78,7 @@
                     return `We were unable to create the link :(`
                   }
                   require('child_process').exec(`start "" "${botPath}\\Batch/firebase-deploy.bat"`);
-                  return `Link Made!\nhttps://daalb0t.web.app/${backHalf}`
+                  return `Link Made!\nhttps://lnk.daalbot.xyz/${backHalf}`
             }
         }
     },

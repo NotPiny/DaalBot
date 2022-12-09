@@ -8,6 +8,7 @@ const client = new Client({
      Intents.FLAGS.GUILD_BANS, 
      Intents.FLAGS.GUILD_MEMBERS, 
     ],
+    shards: 'auto'
 });
 
 module.exports = client;

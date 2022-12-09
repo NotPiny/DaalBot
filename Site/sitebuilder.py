@@ -1,3 +1,4 @@
+# Its a work in progress btw
 import time
 from pynput.keyboard import Key, Controller
 def pressKey(key):

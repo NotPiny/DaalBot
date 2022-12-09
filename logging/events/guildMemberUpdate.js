@@ -7,6 +7,13 @@ const daalbot = require('../../daalbot.js');
 
 client.on('guildMemberUpdate', (oldMember, newMember) => {
     try {
+        if (fs.existsSync(path.resolve(`./db/logging/${oldMember.guild.id}/roleUpdate.cooldown`))) {
+            const text = fs.readFileSync(path.resolve(`./db/logging/${oldMember.guild.id}/roleUpdate.cooldown`), 'utf8');
+            if (text == 'true') {
+                // A role has been updated / deleted recently, so we don't want to log this event as it could result in spamming logs
+                return;
+            }
+        }        
         const enabled = fs.readFileSync(path.resolve(`./db/logging/${oldMember.guild.id}/GUILDMEMBERUPDATE.enabled`), 'utf8');
         if (enabled == 'true') {
             if (!fs.existsSync(`./db/logging/${oldMember.guild.id}/channel.id`)) return;

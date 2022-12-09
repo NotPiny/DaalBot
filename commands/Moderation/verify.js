@@ -1,5 +1,7 @@
 const config = require("../../config.json");
 const fs = require('fs');
+const daalbot = require('../../daalbot.js');
+
 function save(GuildId, RoleId) {
     try {
         if (fs.existsSync(`${config.botPath}/db/verify/${GuildId}.role`)) {
@@ -12,6 +14,15 @@ function save(GuildId, RoleId) {
         console.log(err);
     }
 }
+
+function autoUpdateSave(GuildId, enabled) {
+    try {
+        daalbot.fs.write(`${config.botPath}/db/verify/${GuildId}.autoUpdate`, `${enabled}`);
+    } catch {
+        return 'Error saving auto update setting';
+    }
+}
+
 const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js')
 
 module.exports = {
@@ -32,6 +43,12 @@ module.exports = {
             description: 'The role to give to verified users',
             type: 'ROLE',
             required: true
+        },
+        {
+            name: 'auto_update',
+            description: 'Automatically adds the recommended permissions to new channels',
+            type: 'BOOLEAN',
+            required: true
         }
     ],
 
@@ -42,6 +59,7 @@ module.exports = {
         const { guild } = interaction
 
         save(interaction.guild.id, roleId);
+        autoUpdateSave(interaction.guild.id, interaction.options.getBoolean('auto_update'));
 
         const embed = new MessageEmbed()
             .setTitle('Verification')

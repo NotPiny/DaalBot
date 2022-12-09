@@ -1,4 +1,5 @@
 require('dotenv').config();
+const daalbot = require('../../daalbot.js');
 module.exports = {
     name: 'exec',
     description: 'Executes code in the current context (only for developers)',
@@ -27,7 +28,8 @@ module.exports = {
         if (passcode !== process.env.execpass) return 'Invalid passcode';
 
         try {
-            eval(code);
+            const result = eval(code);
+            console.log(result);
             return {
                 custom: true,
                 content: 'Executing code...',

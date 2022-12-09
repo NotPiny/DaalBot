@@ -4,6 +4,11 @@
   }
   body { background: #333537; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
 
+  :root {
+    --colour-daalbotpurple: #502898;
+    --colour-background: #333537;
+  }
+
   .section {
     background: rgb(28, 26, 30);
     border-radius: 4%;
@@ -255,4 +260,107 @@
     border-radius: 4%;
     border-color: rgb(28, 26, 30);
     border-width: 25px;
+  }
+
+  /* Create a grid of circle icons in a line */
+  .circle-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    grid-gap: 10px;
+    padding: 10px;
+  }
+
+  .circle-icon {
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+
+    /* background: purple;*/ /*Remove once size is right */
+
+    position: sticky;
+    bottom: 0px;
+
+    border-radius: 50%;
+    border-color: rgb(28, 26, 30);
+    border-width: 25px;
+  }
+
+  .circle-icon img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    /* Make the image appear at the top of the div */
+    top: 10px;
+    left: 55px;
+  }
+
+  .circle-icon a {
+    text-decoration: none;
+    height: 50px;
+    width: 50px;
+  }
+
+  .section-form {
+    display: grid;
+    grid-gap: 25px;
+    padding: 25px;
+    background: rgb(28, 26, 30);
+    border-radius: 4%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    /* height: 500px; */
+    margin: 100px auto;
+    position: relative;
+    width: 77%;
+    justify-content: center;
+  }
+
+  .section-form h2 {
+    color: rgb(146, 32, 180);
+    font-size: 1.5em;
+    font-weight: 300;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin: 0;
+    padding: 1em 0;
+    text-align: center;
+  }
+
+  .section-form input {
+    border: 7px solid rgb(45, 43, 48);
+    border-radius: 4%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    font-size: 1em;
+    padding: 0.5em;
+    width: 75%;
+    height: 25px;
+  }
+
+  .section-form label {
+    color: rgb(146, 32, 180);
+    font-size: 1.5em;
+    font-weight: 300;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin: 0;
+    padding: 1em 0;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .section-form textarea {
+    border: 7px solid rgb(45, 43, 48);
+    border-radius: 4%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    font-size: 1em;
+    padding: 0.5em;
+    width: 77%;
+    height: 100px;
+    resize: none;
+  }
+
+  .section-form select {
+    border: 7px solid rgb(45, 43, 48);
+    border-radius: 4%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    font-size: 1em;
+    padding: 0.5em;
   }

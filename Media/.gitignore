@@ -1,6 +1,3 @@
-# Secrets
-/vortex/secret
-
 # Logs
 logs
 *.log
@@ -10,14 +7,10 @@ yarn-error.log*
 firebase-debug.log*
 firebase-debug.*.log*
 
-# Database
-db/
-/db
-data/
-/data
-
 # Firebase cache
 .firebase/
+
+# Firebase config
 
 # Uncomment this if you'd like others to create their own Firebase project.
 # For a team working on the same Firebase project(s), it is recommended to leave
@@ -71,30 +64,3 @@ node_modules/
 
 # dotenv environment variables file
 .env
-.env.7z
-
-# Node Modules
-/node_modules
-
-# Game Data
-/game/hidden
-
-# Command Logs
-command-log.txt
-
-# Login info
-# FILE REMOVED
-
-# Super logs for debug
-super-log.log
-
-# User uploaded media
-/Media/public/
-
-# Other hidden files
-/hidden
-hidden/
-
-# Server certificates
-server.key
-server.cert

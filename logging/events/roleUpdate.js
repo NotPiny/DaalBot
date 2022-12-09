@@ -18,13 +18,13 @@ client.on('roleUpdate', (oldRole, newRole) => {
                 fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'true');
                 setTimeout(() => {
                     fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'false');
-                }, 1000);
+                }, 5000);
             }
         } else {
             fs.appendFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'true');
             setTimeout(() => {
                 fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/roleUpdate.cooldown`), 'false');
-            }, 1000);
+            }, 5000);
         }
 
         const enabled = fs.readFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/ROLEUPDATE.enabled`), 'utf8');

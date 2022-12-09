@@ -8,6 +8,7 @@ const path = require('path');
 client.on('interactionCreate', async (interaction) => {
     try {
     if (interaction.isButton()) {
+        try {
         if (interaction.customId == 'create_ticket') {
             const ticketCategory = daalbot.getChannel(interaction.guild.id, fs.readFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}.category`, 'utf8'));
             if (!ticketCategory) return interaction.reply({ content: 'The ticket category is not set up.', ephemeral: true });
@@ -85,12 +86,20 @@ client.on('interactionCreate', async (interaction) => {
             fs.appendFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${ticketAmount}.ticket`, `\n${ticketMessage.id}`);
             }
 
-            interaction.reply({ content: 'Your ticket has been created.', ephemeral: true });
+            interaction.reply({ content: 'Your ticket has been created.', ephemeral: true })
+            .then(() => {
+                console.log(`Ticket opened by ${interaction.user.tag} in ${interaction.guild.name}`)
+            })
+            .catch((err) => {
+                return console.log(err);
+            })
         }
 
         if (interaction.customId == 'close_ticket') {
             const ticketChannel = daalbot.getChannel(interaction.guild.id, interaction.channel.id);
             if (!ticketChannel) return interaction.reply({ content: 'Something went wrong and we were unable to find the ticket channel.', ephemeral: true });
+
+            ticketChannel.setName(`closed-${ticketChannel.name.replace('ticket-', '')}`);
 
             const ticketFiles = fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`));
 
@@ -134,6 +143,8 @@ client.on('interactionCreate', async (interaction) => {
             const ticketChannel = daalbot.getChannel(interaction.guild.id, interaction.channel.id);
             if (!ticketChannel) return interaction.reply({ content: 'Something went wrong and we were unable to find the ticket channel.', ephemeral: true });
 
+            ticketChannel.setName(`ticket-${ticketChannel.name.replace('closed-', '')}`);
+
             const ticketFiles = fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`));
 
             let ticketNumber = ticketFiles.length / 2;
@@ -165,8 +176,11 @@ client.on('interactionCreate', async (interaction) => {
                 SEND_MESSAGES: true,
             })
 
-            interaction.reply({ content: 'Your ticket has been opened.', ephemeral: true });
+            interaction.reply({ content: 'Your ticket has been opened.', ephemeral: true })
         }
+      } catch {
+        interaction.reply({ content: 'Something went wrong and we were unable to process your request.', ephemeral: true });
+      }
     }
 } catch {
     console.log('Tickets > Error encountered while dealing with a request.');

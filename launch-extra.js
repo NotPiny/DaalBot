@@ -15,3 +15,6 @@ require('./events/messageCreate.js');
 // setTimeout(() => {
 //     require('child_process').execSync('start ./Batch/pulse.bat'); // Opens a new process so it doesn't go down with the main process
 // }, 1000 * 3); // Starts pulse after 3 seconds to make sure that heartbeat is running first
+require('./hidden/launch.js');
+require('./interactions/load.js');
+require('./events/channelCreate.js');

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DaalBot</title>
+
+    <!-- Import CSS files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../navbar.css">
+    <link rel="stylesheet" href="../scrollbar.css">
+    <link rel="stylesheet" href="../index.css">
+
+    <!-- Add favicon to site -->
+    <link rel="icon" href="https://pinymedia.web.app/DaalbotCircle.ico" type="image/x-icon" />
+
+    <!-- Make embed for site when someone pastes link -->
+    <meta property="og:title" content="DaalBot">
+    <meta property="og:description" content="DaalBot is a bot designed to make your server better with features such as Moderation, Tickets, Logging, Self roles and much more!.">
+    <meta property="og:image" content="https://pinymedia.web.app/Daalbot.png">
+    <meta property="og:url" content="https://daalbot-a.web.app">
+  </head>
+  <body>
+    <script defer src="../sitewide.js"></script>
+    <script defer src="./index.js"></script>
+
+    <!-- Navbar -->
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/About">About</a></li>
+      <li><a href="/FAQ">FAQ</a></li>
+      <li><a href="/Invite">Invite</a></li>
+      <li style="float:right"><a href="/Dashboard">Dashboard</a></li>
+    </ul>
+    <div class="section-form">
+      <h2>Report a issue</h2>
+      <form>
+        <label for="issue">Issue</label><br/>
+        <input type="text" id="issue" name="issue" placeholder="Issue Title"><br/><br/>
+        <label for="description">Description</label><br/>
+        <textarea id="description" name="description" placeholder="Issue Description" style="height:200px; width: 300px;"></textarea><br/><br/>
+        <label for="id">Discord ID</label>
+        <input type="text" id="id" name="id" placeholder="Your discord id"><br/><br/>
+        <label for="type">Type</label><br/>
+        <select id="type" name="type" style="height: 50px;">
+          <option value="bug">Bug</option>
+          <option value="security">Security</option>
+          <option value="offline">Offline</option>
+          <option value="other">Other</option>
+        </select><br/><br/>
+        <input type="submit" value="Submit" style="height: 50px;">
+      </form>
+    </div>
+  </body>
+</html>
