@@ -34,15 +34,15 @@
     </ul>
     <div class="section-form">
       <h2>Report a issue</h2>
-      <form>
+      <form action="https://formspree.io/f/mqkjrgln" method="post">
         <label for="issue">Issue</label><br/>
-        <input type="text" id="issue" name="issue" placeholder="Issue Title"><br/><br/>
+        <input type="text" id="issue" name="issue" placeholder="Issue Title" aria-required="true" required><br/><br/>
         <label for="description">Description</label><br/>
-        <textarea id="description" name="description" placeholder="Issue Description" style="height:200px; width: 300px;"></textarea><br/><br/>
+        <textarea id="description" name="description" placeholder="Issue Description" style="height:200px; width: 300px;" aria-required="true" required></textarea><br/><br/>
         <label for="id">Discord ID</label>
-        <input type="text" id="id" name="id" placeholder="Your discord id"><br/><br/>
+        <input type="text" id="id" name="id" placeholder="Your discord id" aria-required="true" required><br/><br/>
         <label for="type">Type</label><br/>
-        <select id="type" name="type" style="height: 50px;">
+        <select id="type" name="type" style="height: 50px;" aria-required="true" required>
           <option value="bug">Bug</option>
           <option value="security">Security</option>
           <option value="offline">Offline</option>

@@ -7,6 +7,11 @@
   :root {
     --colour-daalbotpurple: #502898;
     --colour-background: #333537;
+    --colour-foreground: #282424;
+  }
+
+  body {
+    overflow-x: hidden;
   }
 
   .section {
@@ -363,4 +368,23 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     font-size: 1em;
     padding: 0.5em;
+  }
+
+  .section-bottom {
+    background-color: var(--colour-foreground);
+    display: grid;
+    grid-gap: 5px;
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+  }
+
+  .section-bottom .link {
+    text-align: center;
+    border-radius: 4%;
+    padding: 5px;
+    border: rgb(33, 29, 34) 3px solid;
   }
