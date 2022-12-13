@@ -55,7 +55,7 @@ client.on('messageCreate', msg => {
             const commitEmbed = new MessageEmbed()
                 .setTitle(`New commit by ${data[0]} to ${data[2]}`)
                 .setDescription(data[1])
-                .setURL(data[3].includes('https://github.com/NotPiny/DaalBot/commits') ? data[3] : 'https://github.com/NotPiny/DaalBot')
+                .setURL(data[3].includes(`https://github.com/${data[2]}/commits`) ? data[3] : `https://github.com/${data[2]}`)
 
             msg.delete();
             daalbot.getChannel(msg.guild.id, '1052304271221198898').send({ embeds: [commitEmbed] });
