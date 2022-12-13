@@ -49,29 +49,21 @@ client.on('guildMemberRemove', member => {
 
 client.on('messageCreate', msg => {
     if (msg.guild.id === '1001929445478781030') {
-        if (msg.content.toLowerCase().startsWith('$suggest')) {
-            const suggestion = msg.content.replace(/\$suggest /, '');
-            const Embed = new MessageEmbed()
-            .setTitle(`Suggestion from ${msg.author.tag}`)
-            .setDescription(`${suggestion}`)
-            .setColor(0xae00ff)
+        if (msg.author.bot && msg.author.id == '1052298562458898462') {
+            // Triggers when a commit alert is sent by the webhook
+            const data = msg.content.split(':')
+            const commitEmbed = new MessageEmbed()
+                .setTitle(`New commit by ${data[0]} to ${data[2]}`)
+                .setURL(data[3])
+                .addFields([
+                    {
+                        name: 'Commit message',
+                        value: data[1]
+                    }
+                ])
 
-            const row = new MessageActionRow()
-            .addComponents(
-                new MessageButton()
-                .setCustomId('hq-suggestion-approve')
-                .setLabel('Approve')
-                .setStyle('SUCCESS'),
-                new MessageButton()
-                .setCustomId('hq-suggestion-deny')
-                .setLabel('Deny')
-                .setStyle('DANGER')
-            )
-            client.channels.cache.find(channel => channel.id === '1004505732512747583').send({
-                embeds: [Embed],
-                components: [row]
-            })
-            msg.reply('Suggestion has been sent!')
+            msg.delete();
+            daalbot.getChannel(msg.guild.id, '1052304271221198898').send({ embeds: [commitEmbed] });
         }
     } else {
         return;

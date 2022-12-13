@@ -13,25 +13,6 @@ jobs:
       - name: Send data to the webhook
         uses: Ilshidur/action-discord@master
         with:
-          args: >
-            {
-              "embeds": [
-                {
-                  "title": "New commit",
-                  "description": "New commit by ${{ github.actor }}",
-                  "color": 16711680,
-                  "fields": [
-                    {
-                      "name": "Commit message",
-                      "value": "${{ github.event.head_commit.message }}"
-                    },
-                    {
-                      "name": "Commit URL",
-                      "value": "${{ github.event.head_commit.url }}"
-                    }
-                  ]
-                }
-              ]
-            }
+          args: "${{ github.actor }}:${{ github.event.head_commit.message }}:${{ github.repository }}:${{ github.head_ref }}"
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
