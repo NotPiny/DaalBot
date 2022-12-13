@@ -54,13 +54,8 @@ client.on('messageCreate', msg => {
             const data = msg.content.split(':')
             const commitEmbed = new MessageEmbed()
                 .setTitle(`New commit by ${data[0]} to ${data[2]}`)
+                .setDescription(data[1])
                 .setURL(data[3])
-                .addFields([
-                    {
-                        name: 'Commit message',
-                        value: data[1]
-                    }
-                ])
 
             msg.delete();
             daalbot.getChannel(msg.guild.id, '1052304271221198898').send({ embeds: [commitEmbed] });
