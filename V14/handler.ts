@@ -1,0 +1,1 @@
+import fs from 'fs'; function readFile(path: string) { return fs.readFileSync(path, 'utf8'); } fs.readdirSync(`./events`).filter(file => file.endsWith('.ts')).forEach(file => { require(`./events/${file}`); });

@@ -1,0 +1,10 @@
+{
+    "configurations": [
+    {
+        "command": "firebase serve",
+        "name": "Run firebase serve",
+        "request": "launch",
+        "type": "node-terminal"
+    }
+    ]
+}
