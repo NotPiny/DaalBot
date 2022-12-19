@@ -6,6 +6,7 @@ const config = require('./config.json');
 const fs = require('fs');
 const path = require('path');
 const Discord = require('discord.js');
+const cleanText = require('./util/homoglyphs.js');
 
 const serverAmount = client.guilds.cache.size
 
@@ -201,6 +202,10 @@ function betterDate() {
     return `${day}.${month}.${year} ${hour}:${minute}:${second}:${millisecond}`;
 }
 
+const text = {
+    cleanHomoglyphs: cleanText,
+}
+
 const better_fs = {
     write: betterFS_write,
     read: betterFS_read
@@ -212,6 +217,7 @@ module.exports = {
     database,
     warnings,
     fs: better_fs,
+    text,
     embed: Discord.MessageEmbed,
     findServerVanity,
     fetchServer,

@@ -21,6 +21,7 @@
   "homepage": "https://github.com/NotPiny/DaalBot#readme",
   "dependencies": {
     "@discordjs/rest": "^1.1.0",
+    "@discordjs/voice": "^0.14.0",
     "@google-cloud/translate": "^7.0.3",
     "axios": "^0.27.2",
     "canvas": "^2.10.1",

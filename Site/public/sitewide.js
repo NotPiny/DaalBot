@@ -13,7 +13,7 @@ async function oldURLCheck() {
     }
 }
 
-async function isFirstTime() {
+function isFirstTime() {
     // This function is here to check if the user is on the site for the first time.
     if (localStorage.getItem('firstTime') == null) {
         localStorage.setItem('firstTime', 'false');
@@ -23,9 +23,9 @@ async function isFirstTime() {
     }
 }
 
-async function guide() {
+function guide() {
     // This function is here to show the user a guide on how to use the site.
-    if (await isFirstTime()) {
+    if (isFirstTime()) {
         const answer = confirm('Welcome to DaalBot! Would you like to see a quick run-through of what DaalBot is and how to use it?');
         
         if (answer) {

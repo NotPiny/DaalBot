@@ -30,11 +30,21 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
             let changes = [];
 
             if (oldMember.nickname !== newMember.nickname) {
-                changes.push(`Nickname: ${oldMember.nickname} -> ${newMember.nickname}`);
+                changes.push(`Nickname: ${oldMember.nickname == null ? 'None' : oldMember.nickname} -> ${newMember.nickname}`);
             }
 
-            if (oldMember.roles.cache.size !== newMember.roles.cache.size) {
-                changes.push(`Roles: ${oldMember.roles.cache.size - 1} -> ${newMember.roles.cache.size - 1}`);
+            if (oldMember.roles.cache.size !== newMember.roles.cache.size) {                
+                newMember.roles.cache.forEach(role => {
+                    if (!oldMember.roles.cache.has(role.id)) {
+                        changes.push(`Added Role: ${role.name}`);
+                    }
+                });
+
+                oldMember.roles.cache.forEach(role => {
+                    if (!newMember.roles.cache.has(role.id)) {
+                        changes.push(`Removed Role: ${role.name}`);
+                    }
+                });
             }
 
             if (oldMember.premiumSince !== newMember.premiumSince) {
@@ -54,6 +64,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
                 changes.push(`Color: ${oldMember.displayHexColor} -> ${newMember.displayHexColor}`);
             }
 
+            
             if (oldMember.isCommunicationDisabled() !== newMember.isCommunicationDisabled()) {
                 changes.push(`Communication Disabled: ${oldMember.isCommunicationDisabled()} -> ${newMember.isCommunicationDisabled()}`);
             }

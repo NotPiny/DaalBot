@@ -170,7 +170,7 @@ module.exports = {
                 transcript = false;
             }
 
-            if (!ticket.name.startsWith('ticket-')) return 'That is not a ticket.';
+            if (!ticket.name.startsWith('ticket-') && !ticket.name.startsWith('closed-')) return 'That is not a ticket.';
 
             if (fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`))) {
                 fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`));

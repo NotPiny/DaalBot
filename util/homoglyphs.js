@@ -119,7 +119,9 @@ function clean(text) {
                 .replace(charMap.Y, 'Y')
                 .replace(charMap.Z, 'Z');
 
-            cleanText += cleanLetter;
+            cleanText = cleanText + cleanLetter;
         })
     })
 }
+
+module.exports = clean;
