@@ -14,7 +14,6 @@ Can do both slash and prefix commands
 
 Website: https://daalbot.xyz<br />
 Invite: https://daalbot.xyz/Invite<br />
-Socials: https://daalbot.xyz/Socials<br />
 Download: [click me!](https://github.com/NotPiny/DaalBot/archive/refs/heads/main.zip)
 
 # 

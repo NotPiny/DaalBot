@@ -1,5 +1,5 @@
 //const stuff
-const client = require('./client.js'); const config = require('./config.json');
+const client = require('./client.js'); const config = require('./config.json'); const DJS = require('discord.js')
   function botLog(text) {
     client.channels.cache.find(channel => channel.id === config.Logchannel).send(text)
     console.log(text)
@@ -10,9 +10,33 @@ client.on('rateLimit', () => {
 });
 
 client.on('guildCreate', guild => {
-  botLog(`\nBot added to server: {\nName: ${guild.name}\nID: ${guild.id}\nOwner: ${guild.ownerId}\n}\nNow in ${client.guilds.cache.size} servers`);
+  const owner = client.users.cache.find(user => user.id === guild.ownerId);
+  const embed = new DJS.MessageEmbed()
+    .setTitle('Bot added to server')
+    .setDescription(`Bot added to \`${guild.name}\` (${guild.id})`)
+    .setTimestamp()
+    .setFooter({
+      text: `Now in ${client.guilds.cache.size} servers`, iconURL: client.user.avatarURL()
+    })
+    .setColor('GREEN');
+
+  client.channels.cache.find(channel => channel.id === config.Logchannel).send({
+    embeds: [embed]
+  });
 })
 
 client.on('guildDelete', guild => {
-  botLog(`\nBot removed from server (${guild.id}) \nNow in ${client.guilds.cache.size} servers`);
+  const owner = client.users.cache.find(user => user.id === guild.ownerId);
+  const embed = new DJS.MessageEmbed()
+    .setTitle('Bot removed from server')
+    .setDescription(`Bot removed from \`${guild.name}\` (${guild.id})`)
+    .setTimestamp()
+    .setFooter({
+      text: `Now in ${client.guilds.cache.size} servers`, iconURL: client.user.avatarURL()
+    })
+    .setColor('RED');
+
+  client.channels.cache.find(channel => channel.id === config.Logchannel).send({
+    embeds: [embed]
+  });
 })
