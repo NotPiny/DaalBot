@@ -40,3 +40,10 @@ client.on('guildDelete', guild => {
     embeds: [embed]
   });
 })
+
+// Stuff i guess (i just copied this from the discord.js server)
+client.on('warn', console.log)
+
+if (config.debug) {
+  client.on('debug', console.log)
+}

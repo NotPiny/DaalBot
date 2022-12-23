@@ -190,16 +190,58 @@ function betterFS_read(path) {
     }
 }
 
-function betterDate() {
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
-    let millisecond = date.getMilliseconds();
-    return `${day}.${month}.${year} ${hour}:${minute}:${second}:${millisecond}`;
+class DatabaseEntry {
+    constructor(name, category, server, data, fileName) {
+        this.name = name;
+        this.data = data;
+        this.category = category;
+        this.server = server;
+        this.fileName = fileName;
+    }
+
+    save(upsert) {
+        let entryPath = path.resolve(`./db/${this.category}`)
+        if (this.category) {
+            if (this.server) {
+                entryPath += `/${this.server}`
+            }
+
+            if (this.fileName) {
+                entryPath += `/${this.fileName}`
+            } else {
+                return 'Error > A file name must be specified.'
+            }
+
+            if (!upsert && fs.existsSync(entryPath)) {
+                return 'Error > Entry already exists.'
+            }
+
+            betterFS_write(entryPath, this.data)
+            this.entryPath = entryPath
+
+            if (config.debug) console.log(`Saved database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName}`);
+            return 1;
+        } else {
+            if (config.debug) console.log(`Failed to save database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName} (no category specified)`);
+            return 'Error > A category must be specified.';
+        }
+    }
+
+    async delete() {
+        if (this.entryPath) {
+            try {
+                fs.unlinkSync(this.entryPath)
+                if (config.debug) console.log(`Deleted database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName}`);
+                return 1;
+            } catch {
+                if (config.debug) console.log(`Failed to delete database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName}`);
+                return 0;
+            }
+        } else {
+            if (config.debug) console.log(`Failed to delete database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName} (no entry path)`);
+            return 404;
+        }
+    }
 }
 
 const text = {
@@ -227,5 +269,6 @@ module.exports = {
     getChannel,
     getUser,
     getMember,
-    log: botLog
+    log: botLog,
+    DatabaseEntry
 }

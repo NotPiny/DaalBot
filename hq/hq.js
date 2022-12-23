@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const client = require('../client');
 const daalbot = require('../daalbot.js');
 require('./twitter');
@@ -24,6 +24,16 @@ client.on('ready', () => {
         ]
     })
 })
+
+// client.on('presenceUpdate', (oldPresence, newPresence) => {
+//     if (newPresence.guild.id == '1001929445478781030' && !newPresence.member.user.bot) {
+//         const IsStreaming = newPresence.activities.find( activity => activity.type === 'STREAMING');
+
+//         if (!IsStreaming) return; // The user does not have a streamming activity
+
+//         const streamRole = daalbot.getRole(newPresence.guild.id, );
+//     }
+// })
 
 client.on('guildMemberAdd', member => {
     if (member.guild.id === '1001929445478781030') {

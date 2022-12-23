@@ -1,4 +1,6 @@
 {
+    "debug": false,
+
     "prefix": "$",
 
     "botPath": "C:\\Users\\PinyLa\\Documents\\Code\\DaalBot\\DaalBot-V3",
