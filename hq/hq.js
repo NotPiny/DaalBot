@@ -69,6 +69,8 @@ client.on('messageCreate', msg => {
 
             msg.delete();
             daalbot.getChannel(msg.guild.id, '1052304271221198898').send({ embeds: [commitEmbed] });
+        } else if (msg.author.bot && msg.author.id == '1055877624230068315') {
+            msg.channel.send('<@&1016344487867457597>')
         }
     } else {
         return;

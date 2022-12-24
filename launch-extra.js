@@ -1,3 +1,4 @@
+const config = require('./config.json');
 require('./legacy/launch.js'); 
 require('./logs.js');
 require('./daal.js'); 
@@ -11,9 +12,9 @@ require('./logging/load.js');
 require('./db-setup.js');
 require('./events/join.js');
 require('./events/messageCreate.js');
-// require('./heartbeat.js');
+require('./heartbeat.js');
 // setTimeout(() => {
-//     require('child_process').execSync('start ./Batch/pulse.bat'); // Opens a new process so it doesn't go down with the main process
+//     require('child_process').exec(`start "" "${config.botPath}\\Batch/pulse.bat"`); // Opens a new process so it doesn't go down with the main process
 // }, 1000 * 3); // Starts pulse after 3 seconds to make sure that heartbeat is running first
 require('./hidden/launch.js');
 require('./interactions/load.js');
