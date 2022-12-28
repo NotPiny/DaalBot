@@ -40,18 +40,27 @@ client.on('interactionCreate', async (interaction) => {
                ephemeral: true
            })
 
-           interaction.message.components[0].setComponents(
-               new MessageButton()
-               .setCustomId('vortex-featured-accept')
-               .setLabel('Accept')
-               .setStyle('SUCCESS')
-               .setDisabled(true),
-               new MessageButton()
-               .setCustomId('vortex-featured-deny')
-               .setLabel('Deny')
-               .setStyle('DANGER')
-               .setDisabled(true)
-           )
+           const row = new MessageActionRow()
+
+            const acceptButton = new MessageButton()
+                .setCustomId('vortex-featured-accept')
+                .setLabel('Accept')
+                .setStyle('SUCCESS')
+                .setDisabled(true)
+
+            const denyButton = new MessageButton()
+                .setCustomId('vortex-featured-deny')
+                .setLabel('Deny')
+                .setStyle('DANGER')
+                .setDisabled(true)
+
+            row.addComponents(acceptButton, denyButton)
+
+            const message = await interaction.channel.messages.fetch(interaction.message.id)
+
+            message.edit({
+                components: [row]
+            })
        }
    }
 })

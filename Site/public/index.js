@@ -2,12 +2,12 @@ const serverAmountElement = document.getElementById('serverAmount');
 
 function updateServerAmount() {
   fetch('https://api.daalbot.xyz/get/general/serverAmount', {
-    mode: 'no-cors'
+    mode: 'cors',
+    method: 'GET',
   })
     .then(async(response) => {
-        const data = await response.text();
-        console.log(data);
-        serverAmountElement.innerText = data;
+      const data = await response.text();
+      serverAmountElement.innerText = data;
     })
 }
 

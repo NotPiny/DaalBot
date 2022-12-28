@@ -1,7 +1,7 @@
 const config = require('../../config.json');
 const botPath = config.botPath;
 const fs = require('fs');
-const canvas = require('canvas');
+// const canvas = require('canvas');
 const Discord = require('discord.js');
 module.exports = {
     name: 'level',

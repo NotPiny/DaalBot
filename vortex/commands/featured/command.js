@@ -1,6 +1,6 @@
 const client = require('../../../client');
-const daalbot = require('../../../daalbot');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const DJS = require('discord.js');
 require('./buttons/accept');
 require('./buttons/deny');
 require('./dropdown/deny');
@@ -16,19 +16,16 @@ client.on('ready', () => {
             {
                 name: 'sac-code',
                 description: 'Your sac code',
-                type: 'STRING', 
+                type: 3, 
                 required: true
             },
             {
                 name: 'map-code',
                 description: 'The code of the map that got featured',
-                type: 'STRING',
+                type: 3,
                 required: true
             }
         ]
-    })
-    .then(() => {
-        console.log('Vortex > Commands > Updated "Featured" Command');
     })
     .catch(console.log);
 })
@@ -36,15 +33,24 @@ client.on('ready', () => {
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isCommand()) {
         if (interaction.commandName === 'featured') {
+            const VTXserver = client.guilds.cache.get('973711816226136095');
             const sacCode = interaction.options.getString('sac-code');
             const mapCode = interaction.options.getString('map-code');
 
-            const channel = client.channels.cache.get('1031596467934203915');
+            const mapCodeSegments = mapCode.split('-');
+
+            if (!mapCode.includes('-')) return interaction.reply({ content: 'Invalid map code! Please use -\'s', ephemeral: true });
+
+            mapCodeSegments.forEach(segment => { if (isNaN(segment) || segment.length !== 4) return interaction.reply({ content: 'Invalid map code!', ephemeral: true }) })
+
+            const channel = VTXserver.channels.cache.get('974380330473631778')
 
             const embed = new MessageEmbed()
             .setTitle('Featured Creator Application')
             .setDescription(`**Sac Code:** ${sacCode}\n**Map Code:** ${mapCode}`)
-            .setFooter(interaction.user.id)
+            .setFooter({
+                text: interaction.user.id,
+            })
             .setTimestamp()
             .setColor('BLUE');
 
@@ -60,12 +66,19 @@ client.on('interactionCreate', async (interaction) => {
                 .setStyle('DANGER')
             )
 
-            channel.send({ 
-                content: `New featured creator application from <@${interaction.user.id}>`, 
-                embeds: [embed], 
-                components: [row] 
-            })
-            interaction.reply({ content: 'Your application has been sent!', ephemeral: true })
+            try {
+                await channel.send({ 
+                    content: `New featured creator application from <@${interaction.user.id}>`, 
+                    embeds: [embed], 
+                    components: [row] 
+                })
+            } catch (e) {
+                console.warn(e);
+                return await interaction.reply({ content: 'Something went wrong!', ephemeral: true })
+            }
+            
+            await interaction.reply({ content: 'Your application has been sent!', ephemeral: true })
+                .catch(console.warn);
         }
     }
 })
