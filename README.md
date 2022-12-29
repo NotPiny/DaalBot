@@ -4,10 +4,10 @@
 https://daalbot.xyz/Invite
 
 # Description
-A fun discord bot for all your random command needs and also has some useful commands
+A opensource discord bot designed to make your server better
 
 # Prefix
-Can do both slash and prefix commands
+Can do both slash and legacy commands</br>
 (some commands prefix's are set in config.json)
 
 # Links
