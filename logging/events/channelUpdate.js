@@ -41,16 +41,16 @@ client.on('channelUpdate', async(oldChannel, newChannel) => {
             Type: ${oldChannel.type}
             Topic: ${oldChannel.topic}
             Position: ${oldChannel.rawPosition}
-            Category: ${oldChannel.parent.name} / ${oldChannel.parent.id}
+            Category: ${oldChannel.parent.name ? oldChannel.parent.name : 'None'} / ${oldChannel.parent.id ? oldChannel.parent.id : 'None'}
             
             **After**
             Name: ${newChannel.name}
             Type: ${newChannel.type}
             Topic: ${newChannel.topic}
             Position: ${newChannel.rawPosition}
-            Category: ${newChannel.parent.name} / ${newChannel.parent.id}
+            Category: ${newChannel.parent.name ? newChannel.parent.name : 'None'} / ${newChannel.parent.id ? newChannel.parent.id : 'None'}
             `)
-            .setThumbnail('https://pinymedia.web.app/hashtag.png')
+            .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Channel.png')
             .setColor('YELLOW')
             .setTimestamp()
 

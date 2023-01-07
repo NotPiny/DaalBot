@@ -1,9 +1,9 @@
-const actions = ['exit', 'undefined', 'reply'];
+const actions = ['exit', 'undefined', 'reply', 'throw'];
 require('dotenv').config();
 
 module.exports = {
   category: 'Testing',
-  description: 'Crashes the bot for debugging',
+  description: 'Crashes the bot for debugging i guess',
 
   minArgs: 1,
   expectedArgs: `<"${actions.join('", "')}">`,
@@ -38,7 +38,7 @@ module.exports = {
       console.log('oof.');
     }
 
-    if (interaction.options.getString('password') === process.env.execPass) {
+    if (interaction.options.getString('password') === process.env.execpass) {
       if (action === 'exit') {
         console.log(`|---------------|`);
         console.log(`|  Process.exit |`);
@@ -46,6 +46,10 @@ module.exports = {
         console.log(`|---------------|`);
         process.exit();
     }
+      
+      if (action === 'throw') {
+        throw new Error('Thrown error (testing)');
+      }
 
     if (action === 'reply') {
       interaction.reply({
@@ -53,6 +57,7 @@ module.exports = {
         ephemeral: true
       })
     }
+
     } else {
       return 'Wrong password!'
     }

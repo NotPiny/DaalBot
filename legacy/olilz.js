@@ -1,30 +1,28 @@
-const client = require('../client'); require('dotenv').config();
-const { MessageEmbed } = require('discord.js');
-
-// client.on('guildMemberAdd', member => {
-//     if (member.guild.id === '1015322440152383539') {
-//         const Embed = new MessageEmbed()
-//         .setImage(member.avatarURL)
-//         .setTitle('Welcome to the server!')
-//         .setDescription(`Be sure to read the <#747729414162350122> and get you <#863114801067851837>!\nIf you have any questions feel free to open a <#946438559106211850>`)
-//         client.channels.cache.find(channel => channel.id === '747728788275724290').send({
-//             content: `Welcome <@${member.id}>, to the server!`,
-//             embeds: [Embed]
-//         })
-//     } else {
-//         return;
-//     }
-// })
+const client = require('../client');
+const config = require('../config');
+const fs = require('fs');
+const path = require('path');
 
 client.on('messageCreate', msg => {
     if (msg.guild.id === '1015322440152383539') {
-        if (msg.channelId == '1035965541120225350' && msg.content !== 'DaalBot') return msg.delete();
-        if (msg.content.toLowerCase().startsWith('$olilzping')) {
-            msg.channel.send('<@747928399326216334>')
-        }
+        fs.appendFileSync(path.resolve('./olilz.log'), `[${new Date()}] ${msg.author.tag} / ${msg.author.id}: 
+        content: ${msg.content}
+        attachments: ${msg.attachments.map(a => a.url).join(', ')}
+        timestamp: ${msg.createdTimestamp}
+        channel: ${msg.channel.name} / ${msg.channel.id}
+        author: ${msg.author.tag} / ${msg.author.id}
 
-        if (msg.content.toLowerCase().startsWith('$yee')) {
-            // TODO
+`)
+    
+        if (msg.content.toLowerCase().startsWith('$request-logs')) {
+            const author = msg.author
+
+            if (author.id === config.users.olilz || author.id === config.users.piny) {
+                author.send({
+                    content: 'The logs that you requested are attached.',
+                    files: [ path.resolve('./olilz.log') ]
+                })
+            }
         }
     }
 })

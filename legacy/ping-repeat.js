@@ -15,13 +15,13 @@ client.on("messageCreate", msg => {
                     for (let i = 0; i < args[1]; i++) {
                         setTimeout(() => {
                             msg.channel.send(`<@${user.id}>`);
-                        }, 1000);
+                        }, 2.5 * 1000);
                     }
                 } else {
                     for (let i = 0; i < args[1]; i++) {
                         setTimeout(() => {
                             msg.channel.send(`<@${user.id}> roses are red, violets are blue, ${msg.author.username} spam pings you.`);
-                        }, 2500);
+                        }, 2.5 * 1000);
                     }
                 }
             }

@@ -93,7 +93,7 @@ module.exports = {
   },
 
   callback: async ({ message, interaction, args, client }) => {
-    if (config.WOKCommands.BotOwners.includes(interaction.user.id)) {
+    // if (config.WOKCommands.BotOwners.includes(interaction.user.id)) {
       const channel = (
         message
           ? message.mentions.channels.first()
@@ -196,8 +196,8 @@ module.exports = {
         },
         ephemeral: true,
       }  
-    } else {
-      return 'Sorry for the inconvenience, but this command is currently disabled due to bugs.'
-    }
+    // } else {
+      // return 'Sorry for the inconvenience, but this command is currently disabled due to bugs.'
+    // }
   },
 }

@@ -84,7 +84,10 @@ module.exports = {
       .setTitle('Success')
       .setDescription(`Added warning to <@${user?.id}>\nReason: \`${reason}\``)
       .setColor(0x40ff00)
-      .setFooter(`ID: ${warning.id}`)
+      .setFooter({
+        text: `ID: ${warning.id}`,
+        iconURL: user?.displayAvatarURL({ dynamic: true }),
+      })
 
       user?.send(`You have been warned in ${guild?.name} for \`${reason}\``)
       .then(() => {
@@ -112,7 +115,9 @@ module.exports = {
       .setTitle(`Success`)
       .setDescription(`Removed warning from <@${user?.id}>`)
       .setColor(0xff0000)
-      .setFooter(`ID: ${id}`)
+      .setFooter({
+        text: `ID: ${id}`,
+      })
 
       return {
         custom: true,

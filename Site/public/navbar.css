@@ -1,4 +1,4 @@
-ul {
+  ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -23,6 +23,14 @@ ul {
     text-decoration: none;
   }
   
-  li a:hover:not(.active) {
-    background-color: #111;
+  li a:hover {
+    /* Gradually change the colour in the background from #333 to #502898 */
+    transition: all .5s ease-in;
+    background-color: #502898;
+  }
+
+  li a:not(:hover) {
+    /* Gradually change the colour in the background from #502898 to #333 */
+    transition: all .5s ease-in;
+    background-color: #333;
   }

@@ -18,12 +18,14 @@ const events = [
     'roleCreate',
     'roleDelete',
     'roleUpdate',
-    'ticketClose'
+    'ticketClose',
+    'ticketCreate',
+    'guildUpdate'
 ]
 
 module.exports = {
     name: 'logs',
-    description: 'Modifies the log settings for the server.',
+    description: 'Modifies the logging settings for this server.',
     category: 'Guild',
 
     slash: true,

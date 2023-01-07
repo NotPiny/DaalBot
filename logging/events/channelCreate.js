@@ -18,7 +18,7 @@ client.on('channelCreate', async(channel) => {
         const embed = new Discord.MessageEmbed()
             .setTitle('Channel Created')
             .setDescription(`Channel: ${channel.name}\nID: ${channel.id}\nType: ${channel.type}`)
-            .setThumbnail('https://pinymedia.web.app/hashtag.png')
+            .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Channel.png')
             .setColor('GREEN')
             .setTimestamp()
 

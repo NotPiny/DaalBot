@@ -16,8 +16,8 @@ client.on('messageDelete', async (message) => {
 
             const embed = new MessageEmbed()
                 .setTitle('Message Deleted')
-                .setDescription(`Message: ${message.content}\nAuthor: ${message.author.tag}\nChannel: ${message.channel}`)
-                .setThumbnail(message.author.displayAvatarURL())
+                .setDescription(`Message: ${message.content}\nAuthor: <@${message.author.id}>\nChannel: ${message.channel}`)
+                .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Message.png')
                 .setColor('RED')
                 .setTimestamp()
 

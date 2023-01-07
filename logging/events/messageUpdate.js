@@ -29,7 +29,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
             const embed = new MessageEmbed()
                 .setTitle('Message Edited')
                 .setDescription(description)
-                .setThumbnail(oldMessage.author.displayAvatarURL())
+                .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Message.png')
                 .setColor('YELLOW')
                 .setTimestamp()
 

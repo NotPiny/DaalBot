@@ -10,6 +10,28 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         try {
         if (interaction.customId == 'create_ticket') {
+            if (fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCREATE.enabled`))) {
+                const enabled = fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCREATE.enabled`), 'utf8');
+                if (enabled == 'true') {
+                    if (!fs.existsSync(`./db/logging/${interaction.guild.id}/channel.id`)) return;
+
+                    const channelID = fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`), 'utf8');
+                    const logChannel = client.channels.cache.get(channelID);
+
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle('Ticket Created')
+                        .setDescription(`User: ${interaction.user.tag}\nID: ${interaction.user.id}`)
+                        .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Ticket.png')
+                        .setColor('GREEN')
+                        .setTimestamp()
+
+                    logChannel.send({
+                        content: `Ticket Created`,
+                        embeds: [embed]
+                    })
+                }
+            }
+
             const ticketCategory = daalbot.getChannel(interaction.guild.id, fs.readFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}.category`, 'utf8'));
             if (!ticketCategory) return interaction.reply({ content: 'The ticket category is not set up.', ephemeral: true });
 

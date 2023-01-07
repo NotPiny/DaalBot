@@ -15,8 +15,14 @@ module.exports = {
     callback: async ({ interaction, client }) => {
         let embed = new MessageEmbed()
             .setColor("RANDOM")
-            .setAuthor("Commands", client.user.displayAvatarURL({ dynamic: true }))
-            .setFooter(`Requested by ${interaction.user.tag}`, interaction.user.displayAvatarURL({ dynamic: true }))
+            .setAuthor({
+                name: `${client.user.username} Commands`,
+                icon_url: client.user.displayAvatarURL({ dynamic: true })
+            })
+            .setFooter({
+                text: `Requested by ${interaction.user.username}`,
+                icon_url: interaction.user.displayAvatarURL({ dynamic: true })
+            })
             .setTimestamp();
 
             let commandsArray = [];

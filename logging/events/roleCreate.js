@@ -17,6 +17,7 @@ client.on('roleCreate', async (role) => {
             const embed = new MessageEmbed()
                 .setTitle('Role Created')
                 .setDescription(`Role: ${role.name}\nID: ${role.id}`)
+                .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Role.png')
                 .setColor('GREEN')
                 .setTimestamp()
 

@@ -25,6 +25,9 @@ module.exports = {
         if (interaction.options.getUser('user') !== null) {
             user = interaction.options.getUser('user');
         }
+
+            if (user.bot) return interaction.reply({ content: `<@${user.id}> is a bot and is not have a level`, ephemeral: true });
+
             if (fs.existsSync(`${botPath}/db/xp/${interaction.guild.id}/${user.id}.xp`)) {
                 let xp = fs.readFileSync(`${botPath}/db/xp/${interaction.guild.id}/${user.id}.xp`, 'utf8');
                 let level = xp.slice(0, -3) || 0;

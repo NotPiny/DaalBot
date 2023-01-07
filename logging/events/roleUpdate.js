@@ -57,6 +57,7 @@ client.on('roleUpdate', (oldRole, newRole) => {
                 **IDs:**
                 Role: ${newRole.id}
                 `)
+                .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Role.png')
                 .setColor('YELLOW')
                 .setTimestamp()
 

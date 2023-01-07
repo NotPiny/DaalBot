@@ -14,6 +14,7 @@ client.on('guildCreate', guild => {
   const embed = new DJS.MessageEmbed()
     .setTitle('Bot added to server')
     .setDescription(`Bot added to \`${guild.name}\` (${guild.id})`)
+    .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Guild.png')
     .setTimestamp()
     .setFooter({
       text: `Now in ${client.guilds.cache.size} servers`, iconURL: client.user.avatarURL()
@@ -30,6 +31,7 @@ client.on('guildDelete', guild => {
   const embed = new DJS.MessageEmbed()
     .setTitle('Bot removed from server')
     .setDescription(`Bot removed from \`${guild.name}\` (${guild.id})`)
+    .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Guild.png')
     .setTimestamp()
     .setFooter({
       text: `Now in ${client.guilds.cache.size} servers`, iconURL: client.user.avatarURL()
