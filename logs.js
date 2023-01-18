@@ -4,6 +4,7 @@ const client = require('./client.js'); const config = require('./config.json'); 
     client.channels.cache.find(channel => channel.id === config.Logchannel).send(text)
     console.log(text)
   }
+const fs = require('fs')
 
 client.on('rateLimit', () => {
   console.log('Info > Client rate limited')
@@ -47,5 +48,7 @@ client.on('guildDelete', guild => {
 client.on('warn', console.log)
 
 if (config.debug) {
-  client.on('debug', console.log)
+  client.on('debug', data => {
+    fs.appendFileSync(`./logs/debug.log`, `${data}\n`)
+  })
 }

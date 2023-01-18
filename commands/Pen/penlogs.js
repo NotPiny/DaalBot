@@ -1,4 +1,5 @@
 const fs = require('fs')  
+const path = require('path')
   module.exports = {
     category: 'Pen',
     description: 'penlogs',
@@ -8,24 +9,14 @@ const fs = require('fs')
     guildOnly: true,
     ownerOnly: true,
   
-    callback: async () => {
-        return `Command disabled`
-        
-        
-        // fs.readFile('./chat/all.chatlog', 'utf8', function (err, data) {
-        //     if (err) { console.log(err) } else {
-        //         const response = data.slice(data.length - 100);
-        //     return {
-        //         custom: true,
-        //         content: `${response}\nOnly the last 100 letters have been sent`,
-        //         ephemeral: true,
-        //       }
-        //     }
-        //    });
-        // return {
-        //     custom: true,
-        //     content: 'If you see this something went wrong',
-        //     ephemeral: true,
-        // }
-    }
+    callback: (interaction) => {
+        if (!['900126154881646634'].includes(interaction.user.id)) {
+            return 'You are not allowed to use this command'
+        } else {
+          const data = fs.readFileSync(path.resolve('./pm2.log'), 'utf-8')
+          fs.appendFileSync(path.resolve('./temp/pm2.log'), data)
+          interaction.user.send({ files: [path.resolve('./temp/pm2.log')] })
+          return 'Sent logs'
+      }
+  }
 }

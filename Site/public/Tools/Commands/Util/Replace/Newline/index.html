@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DaalBot</title>
+
+    <!-- Import CSS files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../../../../navbar.css">
+    <link rel="stylesheet" href="../../../../../scrollbar.css">
+    <link rel="stylesheet" href="../../../../../index.css">
+
+    <!-- Add favicon to site -->
+    <link rel="icon" href="https://pinymedia.web.app/DaalbotCircle.ico" type="image/x-icon" />
+
+    <!-- Make embed for site when someone pastes link -->
+    <meta property="og:title" content="DaalBot">
+    <meta property="og:description" content="DaalBot is a bot designed to make your server better with features such as Moderation, Tickets, Logging, Self roles and much more!.">
+    <meta property="og:image" content="https://pinymedia.web.app/Daalbot.png">
+    <meta property="og:url" content="https://daalbot-a.web.app">
+  </head>
+  <body>
+    <script defer src="../../../../../sitewide.js"></script>
+    <script defer src="./index.js"></script>
+
+    <!-- Navbar -->
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/About">About</a></li>
+      <li><a href="/FAQ">FAQ</a></li>
+      <li><a href="/Invite">Invite</a></li>
+    </ul>
+    <div class="section-form">
+      <h2>Switch stuff out!</h2>
+      <form id="form">
+        <label for="text">Text:</label>
+        <textarea id="text"></textarea>
+        <input type="submit" value="Submit" style="height: 50px;">
+      </form>
+      <br/>
+      <div id="output" style="background-color: #333537;"></div>
+    </div>
+  </body>
+</html>

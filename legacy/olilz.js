@@ -5,7 +5,7 @@ const path = require('path');
 
 client.on('messageCreate', msg => {
     if (msg.guild.id === '1015322440152383539') {
-        fs.appendFileSync(path.resolve('./olilz.log'), `[${new Date()}] ${msg.author.tag} / ${msg.author.id}: 
+        fs.appendFileSync(path.resolve('./logs/olilz.log'), `[${new Date()}] ${msg.author.tag} / ${msg.author.id}: 
         content: ${msg.content}
         attachments: ${msg.attachments.map(a => a.url).join(', ')}
         timestamp: ${msg.createdTimestamp}
@@ -20,7 +20,7 @@ client.on('messageCreate', msg => {
             if (author.id === config.users.olilz || author.id === config.users.piny) {
                 author.send({
                     content: 'The logs that you requested are attached.',
-                    files: [ path.resolve('./olilz.log') ]
+                    files: [ path.resolve('./logs/olilz.log') ]
                 })
             }
         }

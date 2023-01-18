@@ -24,6 +24,7 @@ require('./commands/tests/ticket-drop.js');
 
 // Loading events
 require('./events/join.js');
+require('./events/messageCreate.js');
 
 // If you want to see this code in action join the vortex discord server https://discord.gg/byBXVJbsYe
 

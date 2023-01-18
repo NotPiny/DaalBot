@@ -10,11 +10,17 @@ client.on("messageCreate", msg => {
             if (!user == undefined) {
                 return msg.channel.send('Please specify a user to ping.');
             } else {
-                if (msg.content.toLowerCase().endsWith('-a')) {
+                if (msg.content.toLowerCase().includes('-a')) {
                     msg.delete();
                     for (let i = 0; i < args[1]; i++) {
                         setTimeout(() => {
-                            msg.channel.send(`<@${user.id}>`);
+                            msg.channel.send(`<@${user.id}>`)
+                                .then(message => {
+                                    if (msg.content.toLowerCase().endsWith('-d')) {
+                                        message.delete()
+                                            .catch(console.warn)
+                                    }
+                                })
                         }, 2.5 * 1000);
                     }
                 } else {
