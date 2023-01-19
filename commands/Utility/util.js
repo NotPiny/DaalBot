@@ -26,6 +26,19 @@ module.exports = {
                             required: true,
                         }
                     ]
+                },
+                {
+                    name: 'user',
+                    description: 'Get the ID of a user',
+                    type: 'SUB_COMMAND',
+                    options: [
+                        {
+                            name: 'user',
+                            description: 'The user to get the ID of',
+                            type: 'USER',
+                            required: true,
+                        }
+                    ]
                 }
             ]
         },
@@ -51,6 +64,11 @@ module.exports = {
             if (subCommand === 'role') {
                 const role = interaction.options.getRole('role')
                 return `The ID of the role is ${role.id}`
+            }
+
+            if (subCommand === 'user') { 
+                const user = interaction.options.getUser('user')
+                return `The ID of the user is ${user.id}`
             }
         }
 

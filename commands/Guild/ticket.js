@@ -19,7 +19,7 @@ const embedColours = [
 
 module.exports = {
     name: 'ticket',
-    description: 'Manages tickets for the server.',
+    description: 'Manages tickets for the server',
     category: 'Guild',
 
     slash: true,
@@ -55,6 +55,12 @@ module.exports = {
                         name: colour,
                         value: colour.toUpperCase(),
                     })),
+                },
+                {
+                    name: 'message-id',
+                    description: 'If used, the bot will edit the message instead of sending a new one.',
+                    type: 'STRING',
+                    required: false
                 }
             ]
         },
@@ -117,6 +123,7 @@ module.exports = {
             const channel = interaction.options.getChannel('channel');
             const title = interaction.options.getString('title');
             const colour = interaction.options.getString('colour');
+            const messageId = interaction.options.getString('message-id');
 
             const embed = new Discord.MessageEmbed()
                 .setTitle(title)
@@ -131,9 +138,15 @@ module.exports = {
                         .setStyle('SUCCESS')
                 );
 
-            channel.send({ embeds: [embed], components: [row] });
+            if (messageId == null) {
+                channel.send({ embeds: [embed], components: [row] });
+            } else {
+                channel.messages.fetch(messageId).then((message) => {
+                    message.edit({ embeds: [embed], components: [row] });
+                });
+            }
 
-            return 'Ticket panel sent.';
+            return messageId == null ? 'Successfully sent the ticket panel.' : 'Successfully added a button to the message.';
         }
 
         if (subCommand === 'category') {

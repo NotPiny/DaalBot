@@ -131,7 +131,7 @@ module.exports = {
         const isUsed = (option) => option != null;
 
         // Check if the embed settings are valid
-        if (!isUsed(title) && !isUsed(description) && !isUsed(author) && !isUsed(thumbnail) && !isUsed(image)) return interaction.editReply({ content: 'You must provide a title, description, author, footer, thumbnail or image' });
+        if (!isUsed(title) && !isUsed(description) && !isUsed(author) && !isUsed(footer) && !isUsed(thumbnail) && !isUsed(image)) return interaction.editReply({ content: 'You must provide a title, description, author, footer, thumbnail or image' });
 
         if (!isValidImage(thumbnail)) return interaction.editReply({ content: 'Invalid thumbnail' });
         if (!isValidImage(image)) return interaction.editReply({ content: 'Invalid image' });
