@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DaalBot - Dashboard</title>
+
+    <!-- Import CSS files -->
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+
+    <!-- Add favicon to site -->
+    <link rel="icon" href="https://pinymedia.web.app/DaalbotCircle.ico" type="image/x-icon" />
+
+    <!-- Make embed for site when someone pastes link -->
+    <meta property="og:title" content="DaalBot">
+    <meta property="og:description" content="DaalBot is a bot designed to make your server better with features such as Moderation, Tickets, Logging, Self roles and much more!.">
+    <meta property="og:image" content="https://pinymedia.web.app/Daalbot.png">
+    <meta property="og:url" content="https://daalbot-a.web.app">
+  </head>
+  <body>
+      <script defer src="./login.js"></script>
+  
+      <!-- Main -->
+      <main class="container" style="width: 534px;">
+        <h1>Sign in</h1>
+        <form id="form">
+          <input type="text" name="login" id="id" placeholder="Id" aria-label="Login" autocomplete="nickname" required>
+          <input type="password" name="password" id="password" placeholder="Password" aria-label="Password" autocomplete="current-password" required>
+          <button type="submit" class="contrast" style="background-color: #502898;">Login</button>
+        </form>
+      </main><!-- ./ Main -->
+  </body>
+</html>

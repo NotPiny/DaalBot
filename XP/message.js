@@ -3,6 +3,7 @@ const config = require('../config.json');
 const daalbot = require('../daalbot.js');
 const fs = require('fs');
 const path = require('path');
+const DJS = require('discord.js');
 
 client.on('messageCreate', msg => {
     if (msg.author.bot) return;
@@ -40,8 +41,33 @@ client.on('messageCreate', msg => {
 
                 if (!botCmdsChannel.isText()) return;
 
+                const embed = new daalbot.embed()
+                    .setTitle('Level Up!')
+                    .setDescription(`Congratulations on leveling up ${msg.author.name}! You are now level ${level} and have unlocked the ${role.name.split(' - ')[0]} role`)
+                    .setThumbnail(msg.author.avatarURL())
+                    .setColor('#00aae3')
+                    .setImage('https://pinymedia.web.app/Vortex/LevelUp.png')
+                    .setAuthor({
+                        name: 'Vortex Creative',
+                        iconURL: 'https://pinymedia.web.app/VortexLogo.png',
+                    });
+
+                const row = new DJS.MessageActionRow()
+
+                const moreInfoButton = new DJS.MessageButton()
+                    .setLabel('More Info')
+                    .setStyle('LINK')
+                    .setURL('https://discord.com/channels/973711816226136095/1001724255215558766/1059587784496648212')
+                    .setEmoji('📖');
+
+                row.addComponents(moreInfoButton);
+
                 botCmdsChannel.send({
-                    content: `Congratulations <@${msg.author.id}>, you have reached level ${level} and have earned the ${level} role! Check out <#1001724255215558766> for more information`,
+                    content: `<@${msg.author.id}>`,
+                    embeds: [embed],
+                    components: [
+                        row
+                    ]
                 })
                 .catch(err => {
                     console.log(err);

@@ -1,0 +1,42 @@
+.server-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(50px, auto);
+
+    margin: 25px;
+}
+
+.server-grid > div {
+    background: #271d1d;
+    border: 1px solid #ccc;
+    border-radius: 4%;
+    padding: 5px;
+
+    width: 175px;
+    height: 263px;
+
+    text-align: center;
+}
+
+.server-grid > div > b {
+    font-size: 15px;
+    color: #fff;
+}
+
+.server-grid > div > button {
+    width: 162px;
+
+    background-color: #502898;
+
+    border: 1px solid #502898;
+
+    border-radius: 4%;
+
+    text-align: center;
+}
+
+.server-grid > div > image {
+    width: 162px;
+    height: 153px;
+}

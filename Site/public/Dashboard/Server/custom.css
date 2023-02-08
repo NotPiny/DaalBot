@@ -1,0 +1,14 @@
+:root {
+    --background-colour: #11191f;
+}
+
+nav {
+    height: 100%;
+    width: 25px;
+
+    position: fixed;
+
+    left: 0px;
+
+    background-color: #fbfbfb;
+}

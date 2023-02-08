@@ -60,7 +60,14 @@ Server Member Count: ${server.memberCount}
             if (user === 'User not found.') {
                 return 'User not found.';
             } else {
-                return `User Tag: ${user.tag}\nUser ID: ${user.id}\nUser Avatar: ${user.displayAvatarURL()}\nBot: ${user.bot}\nCreated Timestamp: ${user.createdTimestamp}\nCreated At: ${user.createdAt}`
+                const embed = new Discord.MessageEmbed()
+                    .setTitle(`User: ${user.tag}`)
+                    .setThumbnail(user.displayAvatarURL())
+                    .setDescription(`User Tag: ${user.tag}\nUser ID: ${user.id}\nUser Avatar: ${user.displayAvatarURL()}\nBot: ${user.bot}\nCreated Timestamp: ${user.createdTimestamp}\nCreated At: ${user.createdAt}`);
+                
+                interaction.reply({
+                    embeds: [embed]
+                })
             }
         }
 
