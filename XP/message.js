@@ -43,7 +43,7 @@ client.on('messageCreate', msg => {
 
                 const embed = new daalbot.embed()
                     .setTitle('Level Up!')
-                    .setDescription(`Congratulations on leveling up ${msg.author.name}! You are now level ${level} and have unlocked the ${role.name.split(' - ')[0]} role`)
+                    .setDescription(`Congratulations on leveling up ${msg.author.username}! You are now level ${level} and have unlocked the ${role.name.split(' - ')[0]} role`)
                     .setThumbnail(msg.author.avatarURL())
                     .setColor('#00aae3')
                     .setImage('https://pinymedia.web.app/Vortex/LevelUp.png')

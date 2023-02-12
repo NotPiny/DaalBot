@@ -2,7 +2,7 @@ const client = require('../client');
 const config = require('../config.json')
 function botLog(text) {
     try {
-    client.channels.cache.find(channel => channel.id === config.Logchannel).send(text);
+    // client.channels.cache.find(channel => channel.id === config.Logchannel).send(text);
     console.log(text)
     } catch {
         console.log('Something went wrong in botlog in status.js')
