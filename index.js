@@ -25,16 +25,16 @@ This is sending the message to the console. The console is the part of the bot t
 
 client.on('ready', () => {
   //When bot loads
-  botLog(`Load > Logged in as ${client.user.tag}!`);
+  botLog(`Load > DaalBot is ready`);
   console.log(`Running in ${client.guilds.cache.size} servers!`);
   const RandomIndex = Math.floor(Math.random() * (config.activities.length - 1) + 1);
   const NewActivity = config.activities[RandomIndex];
 
     client.user.setActivity(NewActivity, {
-    type: "STREAMING",
-    url: "https://www.twitch.tv/daalbott"
+      type: "STREAMING",
+      url: "https://www.twitch.tv/daalbott"
     });
-    botLog(`Status > Status is now "${NewActivity}"`)
+    console.log(`Status > Status is now "${NewActivity}"`)
   
   // WOKCommands
   new WOKCommands(client, {
