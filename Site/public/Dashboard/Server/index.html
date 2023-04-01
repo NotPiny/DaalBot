@@ -7,6 +7,7 @@
 
     <!-- Import CSS files -->
     <link rel="stylesheet" href="./custom.css">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
 
     <!-- Add favicon to site -->
     <link rel="icon" href="https://pinymedia.web.app/DaalbotCircle.ico" type="image/x-icon" />
@@ -19,9 +20,18 @@
   </head>
   <body>
     <script defer src="./server.js"></script>
+    <script defer src="../dashboard.js"></script>
 
-    <nav>
-      <h1>:)</h1>
-    </nav>
+    <h1 style="text-align: center;">Control panel</h1>
+
+    <!-- Create a box in the middle of the screen containing some text and a select dropdown that auto submits when a option is picked -->
+    <div class="pico-box" style="width: 50%; margin: auto;">
+      <h2>What do you want to do?</h2>
+      <form>
+        <select id="option" name="option" onchange="this.form.submit()">
+          <option value="">Please select a option</option>
+          <option value="1">Automation</option>
+        </select>
+      </form>
   </body>
 </html>

@@ -1,7 +1,7 @@
 // JAVASCRIPT:
 const actions = ['add', 'remove', 'has'];
 const fs = require('fs');
-const { botPath } = require('../../config.json');
+const path = require('path');
 
 module.exports = {
   category: "Pen",
@@ -42,13 +42,11 @@ module.exports = {
       )}`
     }
 
-    const memberId = args.shift().replace(/[<@!&>]/g, '');
     const member = await interaction.options.getMember('user');
+    const memberId = member.id // args.shift().replace(/[<@!&>]/g, '');
 
     if (action === 'add') {
-      fs.appendFile(`${botPath}/gmuted.list`, `\n${memberId}`, function (err) {
-        if (err) throw err;
-      });
+      fs.appendFileSync(path.resolve(`./gmuted.list`), `\n${memberId}`)
       
       return {
         custom: true,
@@ -67,17 +65,9 @@ module.exports = {
           
           
         }
-        const regex = new RegExp(memberId);
-        const Ndata = data.replace(regex, "REMOVED");
+        const Ndata = data.replace(`\n${memberId}`, '');
         
-        fs.writeFile(`${botPath}/gmuted.list`, Ndata, err => {
-          if (err) {
-            console.log(err);
-            return `<:Red_Error:1010468979535515648> Something went wrong`
-            
-            
-          }
-        });
+        fs.writeFileSync(path.resolve(`./gmuted.list`), Ndata)
       });
 
       return {
@@ -90,7 +80,7 @@ module.exports = {
     }
 
     if (action === 'has') {
-      fs.readFile('./gmuted.list', 'utf8', (err, data) => {
+      fs.readFile(path.resolve(`./gmuted.list`), 'utf8', (err, data) => {
         if (err) {
           console.log(err);
           return `<:Red_Error:1010468979535515648> Something went wrong`

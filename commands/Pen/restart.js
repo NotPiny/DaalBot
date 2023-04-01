@@ -1,6 +1,4 @@
-const { Interaction } = require("discord.js");
 const config = require('../../config.json');
-const botPath = config.botPath;
 const Logchannel = config.Logchannel;
 module.exports = {
     category: 'Pen',
@@ -24,14 +22,9 @@ module.exports = {
           },
         ],
       })
-      require('child_process').exec(`start "" "${botPath}\\Batch/start.bat"`);
+
+      require('child_process').execSync('pm2 restart 1');
       botLog(`<@${user.id}> restarted the bot`)
-      interaction.reply({
-        content: 'Restarting...'
-      })
-      .then(() => { console.log(':)') })
-      .catch(() => { console.log('bruh') })
-      process.exit();
     },
   }
   

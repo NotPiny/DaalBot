@@ -113,6 +113,45 @@ module.exports = {
                     type: 'BOOLEAN',
                 }
             ]
+        },
+        {
+            name: 'blacklist',
+            description: 'Blacklist a user from creating tickets.',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'user',
+                    description: 'The user to blacklist / unblacklist.',
+                    type: 'USER',
+                    required: true
+                },
+                {
+                    name: 'action',
+                    description: 'Whether to blacklist or unblacklist the user.',
+                    type: 'STRING',
+                    required: true,
+                    choices: [
+                        {
+                            name: 'add',
+                            value: 'add'
+                        },
+                        {
+                            name: 'has',
+                            value: 'has'
+                        },
+                        {
+                            name: 'remove',
+                            value: 'remove'
+                        }
+                    ]
+                },
+                {
+                    name: 'reason',
+                    description: 'The reason for blacklisting / unblacklisting the user.',
+                    type: 'STRING',
+                    required: false
+                }
+            ]
         }
     ],
 
@@ -185,8 +224,8 @@ module.exports = {
 
             if (!ticket.name.startsWith('ticket-') && !ticket.name.startsWith('closed-')) return 'That is not a ticket.';
 
-            if (fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`))) {
-                fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`));
+            if (fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '').replace('closed-', '')}.ticket`))) {
+                fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '').replace('closed-', '')}.ticket`));
                 ticket.delete();
 
                 // Log the ticket closing if enabled.
@@ -299,6 +338,83 @@ module.exports = {
             } else {
                 fs.appendFileSync(`${folder}/${guildId}.permissions`, `${role.id}:allow`);
                 return 'Successfully updated the permissions.';
+            }
+        }
+
+        if (subCommand === 'blacklist') {
+            const user = interaction.options.getUser('user');
+            const reason = interaction.options.getString('reason');
+            const action = interaction.options.getString('action');
+
+            const guild = interaction.guild;
+
+            const file = path.resolve(`./db/tickets/${guild.id}/blacklist/${user.id}.txt`);
+
+            if (action === 'add') {
+                if (fs.existsSync(file)) {
+                    interaction.reply({
+                        content: `<@${user.id}> is already blacklisted from creating tickets.`,
+                        ephemeral: true
+                    })
+                } else {
+                    if (fs.existsSync(path.resolve(`./db/tickets/${guild.id}/blacklist`))) {
+                        fs.appendFileSync(file, `${interaction.user.id}:${reason != null ? reason : 'No reason provided.'}`);
+                    } else {
+                        fs.mkdirSync(path.resolve(`./db/tickets/${guild.id}/blacklist`));
+                        fs.appendFileSync(file, `${interaction.user.id}:${reason != null ? reason : 'No reason provided.'}`);
+                    }
+
+                    interaction.reply({
+                        content: `<@${user.id}> has been blacklisted from creating tickets.`,
+                        ephemeral: true
+                    })
+                }
+            }
+
+            if (action === 'has') {
+                if (fs.existsSync(file)) {
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle('Ticket Blacklist')
+                        .addFields({
+                            name: 'User',
+                            value: `<@${user.id}>`,
+                        },
+                        {
+                            name: 'Reason',
+                            value: fs.readFileSync(file, 'utf8').split(':')[1]
+                        },
+                        {
+                            name: 'Blacklisted By',
+                            value: `<@${fs.readFileSync(file, 'utf8').split(':')[0]}>`
+                        })
+
+                    interaction.reply({
+                        content: `<@${user.id}> is blacklisted from creating tickets.`,
+                        embeds: [embed],
+                        ephemeral: true
+                    })
+                } else {
+                    interaction.reply({
+                        content: `<@${user.id}> is not blacklisted from creating tickets.`,
+                        ephemeral: true
+                    })
+                }
+            }
+
+            if (action === 'remove') {
+                if (fs.existsSync(file)) {
+                    fs.unlinkSync(file);
+
+                    interaction.reply({
+                        content: `<@${user.id}> has been removed from the blacklist.`,
+                        ephemeral: true
+                    })
+                } else {
+                    interaction.reply({
+                        content: `<@${user.id}> is not blacklisted from creating tickets.`,
+                        ephemeral: true
+                    })
+                }
             }
         }
     }

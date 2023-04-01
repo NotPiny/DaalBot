@@ -3,7 +3,7 @@ if (localStorage.getItem('userSecret') === null) {
 } else {
     // User is logged in
     // Use the userSecret to get the user's servers
-
+    
     (async () => {
         const response = await fetch(`https://api.daalbot.xyz/get/users/servers?id=${localStorage.getItem('userId')}`, {
             method: 'GET',

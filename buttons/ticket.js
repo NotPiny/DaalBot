@@ -10,6 +10,14 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         try {
         if (interaction.customId == 'create_ticket') {
+            if (fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/blacklist/${interaction.user.id}.txt`))) {
+                return await interaction.reply({
+                    content: `You cannot create a ticket in this server!`,
+                    ephemeral: true
+                })
+            }
+
+
             if (fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCREATE.enabled`))) {
                 const enabled = fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCREATE.enabled`), 'utf8');
                 if (enabled == 'true') {

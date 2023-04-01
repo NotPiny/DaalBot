@@ -43,7 +43,7 @@ client.on('interactionCreate', async (interaction) => {
 
             mapCodeSegments.forEach(segment => { if (isNaN(segment) || segment.length !== 4) return interaction.reply({ content: 'Invalid map code!', ephemeral: true }) })
 
-            const channel = VTXserver.channels.cache.get('974380330473631778')
+            const channel = VTXserver.channels.cache.get('1031596467934203915')
 
             const embed = new MessageEmbed()
             .setTitle('Featured Creator Application')
@@ -54,26 +54,31 @@ client.on('interactionCreate', async (interaction) => {
             .setTimestamp()
             .setColor('BLUE');
 
+            const acceptButton = new MessageButton()
+            .setCustomId('vortex-featured-accept')
+            .setLabel('Accept')
+            .setStyle('SUCCESS');
+
+            const denyButton = new MessageButton()
+            .setCustomId('vortex-featured-deny')
+            .setLabel('Deny')
+            .setStyle('DANGER');
+
             const row = new MessageActionRow()
-            .addComponents(
-                new MessageButton()
-                .setCustomId('vortex-featured-accept')
-                .setLabel('Accept')
-                .setStyle('SUCCESS'),
-                new MessageButton()
-                .setCustomId('vortex-featured-deny')
-                .setLabel('Deny')
-                .setStyle('DANGER')
-            )
+
+            row.addComponents(acceptButton);
+            row.addComponents(denyButton);
 
             try {
                 await channel.send({ 
                     content: `New featured creator application from <@${interaction.user.id}>`, 
                     embeds: [embed], 
-                    components: [row] 
+                    components: [row]
                 })
+
+                interaction.reply({ content: 'Thanks for submitting for the featured role \n (Make sure your DMs are open for when your application is reviewed)', ephemeral: true })
             } catch (e) {
-                console.warn(e);
+                console.log(`Error: ${e}`);
                 return await interaction.reply({ content: 'Something went wrong!', ephemeral: true })
             }
             

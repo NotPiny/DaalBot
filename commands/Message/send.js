@@ -2,7 +2,7 @@ module.exports = {
   category: 'Message',
   description: 'Sends a message.',
 
-  permissions: ['ADMINISTRATOR'],
+  requireRoles: true,
 
   minArgs: 2,
   expectedArgs: '<channel> <text>',
@@ -37,6 +37,10 @@ module.exports = {
 
     channel.send(result)
 
-    return 'Sent message!'
+    return {
+      custom: true,
+      content: `Sent \`\`\`\n${result}\n\`\`\` to ${channel}`,
+      ephemeral: true
+    }
   }
 }

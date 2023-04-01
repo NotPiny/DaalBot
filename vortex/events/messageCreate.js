@@ -7,7 +7,7 @@ client.on('messageCreate', msg => {
     if (msg.channel.id === config.servers.vortex.channels.vortexChat) {
         if (msg.content.toLowerCase().includes('@everyone')) {
             msg.delete();
-            msg.channel.send(`You are about to get a really mad reaction from piny!`)
+            msg.channel.send(`Dont you even... ${msg.author}`)
         }
     }
 })

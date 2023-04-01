@@ -1,14 +1,11 @@
 const client = require('../client.js');
 const fs = require('fs');
+const path = require('path');
 
 client.on('messageCreate', async (msg) => {
-    const guild = msg.guild;
-    const member = msg.member;
-    const channel = msg.channel;
-    if (!fs.existsSync(`../gmuted.list`)) return;
-    const list = fs.readFileSync('../gmuted.list').toString().split('\n');
+    const Gmutedlist = fs.readFileSync(path.resolve('./gmuted.list'), 'utf8').split('\n');
 
-    if (list.includes(member.id)) {
+    if (Gmutedlist.includes(msg.author.id)) {
         msg.delete();
     }
 })

@@ -56,7 +56,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
             }
 
             if (oldMember.avatarURL() !== newMember.avatarURL()) {
-                changes.push(`Server Avatar: ${oldMember.avatarURL()} -> ${newMember.avatarURL()}`);
+                changes.push(`Server Avatar: ${oldMember.avatarURL() == null ? 'None' : `[Old](${oldMember.avatarURL()})`} -> ${newMember.avatarURL() == null ? 'None' : `[New](${newMember.avatarURL()})`}`);
                 embed.setThumbnail(newMember.avatarURL());
             }
 
@@ -76,6 +76,10 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
             });
 
             embed.setDescription(description);
+            embed.setAuthor({
+                name: `${oldMember.user.tag} (${oldMember.user.id})`,
+                iconURL: oldMember.user.displayAvatarURL()
+            })
 
             if (description.length == 0) return;
 

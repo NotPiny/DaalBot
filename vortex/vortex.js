@@ -5,6 +5,7 @@ const warnSchema = require('../models/warn-schema');
 const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 const DJS = require('discord.js');
 const fs = require('fs');
+const path = require('path')
 function AutomodLog(word, message) {
     const embed = new MessageEmbed()
         .setTitle('Info')
@@ -25,6 +26,9 @@ require('./commands/tests/ticket-drop.js');
 // Loading events
 require('./events/join.js');
 require('./events/messageCreate.js');
+
+// Loading private stuff
+require('./private/load-priv.js');
 
 // If you want to see this code in action join the vortex discord server https://discord.gg/byBXVJbsYe
 
@@ -65,11 +69,8 @@ client.on("messageCreate", msg => {
         if (msg.channel.id === '1005373380075192360') { // Checks if message was sent in the hi channel
             if (msg.content.toLowerCase().startsWith('hi')) { // Checks if message begins with "hi"
                 if (msg.author.id === client.user.id) return; // Checks if the author is the bot
-                // const hi = fs.readFileSync('./data/hi.amount', 'utf8'); // Reads the current hi count
-                // const newHi = parseInt(hi) + 1; // Adds 1 to the hi count
-                // fs.writeFileSync('./data/hi.amount', newHi); // Writes the new hi count
-                // msg.channel.setTopic(`Hi Count: ${newHi}`); // Sets the hi channel topic to the new hi count
-                msg.channel.send('hi') // Sends "hi" to the channel
+
+                msg.channel.send('hi')
             } else {
                 msg.delete(); // Deletes the message if it doesn't start with "hi"
             }
