@@ -14,8 +14,8 @@ client.on('ready', () => {
         description: 'Apply for the featured creator role',
         options: [
             {
-                name: 'sac-code',
-                description: 'Your sac code',
+                name: 'username',
+                description: 'Your epic games username',
                 type: 3, 
                 required: true
             },
@@ -34,7 +34,7 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.isCommand()) {
         if (interaction.commandName === 'featured') {
             const VTXserver = client.guilds.cache.get('973711816226136095');
-            const sacCode = interaction.options.getString('sac-code');
+            const sacCode = interaction.options.getString('username');
             const mapCode = interaction.options.getString('map-code');
 
             const mapCodeSegments = mapCode.split('-');
@@ -43,11 +43,11 @@ client.on('interactionCreate', async (interaction) => {
 
             mapCodeSegments.forEach(segment => { if (isNaN(segment) || segment.length !== 4) return interaction.reply({ content: 'Invalid map code!', ephemeral: true }) })
 
-            const channel = VTXserver.channels.cache.get('1031596467934203915')
+            const channel = VTXserver.channels.cache.get('1092197227646169169') // Skra mess up and forcing this to be changed count: 1
 
             const embed = new MessageEmbed()
             .setTitle('Featured Creator Application')
-            .setDescription(`**Sac Code:** ${sacCode}\n**Map Code:** ${mapCode}`)
+            .setDescription(`**Username:** ${sacCode}\n**Map Code:** ${mapCode}`)
             .setFooter({
                 text: interaction.user.id,
             })

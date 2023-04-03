@@ -25,15 +25,6 @@ client.on('ready', () => {
     })
 })
 
-// client.on('presenceUpdate', (oldPresence, newPresence) => {
-//     if (newPresence.guild.id == '1001929445478781030' && !newPresence.member.user.bot) {
-//         const IsStreaming = newPresence.activities.find( activity => activity.type === 'STREAMING');
-
-//         if (!IsStreaming) return; // The user does not have a streamming activity
-
-//         const streamRole = daalbot.getRole(newPresence.guild.id, );
-//     }
-// })
 
 client.on('guildMemberAdd', member => {
     if (member.guild.id === '1001929445478781030') {
@@ -65,7 +56,7 @@ client.on('messageCreate', msg => {
             const commitEmbed = new MessageEmbed()
                 .setTitle(`New commit by ${data[0]} to ${data[2]}`)
                 .setDescription(data[1])
-                .setURL(data[3].includes(`https://github.com/${data[2]}/commits`) ? data[3] : `https://github.com/${data[2]}`)
+                .setURL(data[3].includes(`https://github.com/${data[2]}/commit`) ? data[3] : `https://github.com/${data[2]}`)
 
             msg.delete();
             daalbot.getChannel(msg.guild.id, '1052304271221198898').send({ embeds: [commitEmbed] });

@@ -21,7 +21,7 @@ client.on('interactionCreate', async interaction => {
             if (denyReason === 'invalid-map-code') {
                 denyEmbed.setDescription('Your application has been denied for the following reason: Invalid Map Code\n\nPlease make sure you have the correct map code and try again.');
             } else if (denyReason === 'invalid-sac-code') {
-                denyEmbed.setDescription('Your application has been denied for the following reason: Invalid Sac Code\n\nPlease make sure you have the correct sac code and try again.');
+                denyEmbed.setDescription('Your application has been denied for the following reason: Invalid username\n\nPlease make sure you have the correct username and try again.');
             } else if (denyReason === 'not-a-featured-creator') {
                 denyEmbed.setDescription('Your application has been denied for the following reason: Not a featured creator');
             } else if (denyReason === 'other') {

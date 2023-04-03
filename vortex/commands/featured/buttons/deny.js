@@ -14,7 +14,7 @@ client.on('interactionCreate', async (interaction) => {
                    value: 'invalid-map-code'
                },
                {
-                   label: 'Invalid Sac Code',
+                   label: 'Invalid username',
                    value: 'invalid-sac-code'
                },
                {
