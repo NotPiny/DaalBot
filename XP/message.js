@@ -39,7 +39,7 @@ client.on('messageCreate', msg => {
             .then(() => {
                 const botCmdsChannel = msg.guild.channels.cache.get(config.servers.vortex.channels.botCmds);
 
-                if (!botCmdsChannel.isText()) return;
+                // if (!botCmdsChannel.type == 'GUILD_TEXT') return;
 
                 const embed = new daalbot.embed()
                     .setTitle('Level Up!')

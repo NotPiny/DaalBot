@@ -9,6 +9,12 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
     try {
         const enabled = fs.readFileSync(path.resolve(`./db/logging/${oldMessage.guild.id}/MESSAGEUPDATE.enabled`), 'utf8');
         if (enabled == 'true') {
+            if (fs.existsSync(path.resolve(`./db/logging/${oldMessage.channel.guild.id}/MESSAGEDELETE.exclude`))) {
+                const excluded = fs.readFileSync(path.resolve(`./db/logging/${oldMessage.channel.guild.id}/MESSAGEDELETE.exclude`), 'utf8').split('\n');
+    
+                if (excluded.includes(oldMessage.channel.id)) return;
+            }
+
             if (!fs.existsSync(`./db/logging/${oldMessage.guild.id}/channel.id`)) return;
             if (oldMessage.author.bot) return;
 

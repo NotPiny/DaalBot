@@ -43,4 +43,4 @@ const check = () => {
     }
 }
 
-setInterval(check, 1000 * 60 * 30); // Checks every 30 minutes
+// setInterval(check, 1000 * 60 * 30); // Checks every 30 minutes

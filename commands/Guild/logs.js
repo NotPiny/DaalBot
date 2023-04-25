@@ -68,6 +68,37 @@ module.exports = {
                     required: true
                 }
             ]
+        },
+        {
+            name: 'exclude',
+            description: 'Excludes a channel from being logged.',
+            type: 'SUB_COMMAND',
+
+            options: [
+                {
+                    name: 'channel',
+                    description: 'The channel to exclude from logging.',
+                    type: 'CHANNEL',
+                    required: true
+                },
+                {
+                    name: 'enabled',
+                    description: 'Enable or disable logging for this event.',
+                    type: 'BOOLEAN',
+                    required: true
+                },
+                {
+                    name: 'event',
+                    description: 'The event to toggle logging for.',
+                    type: 'STRING',
+                    required: true,
+                    
+                    choices: events.map((event) => ({
+                        name: event,
+                        value: event.toUpperCase(),
+                    })),
+                }
+            ]
         }
     ],
 
@@ -118,6 +149,22 @@ module.exports = {
                     fs.appendFileSync(`${dbFolder}/${event}.enabled`, enabled);
                     return `Successfully ${enabled == 'true' ? 'enabled' : 'disabled'} logging for ${event}.`;
                 }
+            }
+        } else if (subCommand === 'exclude') {
+            const channel = interaction.options.getChannel('channel');
+            const event = interaction.options.getString('event');
+            const enabled = `${interaction.options.getBoolean('enabled')}`;
+
+            if (!fs.existsSync(dbFolder)) {
+                try {
+                    fs.mkdirSync(dbFolder);
+                    fs.appendFileSync(`${dbFolder}/${event}.exclude`, `${channel.id}\n`);
+                } catch {
+                    return 'There was an error creating the database folder.';
+                }
+            } else {
+                daalbot.fs.write(`${dbFolder}/${event}.exclude`, `${channel.id}\n`);
+                return `Successfully ${enabled == 'true' ? 'enabled' : 'disabled'} logging for ${event} in <#${channel.id}>.`;
             }
         }
     }

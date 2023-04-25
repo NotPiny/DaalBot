@@ -9,6 +9,12 @@ client.on('messageDelete', async (message) => {
     try {
         const enabled = fs.readFileSync(path.resolve(`./db/logging/${message.guild.id}/MESSAGEDELETE.enabled`), 'utf8');
         if (enabled == 'true') {
+            if (fs.existsSync(path.resolve(`./db/logging/${message.channel.guild.id}/MESSAGEDELETE.exclude`))) {
+                const excluded = fs.readFileSync(path.resolve(`./db/logging/${message.channel.guild.id}/MESSAGEDELETE.exclude`), 'utf8').split('\n');
+    
+                if (excluded.includes(message.channel.id)) return;
+            }
+
             if (!fs.existsSync(`./db/logging/${message.guild.id}/channel.id`)) return;
 
             const channelID = fs.readFileSync(path.resolve(`./db/logging/${message.guild.id}/channel.id`), 'utf8');

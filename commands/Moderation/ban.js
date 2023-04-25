@@ -20,8 +20,6 @@ module.exports = {
       : (interaction.options.getMember('user'))
     if (!target) {
       return 'Please tag someone to ban.'
-      
-      
     }
 
     if (!target.bannable) {

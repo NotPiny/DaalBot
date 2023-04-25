@@ -71,6 +71,7 @@ client.on("messageCreate", msg => {
                 if (msg.author.id === client.user.id) return; // Checks if the author is the bot
 
                 msg.channel.send('hi')
+                msg.react('984578637682601994')
             } else {
                 msg.delete(); // Deletes the message if it doesn't start with "hi"
             }

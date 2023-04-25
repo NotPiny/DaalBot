@@ -125,9 +125,30 @@ module.exports = {
 
             return validImageTypes.includes(extension);
         }
-
         const getAttachmentLink = (attachment) => `${attachment.proxyURL}`;
 
+        const getPermanentLink = async(attachment) => {
+            if (attachment) {
+                const tempLink = getAttachmentLink(attachment);
+
+                // const buffer = await axios.get(tempLink, { responseType: 'arraybuffer' });
+
+                // const attachmentName = attachment.name;
+
+                // const attachmentFile = new MessageAttachment(buffer, attachmentName);
+
+                const channel = daalbot.client.guilds.cache.get('1017715574639431680').channels.cache.get('1096419624825929872')
+
+                // const message = await channel.send({ files: [attachmentFile] });
+                const message = await channel.send({ files: [tempLink] });
+
+                const url = message.attachments.first().proxyURL;
+
+                return url;
+            } else {
+                return null;
+            }
+        };
         const isUsed = (option) => option != null;
 
         // Check if the embed settings are valid
@@ -157,7 +178,7 @@ module.exports = {
         if (isUsed(url)) embed.setURL(url);
         if (isUsed(author)) embed.setAuthor({
             name: author,
-            iconURL: isUsed(authorIcon) ? getAttachmentLink(authorIcon) : ''
+            iconURL: isUsed(authorIcon) ? await getPermanentLink(authorIcon) : ''
         });
         if (isUsed(description)) embed.setDescription(description.replace(/<nl>/g, '\n'));
         if (isUsed(colour)) {
@@ -171,13 +192,13 @@ module.exports = {
         }
         if (isUsed(footer)) embed.setFooter({
             text: footer,
-            iconURL: isUsed(footerIcon) ? getAttachmentLink(footerIcon) : ''
+            iconURL: isUsed(footerIcon) ? await getPermanentLink(footerIcon) : ''
         });
-        if (isUsed(thumbnail)) embed.setThumbnail(getAttachmentLink(thumbnail));
-        if (isUsed(image)) embed.setImage(getAttachmentLink(image));
+        if (isUsed(thumbnail)) embed.setThumbnail(await getPermanentLink(thumbnail));
+        if (isUsed(image)) embed.setImage(await getPermanentLink(image));
 
         if (isUsed(messageId)) {
-            const message = await channel.messages.fetch(messageId);
+            const message = await channel.messages.fetch(messageId)
 
             if (!message) {
                 interaction.editReply('Invalid message ID');

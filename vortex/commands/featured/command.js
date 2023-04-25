@@ -79,11 +79,13 @@ client.on('interactionCreate', async (interaction) => {
                 interaction.reply({ content: 'Thanks for submitting for the featured role \n (Make sure your DMs are open for when your application is reviewed)', ephemeral: true })
             } catch (e) {
                 console.log(`Error: ${e}`);
-                return await interaction.reply({ content: 'Something went wrong!', ephemeral: true })
+                
+                try {
+                    await interaction.reply({ content: 'There was an error while trying to submit your application', ephemeral: true })
+                } catch {
+                    console.log('Error: Failed to send error message');
+                }
             }
-            
-            await interaction.reply({ content: 'Your application has been sent!', ephemeral: true })
-                .catch(console.warn);
         }
     }
 })

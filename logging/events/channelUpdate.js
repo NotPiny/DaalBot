@@ -28,6 +28,12 @@ client.on('channelUpdate', async(oldChannel, newChannel) => {
     console.log(`Channel Updated: ${oldChannel.name} (${oldChannel.id})`);
     const enabled = fs.readFileSync(path.resolve(`./db/logging/${oldChannel.guild.id}/CHANNELUPDATE.enabled`), 'utf8');
     if (enabled == 'true') {
+        if (fs.existsSync(path.resolve(`./db/logging/${oldChannel.guild.id}/CHANNELUPDATE.exclude`))) {
+            const excluded = fs.readFileSync(path.resolve(`./db/logging/${oldChannel.guild.id}/CHANNELUPDATE.exclude`), 'utf8').split('\n');
+
+            if (excluded.includes(oldChannel.id)) return;
+        }
+
         if (!fs.existsSync(`./db/logging/${oldChannel.guild.id}/channel.id`)) return;
 
         const channelID = fs.readFileSync(path.resolve(`./db/logging/${oldChannel.guild.id}/channel.id`), 'utf8');

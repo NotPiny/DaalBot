@@ -1,21 +1,22 @@
 # DaalBot
 
-# Invite
-https://daalbot.xyz/Invite
+## Features
 
-# Description
-A opensource discord bot designed to make your server better
+DaalBot is a versatile Discord bot with a range of useful features to help manage and improve your server, including:
 
-# Prefix
-Can do both slash and legacy commands</br>
-(some commands prefix's are set in config.json)
+- A powerful ticket system to help you manage support requests from your server members
+- Auto-role assignment, to easily assign roles to new members
+- Self-roles, allowing members to choose and manage their own roles
+- And much more!
 
-# Links
+With DaalBot, you can streamline server management tasks and create a better experience for your server members.
 
-Website: https://daalbot.xyz<br />
-Invite: https://daalbot.xyz/Invite<br />
-Download: [click me!](https://github.com/NotPiny/DaalBot/archive/refs/heads/main.zip)
+## Invite
 
-# 
+You can invite DaalBot to your server [here](https://daalbot.xyz/Invite).
 
-![DaalBot Icon](https://pinymedia.web.app/Daalbot.png)
+## Support
+
+If you have any questions or issues with DaalBot, you can join the official [Discord server](https://lnk.daalbot.xyz/HQ).
+
+![DaalBot](https://pinymedia.web.app/Daalbot.png)
