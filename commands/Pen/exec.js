@@ -1,5 +1,6 @@
 require('dotenv').config();
 const daalbot = require('../../daalbot.js');
+const DJS = require('discord.js');
 module.exports = {
     name: 'exec',
     description: 'Executes code in the current context (only for developers)',
@@ -11,21 +12,20 @@ module.exports = {
             description: 'The code to execute',
             type: 'STRING',
             required: true
-        },
-        {
-            name: 'passcode',
-            description: 'The passcode to execute the code',
-            type: 'STRING',
-            required: true
         }
     ],
     ownerOnly: true,
 
-    callback: ({ message, args, client, interaction }) => {
+    callback: ({ interaction }) => {
         const code = interaction.options.getString('code');
-        const passcode = interaction.options.getString('passcode');
 
-        if (passcode !== process.env.execpass) return 'Invalid passcode';
+        if (interaction.user.id !== daalbot.config().users.piny) {
+            return {
+                custom: true,
+                content: 'You are not allowed to use this command.',
+                ephemeral: true
+            }
+        }
 
         try {
             const result = eval(code);

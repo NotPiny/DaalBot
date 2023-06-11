@@ -268,6 +268,7 @@ module.exports = {
 
                         // Deletes the transcript but with a delay to make sure the file still exists when it gets sent to the log channel.
                         setTimeout(() => {
+                            fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.ticket`));
                             fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`));
                         }, 2500);
                     }

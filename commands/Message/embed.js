@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Interaction } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 module.exports = {
@@ -216,7 +216,7 @@ module.exports = {
         }
 
         interaction.editReply({
-            content: 'Embed sent!',
+            content: `Embed sent!\n\nJSON: \`\`\`json\n${JSON.stringify(embed.toJSON(), null, 2).replace(/[\n ]/gm, '')}\n\`\`\``,
             embeds: [embed]
         })
     }

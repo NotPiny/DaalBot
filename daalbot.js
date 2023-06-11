@@ -162,6 +162,10 @@ function botLog(text) {
     console.log(text);
 }
 
+function config_get() {
+    return config;
+}
+
 const database = {
     read: db_read,
     write: db_write
@@ -258,9 +262,8 @@ module.exports = {
     serverAmount,
     database,
     warnings,
-    fs: better_fs,
     text,
-    embed: Discord.MessageEmbed,
+    fs: better_fs,
     findServerVanity,
     fetchServer,
     fetchServerName,
@@ -270,5 +273,7 @@ module.exports = {
     getUser,
     getMember,
     log: botLog,
+    config: config_get,
+    embed: Discord.MessageEmbed,
     DatabaseEntry
 }

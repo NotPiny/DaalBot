@@ -19,3 +19,6 @@ require('./hidden/launch.js');
 require('./interactions/load.js');
 require('./events/channelCreate.js');
 require('./V14/index.js')
+
+require('./premium/boostdetection.js');
+require('./premium/activateserverpanel.js');

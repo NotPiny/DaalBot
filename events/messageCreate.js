@@ -22,6 +22,7 @@ client.on('messageCreate', async (msg) => {
         const ticketTranscriptPath = path.resolve(`./db/tickets/${guild.id}/${ticketId}.txt`);
         const dateObj = new Date();
 
+        // Remove this once discord goes to twitter mode with usernames
         const data = `[${dateObj}] ${author.username}#${author.discriminator}: \n${content}\n\n`;
 
         fs.appendFileSync(ticketTranscriptPath, data);

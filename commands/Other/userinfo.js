@@ -23,7 +23,7 @@ module.exports = {
         .then(console.log('.'))
         .catch(console.log('Error > NO DATA GIVEN'));
         console.log(user);
-        return `ID: ${user.id}\nName: ${user.name}\nTag: #${user.discriminator}\nAvatar: ${user.avatarURL}`
+        return `ID: ${user.id}\nName: ${user.name}\nTag: Discord was bored and removed these\nAvatar: ${user.avatarURL}`
         
         
     },

@@ -6,9 +6,7 @@ module.exports = {
     testOnly: true,
   
     callback: ({ member, client }) => {
-      client.emit('guildMemberAdd', member)
-      return 'Join simulated!'
-      
-      
+        client.emit('guildMemberAdd', member)
+        return 'Join simulated!'
     },
-  }
+}

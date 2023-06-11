@@ -6,6 +6,46 @@ const daalbot = require('../daalbot.js');
 
 client.on('guildMemberAdd', (member) => {
     const autorole_dbFolder = path.resolve(`./db/autorole/${member.guild.id}`);
+    const welcomeData = path.resolve(`./db/welcome/${member.guild.id}.json`);
+
+    if (fs.existsSync(`${welcomeData}`)) {
+        const welcome = JSON.parse(fs.readFileSync(`${welcomeData}`, 'utf8'));
+        const channel = daalbot.getChannel(member.guild.id, welcome.channel);
+
+        let variables = {
+            '{user}': `<@${member.user.id}>`,
+            '{memberCount}': `${member.guild.memberCount}`
+        }
+
+        let message = welcome.message
+
+        for (const [key, value] of Object.entries(variables)) {
+            message = message.replace(key, value);
+        }
+
+        let payload = {
+            content: message,
+        }
+
+        if (welcome.embed != 'none') {
+            let embed = new Discord.MessageEmbed(welcome.embed);
+
+            let description = welcome.embed.description;
+
+            for (const [key, value] of Object.entries(variables)) {
+                description = description.replace(key, value);
+
+                embed.setDescription(description);
+            }
+
+            payload = {
+                content: message,
+                embeds: [embed]
+            }
+        }
+
+        channel.send(payload);
+    }
     
     if (fs.existsSync(`${autorole_dbFolder}`)) {
         const files = fs.readdirSync(`${autorole_dbFolder}`);
@@ -29,7 +69,7 @@ client.on('guildMemberAdd', (member) => {
 
             member.roles.add(roleObj)
                 .then(() => {
-                    console.log(`Autorole > Added ${roleObj.name} to ${member.user.tag}`);
+                    // console.log(`Autorole > Added ${roleObj.name} to ${member.user.tag}`);
                 })
                 .catch(err => {
                     console.log(`Autorole > Failed to add ${roleObj.name} to ${member.user.tag}`);

@@ -25,6 +25,7 @@
     "@google-cloud/translate": "^7.0.3",
     "axios": "^0.27.2",
     "canvas": "^2.10.1",
+    "discord-webhook.js": "^0.0.3",
     "discord.js": "^13.15.1",
     "discord.js-docs": "^0.3.0",
     "expess": "^0.0.1-security",

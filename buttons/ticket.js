@@ -17,6 +17,20 @@ client.on('interactionCreate', async (interaction) => {
                 })
             }
 
+            // Check if the server has any tickets free
+            if (fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`)).length / 2 >= 50) {
+                if (interaction.user.id === interaction.guild.ownerId) {
+                    return await interaction.reply({
+                        content: `This server has reached the maximum amount of tickets. You can upgrade to DaalBot Premium to increase the limit.`,
+                        ephemeral: true
+                    })
+                } else {
+                    return await interaction.reply({
+                        content: `This server has reached the maximum amount of tickets. Please wait until a ticket is closed to open a new one.`,
+                        ephemeral: true
+                    })
+                }
+            }
 
             if (fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCREATE.enabled`))) {
                 const enabled = fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCREATE.enabled`), 'utf8');
@@ -133,8 +147,6 @@ client.on('interactionCreate', async (interaction) => {
 
             const ticketFiles = fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`));
 
-            let ticketNumber = ticketFiles.length / 2;
-
             const ticketID = ticketChannel.name.split('-')[1];
 
             fs.appendFileSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticketID}.txt`), `\n--Ticket closed by ${interaction.user.tag} / ${interaction.user.id}--\n`);
@@ -176,8 +188,6 @@ client.on('interactionCreate', async (interaction) => {
             ticketChannel.setName(`ticket-${ticketChannel.name.replace('closed-', '')}`);
 
             const ticketFiles = fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`));
-
-            let ticketNumber = ticketFiles.length / 2;
 
             const ticketID = ticketChannel.name.split('-')[1];
 

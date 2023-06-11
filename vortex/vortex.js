@@ -75,11 +75,6 @@ client.on("messageCreate", msg => {
             } else {
                 msg.delete(); // Deletes the message if it doesn't start with "hi"
             }
-        } else if (msg.channel.id === '974375088642228344') {
-            if (msg.author.id === client.user.id) return;
-            if (!msg.author.bot) return;
-
-            msg.channel.send('<@&981065134569029652>')
         }
     } else {
         return // Returns if guild id does not match

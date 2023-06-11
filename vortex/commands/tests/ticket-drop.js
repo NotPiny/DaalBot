@@ -71,7 +71,7 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isSelectMenu()) return;
 
     if (interaction.customId === 'vortex-ticket-dropdown') {
-        const ticketChannel = await interaction.guild.channels.create(`ticket-${interaction.user.username}#${interaction.user.discriminator}`, {
+        const ticketChannel = await interaction.guild.channels.create(`ticket-${interaction.user.username}#${interaction.user.discriminator ? interaction.user.discriminator : '0'}`, {
             type: 'GUILD_TEXT',
             permissionOverwrites: [
                 {

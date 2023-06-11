@@ -10,7 +10,7 @@ client.on('interactionCreate', async interaction => {
 
             const denyEmbed = new MessageEmbed()
             .setTitle('Featured Creator Application Denied')
-            .setDescription(`You should not be seeing this as it is meant to be switched to the reason before you see it please DM Piny#1000 about this`)
+            .setDescription(`You should not be seeing this as it is meant to be switched to the reason before you see it please DM <@900126154881646634> about this`)
             .setAuthor({
                 name: 'Vortex creative',
                 iconURL: 'https://pinymedia.web.app/VortexIcon.png'
