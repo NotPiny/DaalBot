@@ -21,9 +21,9 @@ client.on('messageCreate', msg => {
 
     daalbot.fs.write(MemberXpFile, newXp);
 
-    if (msg.guild.id ==  config.servers.vortex.id) {
-        const level = parseInt(newXp.slice(0, -3)) || 0;
+    const level = parseInt(newXp.slice(0, -3)) || 0;
 
+    if (msg.guild.id ==  config.servers.vortex.id) {
         if (level == 0) return;
 
         const levelObj = config.servers.vortex.roles.levels.find(obj => obj.level == level);
@@ -75,6 +75,52 @@ client.on('messageCreate', msg => {
             })
             .catch(err => {
                 console.log(err);
+            })
+    } else {
+        if (level == 0) return;
+
+        const levelFile = path.resolve(`./db/xp/${msg.guild.id}/rewards/${level}.reward`);
+
+        if (!fs.existsSync(levelFile)) return;
+
+        const rewardRole = fs.readFileSync(levelFile, 'utf8')
+
+        if (rewardRole == undefined) return;
+
+        const role = daalbot.getRole(msg.guild.id, rewardRole);
+
+        if (role == undefined || role == 'Role not found.' || role == 'Server not found.') return;
+
+        if (msg.member.roles.cache.has(role.id)) return;
+
+        msg.member.roles.add(role.id)
+            .then(async() => {
+                const silentUsers = fs.readFileSync(path.resolve(`./db/xp/silent.users`), 'utf8').split('\n');
+
+                const levelUpChannel = daalbot.getChannel(msg.guild.id, await daalbot.db.getChannel(msg.guild.id, 'levels'));
+
+                if (levelUpChannel == null) return;
+
+                const levelUpEmbed = new DJS.MessageEmbed()
+                    .setTitle('Level Up!')
+                    .setDescription(`Congratulations on leveling up <@${msg.author.id}>! You are now level ${level} and have unlocked the ${role.name} role`)
+                    .setTimestamp();
+
+                const row = new DJS.MessageActionRow()
+
+                const menuButton = new DJS.MessageButton()
+                    .setLabel('Menu')
+                    .setStyle('PRIMARY')
+                    .setCustomId('levelUpMenu')
+                    .setEmoji('📖');
+
+                row.addComponents(menuButton);
+
+                levelUpChannel.send({
+                    content: silentUsers.includes(msg.author.id) ? null : `<@${msg.author.id}>`,
+                    embeds: [levelUpEmbed],
+                    components: [row]
+                })
             })
     }
 })

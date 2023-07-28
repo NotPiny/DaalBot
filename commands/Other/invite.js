@@ -6,8 +6,6 @@ module.exports = {
     testOnly: false,
   
     callback: () => {
-      return 'You can invite me to your server with this link: https://daalbot-a.web.app/Invite'
-      
-      
+      return 'You can invite me to your server with this link: https://daalbot.xyz/Invite'
     },
   }

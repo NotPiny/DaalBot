@@ -90,54 +90,6 @@ function getMember(server, member) {
     }
 }
    
-function db_read(category, subcategory, entry) {
-    if (category) {
-        if (subcategory) {
-            if (entry) {
-                return fs.readFileSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`, 'utf8');
-            } else {
-                return fs.readdirSync(`${config.botPath}/db/${category}/${subcategory}`);
-            }
-        } else {
-            if (entry) {
-                return fs.readFileSync(`${config.botPath}/db/${category}/${entry}`, 'utf8');
-            } else {
-                return fs.readdirSync(`${config.botPath}/db/${category}`);
-            }
-        }
-    } else {
-        return fs.readdirSync(`${config.botPath}/db`);
-    }
-}
-
-function db_write(category, subcategory, entry, data) {
-    try {
-    if (category) {
-        if (subcategory) {
-            if (entry) {
-                if (fs.existsSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`)) {
-                fs.writeFileSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`, data);
-                } else {
-                    fs.appendFileSync(`${config.botPath}/db/${category}/${subcategory}/${entry}`, data);
-                }
-            } else {
-                fs.mkdirSync(`${config.botPath}/db/${category}/${subcategory}`);
-            }
-        } else {
-            if (entry) {
-                fs.writeFileSync(`${config.botPath}/db/${category}/${entry}`, data);
-            } else {
-                fs.mkdirSync(`${config.botPath}/db/${category}`);
-            }
-        }
-    } else {
-        return "No category specified.";
-    }
-} catch {
-    return "An error occured.";
-}
-}
-
 function db_mongo_warn_create(userId, guildId, staffId, reason) {
     const warnSchema = require('./models/warn-schema.js');
     warnSchema.create({
@@ -166,11 +118,6 @@ function config_get() {
     return config;
 }
 
-const database = {
-    read: db_read,
-    write: db_write
-}
-
 const warnings = {
     create: db_mongo_warn_create,
     delete: db_mongo_warn_delete
@@ -194,57 +141,87 @@ function betterFS_read(path) {
     }
 }
 
+async function getLogChannel(guild) {
+    return getChannel(getLogChannelId(guild));
+}
+
+async function getLogChannelId(guild) {
+    if (fs.existsSync(path.resolve(`./db/logging/${guild}/channel.id`))) {
+        return fs.readFileSync(path.resolve(`./db/logging/${guild}/channel.id`), 'utf8');
+    } else {
+        return null;
+    }
+}
+
+async function logEvent(guild, event, embed) {
+    if (getLogChannelId(guild)) {
+        const logChannel = await getLogChannel(guild);
+
+        if (logChannel === 'Server not found.' || logChannel === 'Channel not found.' || logChannel == undefined) return;
+
+        if (fs.existsSync(path.resolve(`./db/logging/${guild}/${event.toUpperCase()}.enabled`))) {
+            if (fs.readFileSync(path.resolve(`./db/logging/${guild}/${event.toUpperCase()}.enabled`), 'utf8') == 'true') {
+                logChannel?.send({
+                    content: embed.title,
+                    embeds: [embed]
+                });
+            } else return;
+        } else return;
+    } else return;
+}
+
 class DatabaseEntry {
-    constructor(name, category, server, data, fileName) {
-        this.name = name;
-        this.data = data;
-        this.category = category;
-        this.server = server;
-        this.fileName = fileName;
-    }
+    constructor({category, subcategory, entry, data}) {
+        this.category = `${category}`;
+        this.subcategory = `${subcategory ? subcategory : ''}`;
+        this.entry = `${entry}`;
 
-    save(upsert) {
-        let entryPath = path.resolve(`./db/${this.category}`)
-        if (this.category) {
-            if (this.server) {
-                entryPath += `/${this.server}`
-            }
+        this.path = `${config.botPath}/db/${category}/${subcategory !== '' ? `${subcategory}/` : ''}${entry}`;
 
-            if (this.fileName) {
-                entryPath += `/${this.fileName}`
+        if (fs.existsSync(this.path)) {
+            this.data = fs.readFileSync(this.path, 'utf8');
+        } else {
+            this.data = `${data}`;
+
+            if (fs.existsSync(`${config.botPath}/db/${category}/${subcategory}`)) {
+                fs.appendFileSync(this.path, this.data);
             } else {
-                return 'Error > A file name must be specified.'
+                fs.mkdirSync(`${config.botPath}/db/${category}/${subcategory}`, { recursive: true });
+
+                fs.appendFileSync(this.path, this.data);
             }
-
-            if (!upsert && fs.existsSync(entryPath)) {
-                return 'Error > Entry already exists.'
-            }
-
-            betterFS_write(entryPath, this.data)
-            this.entryPath = entryPath
-
-            if (config.debug) console.log(`Saved database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName}`);
-            return 1;
-        } else {
-            if (config.debug) console.log(`Failed to save database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName} (no category specified)`);
-            return 'Error > A category must be specified.';
         }
     }
 
-    async delete() {
-        if (this.entryPath) {
-            try {
-                fs.unlinkSync(this.entryPath)
-                if (config.debug) console.log(`Deleted database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName}`);
-                return 1;
-            } catch {
-                if (config.debug) console.log(`Failed to delete database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName}`);
-                return 0;
-            }
-        } else {
-            if (config.debug) console.log(`Failed to delete database entry ${this.category}/${this.server ? this.server + '/' : ''}${this.fileName} (no entry path)`);
-            return 404;
-        }
+    modify(data) {
+        fs.writeFileSync(this.path, data);
+        this.data = data;
+    }
+
+    delete() {
+        fs.unlinkSync(this.path);
+        this.data = null;
+    }
+}
+
+async function DatabaseSetChannel(guild, type, channel) {
+    const filePath = path.resolve(`./db/config/${guild}/channels/${type}.id`);
+    const fileDirectory = path.resolve(`./db/config/${guild}/channels`);
+
+    if (!fs.existsSync(fileDirectory)) {
+        fs.mkdirSync(fileDirectory, { recursive: true });
+    }
+
+    betterFS_write(filePath, channel);
+}
+
+async function DatabaseGetChannel(guild, type) {
+    const filePath = path.resolve(`./db/config/${guild}/channels/${type}.id`);
+
+    if (fs.existsSync(filePath)) {
+        return betterFS_read(filePath);
+    } else {
+        return null;
     }
 }
 
@@ -257,13 +234,18 @@ const better_fs = {
     read: betterFS_read
 }
 
+const db = {
+    setChannel: DatabaseSetChannel,
+    getChannel: DatabaseGetChannel
+}
+
 module.exports = {
     client,
     serverAmount,
-    database,
     warnings,
     text,
     fs: better_fs,
+    db,
     findServerVanity,
     fetchServer,
     fetchServerName,
@@ -274,6 +256,9 @@ module.exports = {
     getMember,
     log: botLog,
     config: config_get,
+    getLogChannel,
+    getLogChannelId,
+    logEvent,
     embed: Discord.MessageEmbed,
     DatabaseEntry
 }

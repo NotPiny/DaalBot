@@ -25,7 +25,6 @@ client.on('channelUpdate', async(oldChannel, newChannel) => {
                 fs.writeFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`), 'false');
             }, 1000);
         }
-    console.log(`Channel Updated: ${oldChannel.name} (${oldChannel.id})`);
     const enabled = fs.readFileSync(path.resolve(`./db/logging/${oldChannel.guild.id}/CHANNELUPDATE.enabled`), 'utf8');
     if (enabled == 'true') {
         if (fs.existsSync(path.resolve(`./db/logging/${oldChannel.guild.id}/CHANNELUPDATE.exclude`))) {

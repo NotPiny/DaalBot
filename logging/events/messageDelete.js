@@ -22,11 +22,26 @@ client.on('messageDelete', async (message) => {
 
             const embed = new MessageEmbed()
                 .setTitle('Message Deleted')
-                .setDescription(`Message: ${message.content}\nAuthor: <@${message.author.id}>\nChannel: ${message.channel}`)
+                .setDescription(`<:icon_Person:1043647937487589446> <@${message.author.id}>\n<:discordReply:1043869882921533450> <#${message.channel.id}>\n\n<:Message:1117915334855360532> ${message.content}\n\n<:Trash:1118100123713540118> <@${message.author.id}> or a bot[*](https://pastebin.com/u0RjF7j8)`)
                 .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Message.png')
                 .setColor('RED')
-                .setTimestamp()
+                .setTimestamp();
 
+            const latestAuditLog = await message.guild.fetchAuditLogs().then(audit => audit.entries.first());
+    
+            if (latestAuditLog.action == 'MESSAGE_DELETE') {
+                if (latestAuditLog.targetId == message.author.id) {
+                    try {
+                        // Message wasnt deleted by a bot or the author
+                        const executor = latestAuditLog?.executorId;
+            
+                        embed.setDescription(`<:icon_Person:1043647937487589446> <@${message.author.id}>\n<:discordReply:1043869882921533450> <#${message.channel.id}>\n\n<:Message:1117915334855360532> ${message.content}\n\n<:Trash:1118100123713540118> <@${executor}>[*](https://pastebin.com/u0RjF7j8)`)
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+            }
+            
             logChannel.send({
                 content: `Message Deleted`,
                 embeds: [embed]

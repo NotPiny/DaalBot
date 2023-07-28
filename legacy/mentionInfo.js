@@ -6,7 +6,7 @@ const config = require('../config.json')
 client.on('messageCreate', msg => {
   const iEmbed = new MessageEmbed()
   .setTitle('Hello!')
-  .setDescription(`My default prefix is \`${config.WOKCommands.prefix}\` though it may change depending on what server your in\n\n**LINKS:**\nWebsite: https://daalbot-a.web.app/\nInvite: https://daalbot-a.web.app/Invite\nCommands: https://daalbot-a.web.app/Commands`)
+  .setDescription(`My default prefix is \`${config.WOKCommands.prefix}\` though it may change depending on what server your in\n\n**LINKS:**\nWebsite: https://daalbot.xyz/\nInvite: https://daalbot.xyz/Invite\nCommands: https://daalbot.xyz/Commands`)
   .setTimestamp(msg.createdTimestamp)
   .setImage('https://pinymedia.web.app/Daalbot.png');
 

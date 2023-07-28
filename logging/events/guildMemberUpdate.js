@@ -77,7 +77,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 
             embed.setDescription(description);
             embed.setAuthor({
-                name: `${oldMember.user.tag} (${oldMember.user.id})`,
+                name: `${oldMember.user.username}${oldMember.user.discriminator !== '0' ? `#${oldMember.user.discriminator}` : ''} (${oldMember.user.id})`,
                 iconURL: oldMember.user.displayAvatarURL()
             })
 

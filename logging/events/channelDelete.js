@@ -7,7 +7,6 @@ const path = require('path');
 client.on('channelDelete', async(channel) => {
     if (channel.type === 'DM') return;
     try {
-    console.log(`Channel Deleted: ${channel.name} (${channel.id})`);
     const enabled = fs.readFileSync(path.resolve(`./db/logging/${channel.guild.id}/CHANNELDELETE.enabled`), 'utf8');
     if (enabled == 'true') {
         if (!fs.existsSync(`./db/logging/${channel.guild.id}/channel.id`)) return;

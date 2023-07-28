@@ -3,6 +3,7 @@ require('./legacy/launch.js');
 require('./logs.js');
 // require('./localhost/launch');
 require('./XP/message.js');
+require('./XP/levelupmessagebutton.js');
 require('./custom/launch.js');
 require('./automod/automod.js');
 require('./vortex/vortex.js');
@@ -20,5 +21,9 @@ require('./interactions/load.js');
 require('./events/channelCreate.js');
 require('./V14/index.js')
 
+// Premium
 require('./premium/boostdetection.js');
 require('./premium/activateserverpanel.js');
+
+// Social links
+require('./social/twitch.js')

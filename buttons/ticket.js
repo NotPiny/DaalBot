@@ -18,18 +18,18 @@ client.on('interactionCreate', async (interaction) => {
             }
 
             // Check if the server has any tickets free
-            if (fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`)).length / 2 >= 50) {
-                if (interaction.user.id === interaction.guild.ownerId) {
-                    return await interaction.reply({
-                        content: `This server has reached the maximum amount of tickets. You can upgrade to DaalBot Premium to increase the limit.`,
-                        ephemeral: true
-                    })
-                } else {
+            if (fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`)).length / 2 >= 25) {
+                // if (interaction.user.id === interaction.guild.ownerId) {
+                //     return await interaction.reply({
+                //         content: `This server has reached the maximum amount of tickets. You can upgrade to DaalBot Premium to increase the limit.`,
+                //         ephemeral: true
+                //     })
+                // } else {
                     return await interaction.reply({
                         content: `This server has reached the maximum amount of tickets. Please wait until a ticket is closed to open a new one.`,
                         ephemeral: true
                     })
-                }
+                // }
             }
 
             if (fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/TICKETCREATE.enabled`))) {
@@ -110,11 +110,11 @@ client.on('interactionCreate', async (interaction) => {
             attentionMessage.delete();
 
             if (interaction.guild.id != '973711816226136095') {
-            const ticketEmbed = new Discord.MessageEmbed()
-                .setTitle(`Ticket - ${interaction.message.embeds[0].title}`)
-                .setDescription(`Hello ${interaction.user.username}, welcome to your ticket\nSomeone will be with you shortly`)
-                .setColor('PURPLE')
-                .setTimestamp();
+                const ticketEmbed = new Discord.MessageEmbed()
+                    .setTitle(`Ticket - ${interaction.message.embeds[0].title}`)
+                    .setDescription(`Hello ${interaction.user.username}, welcome to your ticket\nSomeone will be with you shortly`)
+                    .setColor('PURPLE')
+                    .setTimestamp();
 
                 const row = new Discord.MessageActionRow()
 
@@ -126,8 +126,8 @@ client.on('interactionCreate', async (interaction) => {
 
                 row.addComponents(closeTicketButton);
 
-            const ticketMessage = await ticketChannel.send({ embeds: [ticketEmbed], components: [row] });
-            fs.appendFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${ticketAmount}.ticket`, `\n${ticketMessage.id}`);
+                const ticketMessage = await ticketChannel.send({ embeds: [ticketEmbed], components: [row] });
+                fs.appendFileSync(`${config.botPath}/db/tickets/${interaction.guild.id}/${ticketAmount}.ticket`, `\n${ticketMessage.id}\n${ticketChannel.id}`);
             }
 
             interaction.reply({ content: 'Your ticket has been created.', ephemeral: true })
@@ -217,10 +217,121 @@ client.on('interactionCreate', async (interaction) => {
             })
 
             interaction.reply({ content: 'Your ticket has been opened.', ephemeral: true })
+        } 
+
+        if (interaction.customId === 'cancel-ticket-purge') {
+            interaction.update({ content: 'Ticket purge cancelled.', components: [], embeds: [] });
         }
-      } catch {
-        interaction.reply({ content: 'Something went wrong and we were unable to process your request.', ephemeral: true });
-      }
+
+        if (interaction.customId === 'confirm-ticket-purge') {
+            async function wait(ms) {
+                return new Promise(resolve => {
+                    setTimeout(resolve, ms);
+                })
+            }
+            const ticketFiles = fs.readdirSync(path.resolve(`./db/tickets/${interaction.guild.id}/`));
+
+            let ticketsPurged = 0;
+            let cantPurge = 0;
+            let ticketsRemaining = ticketFiles.length / 2;
+            
+            const purgeEmbed = new Discord.MessageEmbed()
+                .setTitle('Purging began.')
+                .setDescription('Please wait while we purge the tickets.')
+                .setColor('GREEN')
+                .setFields([
+                    {
+                        name: 'Tickets purged',
+                        value: '0',
+                    },
+                    {
+                        name: 'Tickets remaining',
+                        value: `${ticketsRemaining}`,
+                    },
+                    {
+                        name: 'Tickets unable to be purged',
+                        value: '0',
+                    }
+                ])
+            
+                await interaction.reply({
+                    embeds: [purgeEmbed],
+                    components: [],
+                    ephemeral: true
+                })
+
+            ticketFiles.forEach(async(ticketFile) => {
+                const ticketID = ticketFile.split('.')[0];
+
+                const ticketFileData = fs.readFileSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticketID}.ticket`), 'utf8');
+
+                if (ticketFile.split('.')[1] != 'txt') return; // Dont loop over tickets twice
+                    
+                const ticketFilePath = path.resolve(`./db/tickets/${interaction.guild.id}/${ticketID}.ticket`);
+                const transcriptFilePath = path.resolve(`./db/tickets/${interaction.guild.id}/${ticketID}.txt`);
+
+                try {
+                    await wait(3000);
+                    const ticketChannel = daalbot.getChannel(interaction.guild.id, ticketFileData.split('\n')[2]);
+
+                    if (ticketChannel === 'Server not found.' || ticketChannel === 'Channel not found.') throw new Error(`Tickets: Unable to purge ticket ${ticketID} as it does not exist. (${ticketChannel}))`);
+                    if (ticketChannel == undefined) throw new Error(`Tickets: Unable to purge ticket ${ticketID} as it does not exist. (undefined)`);
+
+                    ticketChannel.delete(`Ticket purge initiated by ${interaction.user.username}`);
+                    fs.unlinkSync(ticketFilePath);
+                    fs.unlinkSync(transcriptFilePath);
+
+                    ticketsPurged++;
+                    ticketsRemaining--;
+
+                    purgeEmbed.setFields([
+                        {
+                            name: 'Tickets purged',
+                            value: `${ticketsPurged}`,
+                        },
+                        {
+                            name: 'Tickets remaining',
+                            value: `${ticketsRemaining}`,
+                        },
+                        {
+                            name: 'Tickets unable to be purged',
+                            value: `${cantPurge}`,
+                        }
+                    ])
+
+                    interaction.editReply({
+                        embeds: [purgeEmbed],
+                    })
+                } catch(err) {
+                    cantPurge++;
+                    ticketsRemaining--;
+
+                    purgeEmbed.setFields([
+                        {
+                            name: 'Tickets purged',
+                            value: `${ticketsPurged}`,
+                        },
+                        {
+                            name: 'Tickets remaining',
+                            value: `${ticketsRemaining}`,
+                        },
+                        {
+                            name: 'Tickets unable to be purged',
+                            value: `${cantPurge}`,
+                        }
+                    ])
+
+                    console.warn(`Tickets > Error encountered while purging a ticket.\n${err}`);
+
+                    interaction.editReply({
+                        embeds: [purgeEmbed],
+                    })
+                }
+              })
+            }   
+        } catch {
+            interaction.reply({ content: 'Something went wrong and we were unable to process your request.', ephemeral: true });
+        }
     }
 } catch {
     console.log('Tickets > Error encountered while dealing with a request.');

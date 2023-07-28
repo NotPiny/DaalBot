@@ -152,6 +152,11 @@ module.exports = {
                     required: false
                 }
             ]
+        },
+        {
+            name: 'purge',
+            description: 'Purge all tickets.',
+            type: 'SUB_COMMAND'
         }
     ],
 
@@ -417,6 +422,33 @@ module.exports = {
                     })
                 }
             }
+        }
+
+        if (subCommand === 'purge') {
+            const row = new Discord.MessageActionRow()
+
+            const confirm = new Discord.MessageButton()
+                .setCustomId('confirm-ticket-purge')
+                .setLabel('Confirm')
+                .setStyle('SUCCESS');
+
+            const cancel = new Discord.MessageButton()
+                .setCustomId('cancel-ticket-purge')
+                .setLabel('Cancel')
+                .setStyle('DANGER');
+
+            row.addComponents(confirm, cancel);
+
+            const embed = new Discord.MessageEmbed()
+                .setTitle('Purge Tickets')
+                .setDescription('Are you sure you want to purge all tickets? This action cannot be undone.')
+                .setColor('RED');
+
+            interaction.reply({
+                embeds: [embed],
+                components: [row],
+                ephemeral: true
+            })
         }
     }
 }

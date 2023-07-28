@@ -40,5 +40,7 @@ client.on('messageCreate', msg => {
 
         msg.channel.send({ content: '<@&981065134569029652>', embeds: [embed] });
         msg.delete();
+    } else if (msg.content === '$simjoin' && msg.author.id === config.users.piny) {
+        // client.emit('guildMemberAdd', msg.member);
     }
 })

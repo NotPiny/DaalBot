@@ -99,7 +99,7 @@ module.exports = {
           ? message.mentions.channels.first()
           : interaction.options.getChannel('channel')
       )
-      if (!channel || channel.type !== 'GUILD_TEXT') {
+      if (!channel || (channel.type !== 'GUILD_TEXT' && channel.type !== 'GUILD_PUBLIC_THREAD')) {
         return 'Please tag a text channel.'
       }
   

@@ -10,7 +10,5 @@ module.exports = {
   
     callback: () => {
       return NeverGonnaL
-      
-      
     },
   }

@@ -97,6 +97,7 @@ super-log.log
 # Other hidden files
 /hidden
 hidden/
+gmuted.list
 
 # Server certificates
 server.key

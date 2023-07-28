@@ -6,7 +6,7 @@ module.exports = {
     testOnly: false,
   
     callback: () => {
-      return 'You can check out my website here: https://daalbot-a.web.app'
+      return 'You can check out my website here: https://daalbot.xyz'
       
       
     },

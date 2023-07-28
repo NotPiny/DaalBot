@@ -3,14 +3,15 @@ const path = require('path')
 const { MessageEmbed } = require('discord.js')
 const daalbot = require('../../daalbot.js')
 require('dotenv').config()
-const crypto = require('crypto')
+const axios = require('axios')
 
 module.exports = {
     name: 'social-link',
-    description: 'Modifies social feeds for the server.',
+    description: 'Modifies social feeds in the server.',
     category: 'Social',
 
-    testOnly: true,
+    testOnly: false,
+    requireRoles: true,
 
     slash: true,
 
@@ -22,7 +23,7 @@ module.exports = {
             options: [
                 {
                     name: 'add',
-                    description: 'Adds a Twitch feed to the server.',
+                    description: 'Adds a Twitch feed to a channel.',
                     type: 'SUB_COMMAND',
                     options: [
                         {
@@ -39,7 +40,7 @@ module.exports = {
                         },
                         {
                             name: 'role',
-                            description: 'The role to ping when the streamer goes live.',
+                            description: 'The role to ping when the stream goes live.',
                             type: 'ROLE',
                             required: false
                         }
@@ -55,46 +56,71 @@ module.exports = {
 
         if (subCommandGroup == 'twitch') {
             if (subCommand == 'add') {
-                const channel = interaction.options.getString('channel')
+                const startingChannel = interaction.options.getString('channel')
+                let channel = interaction.options.getString('channel')
                 const feedChannel = interaction.options.getChannel('feed_channel')
                 const role = interaction.options.getRole('role')
 
-                const twitchData = fs.readFileSync(path.resolve('./db/socialalert/twitch.txt'), 'utf8').split('\n')
-
-                if (twitchData.filter(i => i.split(',')[0] == channel).length > 0) {
-                    const embed = new MessageEmbed()
-                        .setTitle('Error')
-                        .setDescription('This channel is already linked to a Twitch feed.')
-                        .setColor('RED')
-
-                    return interaction.reply({
-                        embeds: [embed],
-                        ephemeral: true
+                if (!/^\d+$/.test(channel)) {
+                    // Channel is a username not a id so we need to get the id
+                    const channelData = await axios.get(`https://api.twitch.tv/helix/users?login=${channel}`, {
+                        headers: {
+                            'Client-ID': process.env.TWITCH_CLIENTID,
+                            'Authorization': `Bearer ${process.env.TWITCH_BEARER}`
+                        }
                     })
+
+                    if (channelData.data.data.length == 0) return await interaction.reply({ content: 'That Twitch channel does not exist.', ephemeral: true })
+
+                    channel = channelData.data.data[0].id
                 }
 
-                const key = Buffer.from(process.env.TWITCH_KEY, 'hex');
-                const iv = Buffer.from(process.env.TWITCH_IV, 'hex');
+                const startingRolesFile = JSON.parse(fs.readFileSync(path.resolve('./db/socialalert/twitch_roles.json'), 'utf8'))
 
-                const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+                const startingRoles = startingRolesFile.filter(i => i.id == channel)
 
-                // Create a webhook if one doesn't exist
+                let rolesFile = startingRolesFile;
 
-                // Check if the channel is already linked to a webhook
-                const webhookFile = JSON.parse(fs.readFileSync(path.resolve('./db/socialalert/twitch-webhooks.json'), 'utf8'))
+                if (startingRoles.length == 0) {
+                    const newData = {
+                        id: feedChannel.id,
+                        role: role == null ? 'none' : role.id
+                    }
 
-                const channelObject = webhookFile.filter(i => i.id == feedChannel.id)[0]
+                    rolesFile.push({
+                        id: channel,
+                        channels: [newData]
+                    })
 
-                const webhook = channelObject ? channelObject.webhook : await feedChannel.createWebhook('Twitch Feed')
+                    fs.writeFileSync(path.resolve('./db/socialalert/twitch_roles.json'), JSON.stringify(rolesFile, null, 4))
+                } else if (startingRoles.filter(i => i.id == feedChannel.id).length == 0) {
+                    rolesFile.filter(i => i.id == channel)[0].channels.push({
+                        id: feedChannel.id,
+                        role: role == null ? 'none' : role.id
+                    })
 
-                if (!channelObject) {
-                    // Encrypt the webhook before saving it
-                    const encryptedWebhook = cipher.update(webhook.url, 'utf8', 'hex') + cipher.final('hex')
+                    fs.writeFileSync(path.resolve('./db/socialalert/twitch_roles.json'), JSON.stringify(rolesFile, null, 4))
                 }
 
-                return interaction.reply({
-                    content: `Added Twitch feed for ${channel} to <#${feedChannel.id}>.`,
-                })
+                const twitchData = fs.readFileSync(path.resolve('./db/socialalert/twitch.txt'), 'utf8').split('\n');
+
+                const channelData = twitchData.filter((line) => line.split(',')[0] === channel);
+
+                const channels = channelData[0] ? channelData[0].split(',')[1].split('|') : [];
+
+                if (channels.includes(feedChannel.id)) {
+                    return await interaction.reply({ content: 'This channel is already linked to that Twitch channel.', ephemeral: true });
+                }
+
+                channels.push(feedChannel.id);
+
+                const newChannelData = `${channel},${channels.join('|')}`;
+
+                const newTwitchData = twitchData.filter((line) => line.split(',')[0] !== channel).join('\n') + '\n' + newChannelData;
+
+                fs.writeFileSync(path.resolve('./db/socialalert/twitch.txt'), newTwitchData);
+
+                await interaction.reply({ content: `Successfully added ${feedChannel} to the Twitch feed for ${startingChannel}.`, ephemeral: true })
             }
         }
     }
