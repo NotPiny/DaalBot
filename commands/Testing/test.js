@@ -55,7 +55,7 @@ module.exports = {
   
     callback: async({interaction}) => {
         try {
-            return `# Output \n\`\`\`\n${JSON.stringify(interaction.options.getAttachment('attachment'), null, 4)}\n\`\`\``;
+            return `# Output \n\`\`\`\nSent message\n\`\`\``;
         } catch (err) {
             return `# Error\n\`\`\`\n${err}\n\`\`\``;
         }

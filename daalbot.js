@@ -225,6 +225,17 @@ async function DatabaseGetChannel(guild, type) {
     }
 }
 
+async function sendAlert(guild, embed, message) {
+    const alertChannel = await DatabaseGetChannel(guild, 'alerts');
+
+    if (alertChannel) {
+        client.channels.cache.get(alertChannel).send({
+            content: message ? message : null,
+            embeds: [embed]
+        });
+    }
+}
+
 const text = {
     cleanHomoglyphs: cleanText,
 }
@@ -239,6 +250,10 @@ const db = {
     getChannel: DatabaseGetChannel
 }
 
+const guilds = {
+    sendAlert
+}
+
 module.exports = {
     client,
     serverAmount,
@@ -246,6 +261,7 @@ module.exports = {
     text,
     fs: better_fs,
     db,
+    guilds,
     findServerVanity,
     fetchServer,
     fetchServerName,

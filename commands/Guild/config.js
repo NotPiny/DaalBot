@@ -8,7 +8,7 @@ module.exports = {
     guildOnly: true,
     
     slash: true,
-    permissions: ['MANAGE_SERVER'],
+    permissions: ['MANAGE_GUILD'],
 
     options: [
         {

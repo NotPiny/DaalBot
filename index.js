@@ -5,23 +5,13 @@ const WOKCommands = require('wokcommands');
 const config = require('./config.json');
 require('./launch-extra.js');
 client.setMaxListeners(0); // Sets max client listeners to infinity
+const fs = require('fs'); // File system
 
 // Functions
 function botLog(text) {
   client.channels.cache.find(channel => channel.id === config.Logchannel).send(text);
   console.log(text)
 }
-
-/* Here is the explanation for the code above:
-1. client.channels.cache.find(channel => channel.id === config.Logchannel)
-This line is finding the channel with the id of the config.Logchannel. The config.Logchannel is the channel ID of the channel that you want to log the bot messages in.
-
-2. .send(text)
-This is sending the text to the channel that was found in the first line. The text is the message that you want to send to the channel.
-
-3. console.log(text)
-This is sending the message to the console. The console is the part of the bot that you use to run the bot. If you want to see the messages in the console, you can use the command 'node .' in the console.
-*/
 
 client.on('ready', () => {
   //When bot loads
@@ -50,5 +40,10 @@ client.on('ready', () => {
   // Backup custom handler for if WOKCommands fails
   require('./handler/exe.js');
 })
+
+// DB check
+if (!fs.existsSync(`./db/`)) {
+  require('./db-setup.js') // If the database doesn't exist, run the setup
+}
 
 client.login(process.env.TOKEN);

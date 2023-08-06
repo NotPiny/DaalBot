@@ -1,6 +1,8 @@
 const daalbot = require('../daalbot.js');
 const DJS = require('discord.js');
 const client = require('../client.js');
+const fs = require('fs');
+const path = require('path');
 
 client.on('interactionCreate', async interaction => {
     if (interaction.isButton()) {
@@ -99,10 +101,36 @@ client.on('interactionCreate', async interaction => {
                     ephemeral: true
                 })
             } else if (option === 'mutelevelupmessages') {
-                // TODO: Add mute level up messages
+                // Fetch the current silent user config from the database
+                const silentUserConfig = fs.readFileSync(path.resolve(`./db/xp/silent.users`), 'utf8');
+
+                // Create the embed
+                let embed = new DJS.MessageEmbed()
+
+                // Check if the user is already in the silent user config
+                if (silentUserConfig.includes(interaction.user.id)) {
+                    // Remove the user from the silent user config
+                    fs.writeFileSync(path.resolve(`./db/xp/silent.users`), silentUserConfig.replace(`${interaction.user.id}\n`, ''));
+
+                    // Set the embed
+                    embed
+                        .setTitle('Unmuted Level Up Messages')
+                        .setDescription(`You will now be pinged when you level up.`)
+                        .setTimestamp();
+                } else {
+                    // Add the user to the silent user config
+                    fs.appendFileSync(path.resolve(`./db/xp/silent.users`), `${interaction.user.id}\n`);
+
+                    // Set the embed
+                    embed
+                        .setTitle('Muted Level Up Messages')
+                        .setDescription(`You will no longer be pinged when you level up.`)
+                        .setTimestamp();
+                }
+
                 interaction.update({
-                    content: `This feature is not yet implemented`,
-                    embeds: [],
+                    content: null,
+                    embeds: [embed],
                     components: [backbuttonrow],
                     ephemeral: true
                 })
