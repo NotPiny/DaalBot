@@ -21,7 +21,6 @@ node_modules/
 /node_modules
 
 # Other stuff :)
-gmuted.list
 CTF.txt
 
 # Server certificates

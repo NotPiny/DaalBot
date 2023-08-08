@@ -16,7 +16,7 @@ client.on('guildMemberRemove', async (member) => {
 
             const embed = new MessageEmbed()
                 .setTitle('User Left')
-                .setDescription(`User: ${member.user.username}${member.user.discriminator !== '0' ? `#${member.user.discriminator}` : ''} \nID: ${member.user.id}`)
+                .setDescription(`User: ${member.user.username} \nID: ${member.user.id}`)
                 .setThumbnail(member.user.displayAvatarURL())
                 .setColor('RED')
                 .setTimestamp()

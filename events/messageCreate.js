@@ -23,7 +23,7 @@ client.on('messageCreate', async (msg) => {
         const dateObj = new Date();
 
         // Remove this once discord goes to twitter mode with usernames
-        const data = `[${dateObj}] ${author.username}#${author.discriminator}: \n${content}\n\n`;
+        const data = `[${dateObj}] ${author.username}: \n${content}\n\n`;
 
         fs.appendFileSync(ticketTranscriptPath, data);
     }
@@ -55,7 +55,6 @@ client.on('messageCreate', async (msg) => {
             const userInfoEmbed = new Discord.MessageEmbed()
                 .setTitle('User info')
                 .setDescription(`Username: ${issueAuthorUser.username}
-Discriminator: ${issueAuthorUser.discriminator}
 ID: ${issueAuthorUser.id}`)
                 .setColor('PURPLE')
                 .setThumbnail(issueAuthorUser.avatarURL() == null ? 'https://pinymedia.web.app/DaalbotCircle.png' : issueAuthorUser.avatarURL())
