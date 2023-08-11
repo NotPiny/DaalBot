@@ -6,16 +6,26 @@ const config = require('./config.json');
 require('./launch-extra.js');
 client.setMaxListeners(0); // Sets max client listeners to infinity
 const fs = require('fs'); // File system
+const { MessageEmbed } = require('discord.js'); // Embeds
 
 // Functions
-function botLog(text) {
-  client.channels.cache.find(channel => channel.id === config.Logchannel).send(text);
-  console.log(text)
+function OnReady() {
+  const loggingChannel = client.channels.cache.find(channel => channel.id === '1138413163319132231')
+  console.log('Load > DaalBot is ready')
+
+  const embed = new MessageEmbed()
+    .setTitle('Bot Ready')
+    .setDescription('Load > DaalBot is ready')
+    .setColor('GREEN')
+    .setTimestamp()
+
+  loggingChannel.send({
+    embeds: [embed]
+  })
 }
 
 client.on('ready', () => {
   //When bot loads
-  botLog(`Load > DaalBot is ready`);
   console.log(`Running in ${client.guilds.cache.size} servers!`);
   const RandomIndex = Math.floor(Math.random() * (config.activities.length - 1) + 1);
   const NewActivity = config.activities[RandomIndex];
@@ -37,8 +47,7 @@ client.on('ready', () => {
   })
   .setDefaultPrefix(config.WOKCommands.prefix)
 
-  // Backup custom handler for if WOKCommands fails
-  require('./handler/exe.js');
+  OnReady();
 })
 
 // DB check

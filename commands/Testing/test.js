@@ -1,4 +1,8 @@
 const daalbot = require('../../daalbot');
+const DJS = require('discord.js');
+const execSync = require('child_process').execSync;
+const config = require('../../config.json')
+const path = require('path');
 
 module.exports = {
     category: 'Testing',
@@ -52,10 +56,10 @@ module.exports = {
             required: false
         }
     ],
-  
+
     callback: async({interaction}) => {
         try {
-            return `# Output \n\`\`\`\nSent message\n\`\`\``;
+            return `# Output \n\`\`\`\nThis command does nothing rn :)\n\`\`\``;
         } catch (err) {
             return `# Error\n\`\`\`\n${err}\n\`\`\``;
         }

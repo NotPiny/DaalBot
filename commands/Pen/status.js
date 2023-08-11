@@ -1,56 +1,34 @@
-const config = require('../../config.json')
+const daalbot = require('../../daalbot.js')
+
 module.exports = {
-  category: 'Pen',
-  description: 'Sets the bots status',
+    name: 'status',
+    description: 'Change the status of the bot',
+    category: 'Pen',
 
-  minArgs: 1,
-  maxArgs: 2,
-  expectedArgs: '<status> <username>',
-  expectedArgsTypes: ['STRING', 'STRING'],
+    slash: true,
+    ownerOnly: true,
 
-  options: [
-    {
-      name: 'status',
-      description: 'The text to set the bot status to',
-      type: 'STRING',
-      required: true,
-    },
-    {
-      name: 'username',
-      description: 'The twitch username to link to',
-      type: 'STRING',
-      required: false,
-    },
-  ],
+    options: [
+        {
+            name: 'status',
+            description: 'The new status',
+            type: 'STRING',
+            required: true
+        },
+        {
+            name: 'type',
+            description: 'The type of status (piny.tv/ActivityTypes)',
+            type: 'STRING',
+            required: false,
+        }
+    ],
 
-  slash: true,
-  testOnly: false,
+    callback: ({ interaction }) => {
+        const newActivity = interaction.options.getString('status')
+        const type = parseInt(interaction.options.getString('type')) || 1
 
-  ownerOnly: true,
+        daalbot.client.user.setActivity(newActivity, { type: type })
 
-  callback: ({ message, client, text, interaction }) => {
-    // Brings strings from options
-    const NS = interaction.options.getString('status')
-    const name = interaction.options.getString('username')
-    function botLog(text) {
-        client.channels?.cache.find(channel => channel.id === config.Logchannel).send(text)
-        console.log(text)
-      }
-    if (!NS === null) {
-      client.user?.setActivity(NS, {
-        type: "STREAMING",
-        url: `https://www.twitch.tv/${name}`
-        });
-    } else {
-    client.user?.setActivity(NS, {
-      type: "STREAMING",
-      url: "https://www.twitch.tv/daalbott"
-      });
+        interaction.reply(`Successfully changed status to "${newActivity}"`, { ephemeral: true })
     }
-
-    botLog(`Status > Status is now \`${NS}\``)
-    return `Status has been changed to \`${NS}\``
-    
-    
-  },
 }

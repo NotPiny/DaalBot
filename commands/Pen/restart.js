@@ -1,5 +1,6 @@
 const config = require('../../config.json');
-const Logchannel = config.Logchannel;
+const { MessageEmbed } = require('discord.js');
+const client = require('../../daalbot.js').client;
 module.exports = {
     category: 'Pen',
     description: 'Restarts the bot',
@@ -9,22 +10,27 @@ module.exports = {
   
     ownerOnly: true,
   
-    callback: ({ message, user, client, text, interaction }) => {
-      function botLog(text) {
-        client.channels.cache.find(channel => channel.id === Logchannel).send(text)
-        console.log(text)
-      }
-      client.user?.setPresence({
-        status: 'online',
-        activities: [
-          {
-            name: 'Restarting...',
-          },
-        ],
-      })
+    callback: () => {
+        client.user?.setPresence({
+            status: 'idle',
+            activities: [
+                {
+                    name: 'Restarting...',
+                },
+            ],
+        })
 
-      require('child_process').execSync('pm2 restart 1');
-      botLog(`<@${user.id}> restarted the bot`)
+        const embed = new MessageEmbed()
+            .setTitle('Restarting...')
+            .setDescription('The bot is restarting')
+            .setColor('YELLOW')
+            .setTimestamp()
+
+        client.channels.cache.get('1138413163319132231').send({
+            embeds: [embed]
+        })
+
+        setTimeout(() => {require('child_process').execSync('pm2 restart 1')}, 5 * 1000)
     },
   }
   

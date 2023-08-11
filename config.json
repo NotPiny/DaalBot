@@ -107,7 +107,7 @@
   },
 
     "activities": [
-        "1/105 Chance!",
+        "1/{STATUS_COUNT} Chance!",
         "/Cmds to get started",
         "Don't be stupid",
         "HOTDOG!",
@@ -211,6 +211,11 @@
         "This status is not lying",
         "Status #100",
         "daalbot.xyz!",
-        "Happy pride month! 🏳️‍🌈"
+        "<t>3</t>over {GUILDS} servers",
+        "<t>3</t>over {USERS} users",
+        "<t>3</t>over {HUMANS} people",
+        "<t>3</t> {BOTS} bots to make sure they don't takeover",
+        "Ducks are cool",
+        "Olilz is a bot"
     ]
 }
