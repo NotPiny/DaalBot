@@ -32,8 +32,6 @@ function getRandomInt(max) {
             interaction.reply(`Unknown move! Please use one of the following: ${actions.join(
               ', '
             )}`)
-          .then(() => { console.log(':)') })
-          .catch(() => { console.log('bruh') })
           }
 
         if (cpuP === 0) {

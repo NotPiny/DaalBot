@@ -10,6 +10,7 @@ module.exports = {
 
   slash: 'both',
   testOnly: true,
+  guildOnly: true,
 
   options: [
     {

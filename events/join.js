@@ -28,7 +28,7 @@ client.on('guildMemberAdd', (member) => {
         }
 
         if (welcome.embed != 'none') {
-            let embed = new Discord.MessageEmbed(welcome.embed);
+            let embed = new Discord.EmbedBuilder(welcome.embed);
 
             let description = welcome.embed.description;
 

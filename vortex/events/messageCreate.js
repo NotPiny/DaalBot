@@ -1,6 +1,6 @@
 const client = require('../../client.js');
 const config = require('../../config.json');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 client.on('messageCreate', msg => {
     if (msg.guild.id !== config.servers.vortex.id) return;
@@ -22,7 +22,7 @@ client.on('messageCreate', msg => {
 
         tweet.timestamp = TweetShiftEmbed.timestamp;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor({
                 name: tweet.author.name,
                 iconURL: tweet.author.icon
@@ -33,7 +33,7 @@ client.on('messageCreate', msg => {
             })
             .setDescription(tweet.content)
             .setTitle(`New Tweet from ${tweet.author.name.split('(')[1].split(')')[0]}`)
-            .setURL(tweet.link)
+            // .setURL(tweet.link)
             .setTimestamp(tweet.timestamp)
             .setImage(tweet.image)
             .setColor('#00aae3')

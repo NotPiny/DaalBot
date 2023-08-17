@@ -275,6 +275,6 @@ module.exports = {
     getLogChannel,
     getLogChannelId,
     logEvent,
-    embed: Discord.MessageEmbed,
+    embed: Discord.EmbedBuilder,
     DatabaseEntry
 }

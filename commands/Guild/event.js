@@ -38,7 +38,7 @@ module.exports = {
 
         if (subCommand === 'create') {
             // Create event
-            const createEventDropdown = new DJS.MessageActionRow()
+            const createEventDropdown = new DJS.ActionRowBuilder()
             .addComponents(
                 new DJS.MessageSelectMenu()
                     .setCustomId('eventDropdown_create')

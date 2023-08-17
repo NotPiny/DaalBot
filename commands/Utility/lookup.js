@@ -60,7 +60,7 @@ Server Member Count: ${server.memberCount}
             if (user === 'User not found.') {
                 return 'User not found.';
             } else {
-                const embed = new Discord.MessageEmbed()
+                const embed = new Discord.EmbedBuilder()
                     .setTitle(`User: ${user.tag}`)
                     .setThumbnail(user.displayAvatarURL())
                     .setDescription(`User Tag: ${user.tag}\nUser ID: ${user.id}\nUser Avatar: ${user.displayAvatarURL()}\nBot: ${user.bot}\nCreated Timestamp: ${user.createdTimestamp}\nCreated At: ${user.createdAt}`);
@@ -76,7 +76,7 @@ Server Member Count: ${server.memberCount}
             if (role === 'Role not found.') {
                 return 'Role not found.';
             } else {
-                const embed = new Discord.MessageEmbed()
+                const embed = new Discord.EmbedBuilder()
                     .setTitle(`Role: ${role.name}`)
                     .setColor(role.color)
                     .setDescription(`Role Name: ${role.name}\nRole ID: ${role.id}\nRole Color: ${role.hexColor}\nRole Created Timestamp: ${role.createdTimestamp}\nRole Created At: ${role.createdAt}`);

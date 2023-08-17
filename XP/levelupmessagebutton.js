@@ -7,12 +7,12 @@ const path = require('path');
 client.on('interactionCreate', async interaction => {
     if (interaction.isButton()) {
         if (interaction.customId === 'levelUpMenu') {
-            const embed = new DJS.MessageEmbed()
+            const embed = new DJS.EmbedBuilder()
                 .setTitle('Menu')
                 .setDescription('Please pick an option from the dropdown below.')
                 .setTimestamp();
 
-            const row = new DJS.MessageActionRow()
+            const row = new DJS.ActionRowBuilder()
 
             const dropdown = new DJS.MessageSelectMenu()
                 .setCustomId('levelUpMenuDropdown')
@@ -43,12 +43,12 @@ client.on('interactionCreate', async interaction => {
                 ephemeral: true
             })
         } else if (interaction.customId === 'levelUpMenuBack') {
-            const embed = new DJS.MessageEmbed()
+            const embed = new DJS.EmbedBuilder()
                 .setTitle('Menu')
                 .setDescription('Please pick an option from the dropdown below.')
                 .setTimestamp();
 
-            const row = new DJS.MessageActionRow()
+            const row = new DJS.ActionRowBuilder()
 
             const dropdown = new DJS.MessageSelectMenu()
                 .setCustomId('levelUpMenuDropdown')
@@ -80,17 +80,17 @@ client.on('interactionCreate', async interaction => {
                 ephemeral: true
             })
         }
-    } else if (interaction.isSelectMenu()) {
+    } else if (interaction.isStringSelectMenu()) {
         if (interaction.customId === 'levelUpMenuDropdown') {
             const option = interaction.values[0];
 
-            const backBtn = new DJS.MessageButton()
+            const backBtn = new DJS.ButtonBuilder()
                 .setLabel('Back')
-                .setStyle('DANGER')
+                .setStyle(DJS.ButtonStyle.Danger)
                 .setCustomId('levelUpMenuBack')
                 .setEmoji('⬅');
 
-            const backbuttonrow = new DJS.MessageActionRow()
+            const backbuttonrow = new DJS.ActionRowBuilder()
                 .addComponents(backBtn);
 
             if (option === 'viewxp') {
@@ -105,7 +105,7 @@ client.on('interactionCreate', async interaction => {
                 const silentUserConfig = fs.readFileSync(path.resolve(`./db/xp/silent.users`), 'utf8');
 
                 // Create the embed
-                let embed = new DJS.MessageEmbed()
+                let embed = new DJS.EmbedBuilder()
 
                 // Check if the user is already in the silent user config
                 if (silentUserConfig.includes(interaction.user.id)) {
@@ -135,7 +135,7 @@ client.on('interactionCreate', async interaction => {
                     ephemeral: true
                 })
             } else if (option === 'howtoearnxp') {
-                const embed = new DJS.MessageEmbed()
+                const embed = new DJS.EmbedBuilder()
                     .setTitle('How to earn XP')
                     .setDescription(`You can earn XP by doing the following:`)
                     .addFields({

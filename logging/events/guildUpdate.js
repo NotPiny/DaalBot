@@ -2,7 +2,7 @@ const client = require('../../client.js');
 const config = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 client.on('guildUpdate', async (oldGuild, newGuild) => {
@@ -15,10 +15,10 @@ client.on('guildUpdate', async (oldGuild, newGuild) => {
             const logChannel = client.channels.cache.get(channelID);
             let changes = [];
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle('Guild Updated')
                 .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Guild.png')
-                .setColor('YELLOW')
+                .setColor('#FFE467')
                 .setTimestamp()
 
             if (oldGuild.name !== newGuild.name) {

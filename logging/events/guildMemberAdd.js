@@ -2,7 +2,7 @@ const client = require('../../client.js');
 const config = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 client.on('guildMemberAdd', async (member) => {
@@ -14,11 +14,11 @@ client.on('guildMemberAdd', async (member) => {
             const channelID = fs.readFileSync(path.resolve(`./db/logging/${member.guild.id}/channel.id`), 'utf8');
             const logChannel = client.channels.cache.get(channelID);
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle('User Joined')
                 .setDescription(`User: ${member.user.username}\nID: ${member.user.id}`)
                 .setThumbnail(member.user.displayAvatarURL())
-                .setColor('GREEN')
+                .setColor('#57F28D')
                 .setTimestamp()
 
             logChannel.send({

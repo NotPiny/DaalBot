@@ -2,7 +2,7 @@ const client = require('../../client.js');
 const config = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 client.on('guildMemberUpdate', (oldMember, newMember) => {
@@ -21,10 +21,10 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
             const channelID = fs.readFileSync(path.resolve(`./db/logging/${oldMember.guild.id}/channel.id`), 'utf8');
             const logChannel = client.channels.cache.get(channelID);
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle('User Updated')
                 .setThumbnail(oldMember.user.displayAvatarURL())
-                .setColor('YELLOW')
+                .setColor('#FFE467')
                 .setTimestamp()
 
             let changes = [];

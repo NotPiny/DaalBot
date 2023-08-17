@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 client.on('messageCreate', msg => {
     if (msg.author.id == '900126154881646634') {
         if (msg.content == '$ticket-drop') {
-            const row = new Discord.MessageActionRow()
+            const row = new Discord.ActionRowBuilder()
                 .addComponents(
                     new Discord.MessageSelectMenu()
                         .setCustomId('vortex-ticket-dropdown')
@@ -46,7 +46,7 @@ client.on('messageCreate', msg => {
                         .setMaxValues(1)
                 )
 
-                const embed = new Discord.MessageEmbed()
+                const embed = new Discord.EmbedBuilder()
                     .setTitle('Service Request')
                     .setDescription(`
                     > Click The Button Below To Be Added To The Queue For A Service Member!
@@ -68,9 +68,9 @@ client.on('messageCreate', msg => {
 })
 
 client.on('interactionCreate', async interaction => {
-    if (!interaction.isSelectMenu() && !interaction.isButton()) return;
+    if (!interaction.isStringSelectMenu() && !interaction.isButton()) return;
 
-    if (interaction.isSelectMenu()) {
+    if (interaction.isStringSelectMenu()) {
         if (interaction.customId === 'vortex-ticket-dropdown') {
             const ticketChannel = await interaction.guild.channels.create(`ticket-${interaction.user.username}`, {
                 type: 'GUILD_TEXT',
@@ -106,7 +106,7 @@ client.on('interactionCreate', async interaction => {
                 SEND_MESSAGES: true
             })
     
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setTitle(`Ticket - ${interaction.values[0]}`)
                 .setDescription(`
                 Welcome To Your Ticket, <@${interaction.user.id}>!
@@ -119,12 +119,12 @@ client.on('interactionCreate', async interaction => {
                 })
                 .setTimestamp()
     
-            const row = new Discord.MessageActionRow()
+            const row = new Discord.ActionRowBuilder()
                 .addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId('vortex_close_ticket')
                         .setLabel('Close Ticket')
-                        .setStyle('DANGER')
+                        .setStyle(Discord.ButtonStyle.Danger)
                 )
     
             ticketChannel.send({

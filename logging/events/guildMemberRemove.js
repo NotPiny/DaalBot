@@ -1,5 +1,5 @@
 const client = require('../../client.js');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const daalbot = require('../../daalbot.js');
 const config = require('../../config.json');
@@ -14,11 +14,11 @@ client.on('guildMemberRemove', async (member) => {
             const channelID = fs.readFileSync(path.resolve(`./db/logging/${member.guild.id}/channel.id`), 'utf8');
             const logChannel = client.channels.cache.get(channelID);
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle('User Left')
                 .setDescription(`User: ${member.user.username} \nID: ${member.user.id}`)
                 .setThumbnail(member.user.displayAvatarURL())
-                .setColor('RED')
+                .setColor('#EF3D48')
                 .setTimestamp()
 
             logChannel.send({

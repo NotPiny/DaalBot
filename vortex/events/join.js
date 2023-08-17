@@ -1,5 +1,5 @@
 const client = require('../../client.js');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const config = require('../../config.json');
 const daalbot = require('../../daalbot.js');
@@ -19,7 +19,7 @@ client.on('guildMemberAdd', member => {
             })
 
         // Send the welcome message in the user's DMs
-        const WelcomeMessage = new MessageEmbed()
+        const WelcomeMessage = new EmbedBuilder()
             .setColor('#00aae3')
             .setTitle('Welcome to Vortex  HQ!')
             .setDescription(`> __Please be sure to follow both ours, and Discord rules.__

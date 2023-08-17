@@ -65,10 +65,10 @@ module.exports = {
             data.role = roleId;
             data.reason = reason;
 
-            const embed = new DJS.MessageEmbed()
+            const embed = new DJS.EmbedBuilder()
                 .setTitle('Lockdown started')
                 .setDescription(`The server has been locked down by ${interaction.user.tag} for the reason: ${reason}`)
-                .setColor('RED')
+                .setColor('#EF3D48')
                 .setTimestamp();
 
             await daalbot.logEvent(interaction.guild.id, 'lockdownstarted', embed); // Bugged
@@ -93,10 +93,10 @@ module.exports = {
 
             const role = interaction.guild.roles.cache.get(data.role);
 
-            const embed = new DJS.MessageEmbed()
+            const embed = new DJS.EmbedBuilder()
                 .setTitle('Lockdown ended')
                 .setDescription(`The server has been unlocked by ${interaction.user.tag}`)
-                .setColor('GREEN')
+                .setColor('#57F28D')
                 .setTimestamp();
 
             daalbot.logEvent(interaction.guild.id, 'lockdownstarted', embed);

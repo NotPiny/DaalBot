@@ -3,7 +3,7 @@ const config = require("../config.json");
 const botPath = '..';
 const daalbot = require('../daalbot.js');
 const warnSchema = require('../models/warn-schema');
-const { MessageEmbed, Interaction } = require('discord.js');
+const { EmbedBuilder, Interaction } = require('discord.js');
 function read(file) {
     try {
         if (fs.existsSync(file)) {
@@ -12,7 +12,7 @@ function read(file) {
             return 'File not found';
         }
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 }
 const profanityDefault = require(`../db/automod/lists.json`).profanityDefault;
@@ -38,9 +38,9 @@ const client = require('../client.js');
         const customBlockedWords = read(`../db/automod/${guildId}-CBW.list`).split('\n');
 
         function WADLTEMSG(reason) {
-            const warningEmbed = new MessageEmbed()
+            const warningEmbed = new EmbedBuilder()
                 .setTitle('Warning')
-                .setColor('RED')
+                .setColor('#EF3D48')
                 .setDescription(`You have been warned in ${guild.name} by automod for: ${reason}`)
                 .setTimestamp();
             
@@ -54,14 +54,14 @@ const client = require('../client.js');
             author.send({ embeds: [warningEmbed] }).then(() => {
                 console.log(`Automod > Warned ${author.username} in ${guild.name} for ${reason}`);
             }).catch(() => {
-                console.log(`Automod > Failed to warn ${author.username} in ${guild.name} for ${reason}`);
+                console.error(`Automod > Failed to warn ${author.username} in ${guild.name} for ${reason}`);
             }).finally(() => {
                 msg.delete()
                 .then(() => {
                     console.log(`Automod > Deleted message from ${author.username} in ${guild.name}`);
                 })
                 .catch(() => {
-                    console.log(`Automod > Failed to delete message from ${author.username} in ${guild.name}`);
+                    console.error(`Automod > Failed to delete message from ${author.username} in ${guild.name}`);
                 });
             })
         }
@@ -99,7 +99,7 @@ const client = require('../client.js');
                 member.roles.add(role).then(() => {
                     console.log(`Muted ${author.tag} for Invite Links`);
                 }).catch(err => {
-                    console.log(err);
+                    console.error(err);
                 })
             }
 
@@ -131,7 +131,7 @@ const client = require('../client.js');
                         msg.delete();
                     }
                 }).catch(err => {
-                    console.log(err);
+                    console.error(err);
                 })
             }
 
@@ -162,7 +162,7 @@ const client = require('../client.js');
                     member.roles.add(role).then(() => {
                         console.log(`Muted ${author.tag} for Caps`);
                     }).catch(err => {
-                        console.log(err);
+                        console.error(err);
                     })
                 }
 
@@ -191,7 +191,7 @@ const client = require('../client.js');
                 member.roles.add(role).then(() => {
                     console.log(`Muted ${author.tag} for Links`);
                 }).catch(err => {
-                    console.log(err);
+                    console.error(err);
                 })
             }
 

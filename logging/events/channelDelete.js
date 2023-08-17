@@ -14,11 +14,11 @@ client.on('channelDelete', async(channel) => {
         const channelID = fs.readFileSync(path.resolve(`./db/logging/${channel.guild.id}/channel.id`), 'utf8');
         const logChannel = client.channels.cache.get(channelID);
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
             .setTitle('Channel Deleted')
             .setDescription(`Channel: ${channel.name}\nID: ${channel.id}\nType: ${channel.type}`)
             .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Channel.png')
-            .setColor('RED')
+            .setColor('#EF3D48')
             .setTimestamp()
 
         logChannel.send({

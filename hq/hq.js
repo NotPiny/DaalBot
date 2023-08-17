@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const client = require('../client');
 const daalbot = require('../daalbot.js');
 require('./twitter');
@@ -28,7 +28,7 @@ client.on('ready', () => {
 
 client.on('guildMemberAdd', member => {
     if (member.guild.id === '1001929445478781030') {
-    const welcomeEmbed = new MessageEmbed()
+    const welcomeEmbed = new EmbedBuilder()
     .setTitle(`Welcome to the official DaalBot HQ!`)
     .setDescription(`You are member #${member.guild.memberCount}`)
     .setThumbnail(member.avatarURL)
@@ -53,7 +53,7 @@ client.on('messageCreate', msg => {
         if (msg.author.bot && msg.author.id == '1052298562458898462') {
             // Triggers when a commit alert is sent by the webhook
             const data = msg.content.split(':')
-            const commitEmbed = new MessageEmbed()
+            const commitEmbed = new EmbedBuilder()
                 .setTitle(`New commit by ${data[0]} to ${data[2]}`)
                 .setDescription(data[1])
                 .setURL(data[3].replace(/commit/g, ' TRUE ').includes('TRUE') ? `${data[3]}` : `https://github.com/${data[2]}`)
@@ -93,21 +93,21 @@ client.on('interactionCreate', async interaction => {
     if (interaction.isCommand()) {
         if (interaction.commandName === 'suggest') {
             const suggestion = interaction.options.getString('suggestion');
-            const Embed = new MessageEmbed()
+            const Embed = new EmbedBuilder()
             .setTitle(`Suggestion from ${interaction.user.tag}`)
             .setDescription(`${suggestion}`)
             .setColor(0xae00ff)
 
-            const row = new MessageActionRow()
+            const row = new ActionRowBuilder()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                 .setCustomId('hq-suggestion-approve')
                 .setLabel('Approve')
-                .setStyle('SUCCESS'),
-                new MessageButton()
+                .setStyle(ButtonStyle.Success),
+                new ButtonBuilder()
                 .setCustomId('hq-suggestion-deny')
                 .setLabel('Deny')
-                .setStyle('DANGER')
+                .setStyle(ButtonStyle.Danger)
             )
             client.channels.cache.find(channel => channel.id === '1004505732512747583').send({
                 embeds: [Embed],

@@ -1,6 +1,6 @@
 const client = require('../../../../client.js');
 const daalbot = require('../../../../daalbot.js');
-const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, MessageSelectMenu, ButtonStyle } = require('discord.js');
 
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
@@ -31,27 +31,27 @@ client.on('interactionCreate', async (interaction) => {
            
            interaction.reply({
                content: 'Please select a reason for denying the application',
-               components: [new MessageActionRow().addComponents(denyDropdown)],
+               components: [new ActionRowBuilder().addComponents(denyDropdown)],
                embeds: [
-                   new MessageEmbed()
+                   new EmbedBuilder()
                    .setTitle(interaction.message.embeds[0].footer.text)
                    .setDescription('Ignore this message it is for keeping track of the user')
                ],
                ephemeral: true
            })
 
-           const row = new MessageActionRow()
+           const row = new ActionRowBuilder()
 
-            const acceptButton = new MessageButton()
+            const acceptButton = new ButtonBuilder()
                 .setCustomId('vortex-featured-accept')
                 .setLabel('Accept')
-                .setStyle('SUCCESS')
+                .setStyle(ButtonStyle.Success)
                 .setDisabled(true)
 
-            const denyButton = new MessageButton()
+            const denyButton = new ButtonBuilder()
                 .setCustomId('vortex-featured-deny')
                 .setLabel('Deny')
-                .setStyle('DANGER')
+                .setStyle(ButtonStyle.Danger)
                 .setDisabled(true)
 
             row.addComponents(acceptButton, denyButton)

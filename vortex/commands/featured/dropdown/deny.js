@@ -1,14 +1,13 @@
 const client = require('../../../../client.js');
-const daalbot = require('../../../../daalbot.js');
-const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 client.on('interactionCreate', async interaction => {
-    if (interaction.isSelectMenu()) {
+    if (interaction.isStringSelectMenu()) {
        if (interaction.customId === 'vortex-featured-deny-dropdown') {
             const member = interaction.guild.members.cache.get(interaction.message.embeds[0].title);
             const denyReason = interaction.values[0];
 
-            const denyEmbed = new MessageEmbed()
+            const denyEmbed = new EmbedBuilder()
             .setTitle('Featured Creator Application Denied')
             .setDescription(`You should not be seeing this as it is meant to be switched to the reason before you see it please DM <@900126154881646634> about this`)
             .setAuthor({
@@ -16,7 +15,7 @@ client.on('interactionCreate', async interaction => {
                 iconURL: 'https://pinymedia.web.app/VortexIcon.png'
             })
             .setTimestamp()
-            .setColor('RED');
+            .setColor('#EF3D48');
 
             if (denyReason === 'invalid-map-code') {
                 denyEmbed.setDescription('Your application has been denied for the following reason: Invalid Map Code\n\nPlease make sure you have the correct map code and try again.');

@@ -7,6 +7,6 @@ module.exports = {
     testOnly: true,
 
     callback: () => {
-        console.log('WOKCommands has gotten the embed test command');
+        return;
     }
 }

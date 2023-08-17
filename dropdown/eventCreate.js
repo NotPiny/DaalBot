@@ -5,7 +5,7 @@ const fs = require('fs');
 const client = daalbot.client;
 
 client.on('interactionCreate', interaction => {
-    if (!interaction.isSelectMenu()) return;
+    if (!interaction.isStringSelectMenu()) return;
 
     if (interaction.customId == 'eventDropdown_create') {
         const event = interaction.values[0];
@@ -25,7 +25,7 @@ client.on('interactionCreate', interaction => {
 
                 fs.appendFileSync(`${guildEventPath}/${eventAmount + 1}.event`, JSON.stringify(data, null, 4));
 
-                const responseDropdown = new DJS.MessageActionRow()
+                const responseDropdown = new DJS.ActionRowBuilder()
                 .addComponents(
                     new DJS.MessageSelectMenu()
                         .setCustomId('eventDropdown_create_response')
@@ -59,7 +59,7 @@ client.on('interactionCreate', interaction => {
 
                 fs.appendFileSync(`${guildEventPath}/${eventAmount + 1}.event`, JSON.stringify(data, null, 4));
 
-                const responseDropdown = new DJS.MessageActionRow()
+                const responseDropdown = new DJS.ActionRowBuilder()
                 .addComponents(
                     new DJS.MessageSelectMenu()
                         .setCustomId('eventDropdown_create_response')

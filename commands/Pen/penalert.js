@@ -27,7 +27,7 @@ module.exports = {
 
             const embedObject = JSON.parse(embedJSON);
 
-            const embed = new DJS.MessageEmbed(embedObject);
+            const embed = new DJS.EmbedBuilder(embedObject);
             embed.setTimestamp();
 
             client.guilds.cache.forEach(guild => {

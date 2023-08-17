@@ -43,7 +43,7 @@ client.on('messageCreate', msg => {
     
             tweet.timestamp = TweetShiftEmbed.timestamp;
     
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor({
                     name: tweet.author?.name,
                     iconURL: tweet.author?.icon
@@ -54,7 +54,7 @@ client.on('messageCreate', msg => {
                 })
                 .setDescription(tweet.content)
                 .setTitle(`New Tweet from ${tweet.author?.name.split('(')[1].split(')')[0]}`)
-                .setURL(tweet.link)
+                // .setURL(tweet.link)
                 .setTimestamp(tweet.timestamp)
                 .setImage(tweet.image)
                 .setColor('#00aae3')

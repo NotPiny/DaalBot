@@ -2,7 +2,7 @@ const client = require('../../client.js');
 const config = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 client.on('messageUpdate', async (oldMessage, newMessage) => {
@@ -32,11 +32,11 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
             Attachments: ${newMessage.attachments.size}
             Components: ${newMessage.components.length}`;
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle('Message Edited')
                 .setDescription(description)
                 .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Message.png')
-                .setColor('YELLOW')
+                .setColor('#FFE467')
                 .setTimestamp()
 
             if (description.length >= 4000) {

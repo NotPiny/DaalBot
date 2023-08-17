@@ -19,7 +19,7 @@ client.on('interactionCreate', async (interaction) => {
                 })
             }
 
-            const embed = new DJS.MessageEmbed()
+            const embed = new DJS.EmbedBuilder()
                 .setTitle('Team Health')
                 .setDescription(`**<@${interaction.user.id}>** has clicked on the **${button}** button`)
                 .setFooter({

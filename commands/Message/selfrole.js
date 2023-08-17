@@ -1,7 +1,7 @@
 const {
   Client,
   GuildMember,
-  MessageActionRow,
+  ActionRowBuilder,
   MessageSelectMenu,
   MessageSelectOptionData,
   Role,
@@ -54,7 +54,7 @@ module.exports = {
 
   init: (client = Client) => {
     client.on('interactionCreate', (interaction) => {
-      if (!interaction.isSelectMenu()) {
+      if (!interaction.isStringSelectMenu()) {
         return
       }
 
@@ -68,17 +68,15 @@ module.exports = {
 
         for (const id of removed) {
           member.roles.remove(id.value)
-          .then(() => { console.log('Changed Role!') })
           .catch(() => { 
-            console.log('Failed to change role')
+            console.error('Failed to change role')
           })
         }
 
         for (const id of values) {
           member.roles.add(id)
-          .then(() => { console.log('Changed Role!') })
           .catch(() => { 
-            console.log('Failed to change role')
+            console.error('Failed to change role')
           })
         }
 
@@ -86,8 +84,7 @@ module.exports = {
           content: 'Roles updated!',
           ephemeral: true,
         })
-        .then(() => { console.log(':)') })
-        .catch(() => { console.log('bruh') })
+        .catch(() => { console.error('bruh') })
       }
     })
   },
@@ -130,7 +127,7 @@ module.exports = {
   
       let row = targetMessage.components[0]
       if (!row) {
-        row = new MessageActionRow()
+        row = new ActionRowBuilder()
       }
   
       const option = [
@@ -184,7 +181,7 @@ module.exports = {
         components: [row],
       })
     } catch {
-      console.log('bruh')
+      console.error('bruh')
       return 'Something went wrong!'
     }
   

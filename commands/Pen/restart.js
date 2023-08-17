@@ -1,5 +1,5 @@
 const config = require('../../config.json');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const client = require('../../daalbot.js').client;
 module.exports = {
     category: 'Pen',
@@ -20,10 +20,10 @@ module.exports = {
             ],
         })
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle('Restarting...')
             .setDescription('The bot is restarting')
-            .setColor('YELLOW')
+            .setColor('#FFE467')
             .setTimestamp()
 
         client.channels.cache.get('1138413163319132231').send({

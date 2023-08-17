@@ -22,3 +22,6 @@ require('./V14/index.js')
 
 // Social links
 require('./social/twitch.js')
+
+// Automations
+require('./automations/events.js')

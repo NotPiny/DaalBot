@@ -52,11 +52,11 @@ client.on('messageCreate', msg => {
                         iconURL: 'https://pinymedia.web.app/VortexLogo.png',
                     });
 
-                const row = new DJS.MessageActionRow()
+                const row = new DJS.ActionRowBuilder()
 
-                const moreInfoButton = new DJS.MessageButton()
+                const moreInfoButton = new DJS.ButtonBuilder()
                     .setLabel('More Info')
-                    .setStyle('LINK')
+                    .setStyle(DJS.ButtonStyle.Link)
                     .setURL('https://discord.com/channels/973711816226136095/1001724255215558766/1059587784496648212')
                     .setEmoji('📖');
 
@@ -101,16 +101,16 @@ client.on('messageCreate', msg => {
 
                 if (levelUpChannel == null) return;
 
-                const levelUpEmbed = new DJS.MessageEmbed()
+                const levelUpEmbed = new DJS.EmbedBuilder()
                     .setTitle('Level Up!')
                     .setDescription(`Congratulations on leveling up <@${msg.author.id}>! You are now level ${level} and have unlocked the ${role.name} role`)
                     .setTimestamp();
 
-                const row = new DJS.MessageActionRow()
+                const row = new DJS.ActionRowBuilder()
 
-                const menuButton = new DJS.MessageButton()
+                const menuButton = new DJS.ButtonBuilder()
                     .setLabel('Menu')
-                    .setStyle('PRIMARY')
+                    .setStyle(DJS.ButtonStyle.Primary)
                     .setCustomId('levelUpMenu')
                     .setEmoji('📖');
 

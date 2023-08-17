@@ -7,7 +7,7 @@ client.on('interactionCreate', async interaction => {
             const embed = new DJS.EmbedBuilder()
                 .setTitle('What kind of poll do you want to create?')
                 .setDescription('Select the poll type you want to create from the list below.')
-                .setColor('Aqua')
+                .setColor('#0DBC9D')
 
             const row = new DJS.ActionRowBuilder()
             

@@ -1,4 +1,4 @@
-const { MessageEmbed, Interaction } = require('discord.js');
+const { EmbedBuilder, Interaction } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 module.exports = {
@@ -172,10 +172,10 @@ module.exports = {
 
         if (!hexColourRegex.test(colour) && !colours.includes(colour) && colour != null) interaction.editReply(`Invalid colour. Please use a hex code or one of the following: \`\`\`\n${colours.join(', ')}\n\`\`\``);
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
 
         if (isUsed(title)) embed.setTitle(title);
-        if (isUsed(url)) embed.setURL(url);
+        // if (isUsed(url)) embed.setURL(url);
         if (isUsed(author)) embed.setAuthor({
             name: author,
             iconURL: isUsed(authorIcon) ? await getPermanentLink(authorIcon) : ''

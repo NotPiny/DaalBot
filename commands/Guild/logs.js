@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 const config = require('../../config.json');
 const events = [

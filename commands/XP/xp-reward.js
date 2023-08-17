@@ -1,5 +1,5 @@
 const daalbot = require('../../daalbot.js');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -37,8 +37,8 @@ module.exports = {
 
         // Functions
         function generateErrorEmbed(error) {
-            const embed = new MessageEmbed()
-                .setColor('RED')
+            const embed = new EmbedBuilder()
+                .setColor('#EF3D48')
                 .setTitle('Error')
                 .setDescription(error)
                 .setTimestamp();
@@ -85,8 +85,8 @@ module.exports = {
         daalbot.fs.write(filepath, roleID);
 
         // Send the success embed.
-        const embed = new MessageEmbed()
-            .setColor('GREEN')
+        const embed = new EmbedBuilder()
+            .setColor('#57F28D')
             .setTitle('Success')
             .setDescription(`The role <@&${role.id}> will be granted to users when they reach level ${level}.`)
             .setTimestamp();

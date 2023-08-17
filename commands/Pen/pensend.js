@@ -1,5 +1,5 @@
 const daalbot = require('../../daalbot.js')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
   name: 'pensend',
@@ -66,15 +66,15 @@ module.exports = {
         }
       }
 
-      const successEmbed = new MessageEmbed()
-        .setColor('GREEN')
+      const successEmbed = new EmbedBuilder()
+        .setColor('#57F28D')
         .setTitle('Success')
         .setDescription('Message sent successfully.')
 
       return interaction.reply({ embeds: [successEmbed], ephemeral: true })
     } catch (error) {
-      const errorEmbed = new MessageEmbed()
-        .setColor('RED')
+      const errorEmbed = new EmbedBuilder()
+        .setColor('#EF3D48')
         .setTitle('Error')
         .setDescription(`An error occured while sending the message:\n\`\`\`${error}\n\`\`\``)
 

@@ -1,6 +1,6 @@
 // JAVASCRIPT:
 const warnSchema = require('../../models/warn-schema')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const daalbot = require('../../daalbot.js');
 
 module.exports = {
@@ -80,7 +80,7 @@ module.exports = {
         guildId: guild?.id,
         reason,
       });
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
       .setTitle('Success')
       .setDescription(`Added warning to <@${user?.id}>\nReason: \`${reason}\``)
       .setColor(0x40ff00)
@@ -111,7 +111,7 @@ module.exports = {
       
     } else if (subCommand === "remove") {
       daalbot.warnings.delete(id);
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
       .setTitle(`Success`)
       .setDescription(`Removed warning from <@${user?.id}>`)
       .setColor(0xff0000)
@@ -143,7 +143,7 @@ module.exports = {
         description += `**Reason:** ${warn.reason}\n\n`;
       }
 
-      const embed = new MessageEmbed().setDescription(description);
+      const embed = new EmbedBuilder().setDescription(description);
 
       return {
         custom: true,

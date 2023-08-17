@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const DJS = require('discord.js');
 module.exports = {
     name: 'data',
@@ -31,7 +31,7 @@ module.exports = {
 
         if (subCommandGroup === 'info') {
             if (subCommand === 'policy') {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(fs.readFileSync(path.resolve(`./PRIVACY.md`), 'utf8').replace('<br/>', '\n'));
 
                 interaction.reply({ embeds: [embed], ephemeral: true });

@@ -12,7 +12,7 @@ client.on('rateLimit', () => {
 
 client.on('guildCreate', guild => {
   const owner = client.users.cache.find(user => user.id === guild.ownerId);
-  const embed = new DJS.MessageEmbed()
+  const embed = new DJS.EmbedBuilder()
     .setTitle('Bot added to server')
     .setDescription(`Bot added to \`${guild.name}\` (${guild.id})`)
     .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Guild.png')
@@ -20,7 +20,7 @@ client.on('guildCreate', guild => {
     .setFooter({
       text: `Now in ${client.guilds.cache.size} servers`, iconURL: client.user.avatarURL()
     })
-    .setColor('GREEN');
+    .setColor('#57F28D');
 
   client.channels.cache.find(channel => channel.id === config.Logchannel).send({
     embeds: [embed]
@@ -29,7 +29,7 @@ client.on('guildCreate', guild => {
 
 client.on('guildDelete', guild => {
   const owner = client.users.cache.find(user => user.id === guild.ownerId);
-  const embed = new DJS.MessageEmbed()
+  const embed = new DJS.EmbedBuilder()
     .setTitle('Bot removed from server')
     .setDescription(`Bot removed from \`${guild.name}\` (${guild.id})`)
     .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Guild.png')
@@ -37,7 +37,7 @@ client.on('guildDelete', guild => {
     .setFooter({
       text: `Now in ${client.guilds.cache.size} servers`, iconURL: client.user.avatarURL()
     })
-    .setColor('RED');
+    .setColor('#EF3D48');
 
   client.channels.cache.find(channel => channel.id === config.Logchannel).send({
     embeds: [embed]

@@ -1,5 +1,5 @@
 const client = require('../client');
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const config = require('../config.json')
 
 client.on('messageCreate', message => {
@@ -7,7 +7,7 @@ client.on('messageCreate', message => {
         if (message.deletable) {
             const msg = message;
             const confession = msg.content.replace(/confess-secret/, '').slice(2)
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
             .setTitle('Confession')
             .setDescription(confession)
             msg.delete();

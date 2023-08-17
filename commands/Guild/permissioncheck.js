@@ -28,8 +28,6 @@ module.exports = {
 
         const member = await guild?.members?.fetch(daalbot?.getUser(client?.user?.id));
 
-        if (member == Discord.GuildMember) console.log(':D');
-
         const permissions = member.permissions.toArray();
 
         if (permissions.includes('ADMINISTRATOR')) {

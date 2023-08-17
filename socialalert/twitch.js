@@ -107,7 +107,7 @@ async function checkIfLive(users) {
                     .setTitle(`${user.user_name} is now live on Twitch!`)
                     .setURL(`https://twitch.tv/${user.user_name}`)
                     .setImage(user.thumbnail_url.replace('{width}', '1920').replace('{height}', '1080'))
-                    .setColor('PURPLE')
+                    .setColor('#9B5AB4')
                     .addField('Title', user.title, true)
                     .addField('Game', user.game_name, true)
                     .setTimestamp();
@@ -144,4 +144,9 @@ async function checkIfLive(users) {
             }
         })
     }, 1000 * 90)
+
+    setInterval(async() => {
+        // Check if the bearer is still valid
+        await updateBearer()
+    }, 60 * 60 * 1000)
 })();

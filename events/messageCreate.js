@@ -37,10 +37,10 @@ client.on('messageCreate', async (msg) => {
         if (issueAuthorUser == 'User not found.') return console.log(`Couldn't find user with id ${issueAuthorId}!`);
 
         try {
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setTitle('Issue received!')
                 .setDescription('We have received your issue and will be looking into it shortly.')
-                .setColor('PURPLE')
+                .setColor('#9B5AB4')
                 .setFooter({
                     text: 'DaalBot',
                     iconURL: 'https://pinymedia.web.app/DaalbotCircle.png'
@@ -52,11 +52,11 @@ client.on('messageCreate', async (msg) => {
                 embeds: [embed]
             });
 
-            const userInfoEmbed = new Discord.MessageEmbed()
+            const userInfoEmbed = new Discord.EmbedBuilder()
                 .setTitle('User info')
                 .setDescription(`Username: ${issueAuthorUser.username}
 ID: ${issueAuthorUser.id}`)
-                .setColor('PURPLE')
+                .setColor('#9B5AB4')
                 .setThumbnail(issueAuthorUser.avatarURL() == null ? 'https://pinymedia.web.app/DaalbotCircle.png' : issueAuthorUser.avatarURL())
                 .setTimestamp();
 

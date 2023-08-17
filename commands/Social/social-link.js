@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 const daalbot = require('../../daalbot.js')
 require('dotenv').config()
 const axios = require('axios')

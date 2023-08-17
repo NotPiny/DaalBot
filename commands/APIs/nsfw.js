@@ -1,6 +1,6 @@
 const axios = require('axios');
 const validTypes = 'hass,pgif,4k,hentai,anal,hanal,gonewild,ass,pussy,thigh,hthigh,paizuri,tentacle,boobs,hboobs'.split(',');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 const get = async (url) => {
@@ -8,7 +8,6 @@ const get = async (url) => {
     const response = await axios.get(url);
     return response.data;
     } catch {
-        console.log('Bruh')
     }
 };
 
@@ -37,7 +36,6 @@ module.exports = {
 
     callback: async ({ interaction, client }) => {
         if (interaction.channel.nsfw) {
-            console.log('Check passed!');
         } else {
             return 'Channel is not NSFW'
         }
@@ -52,12 +50,11 @@ module.exports = {
                 ephemeral: true
             })
         } catch {
-            console.log('Error sending message.');
         }
 
             const data = await get(`https://nekobot.xyz/api/image?type=${type}`);
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle(`Result: `)
                 .setImage(data.message)
 
@@ -78,7 +75,6 @@ module.exports = {
                                 ephemeral: true
                             })
                         } catch {
-                            console.log('Error sending message.');
                         }
                         } else {
                             setTimeout(loopTillGif, 1000);

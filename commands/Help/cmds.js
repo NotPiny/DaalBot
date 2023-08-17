@@ -1,7 +1,7 @@
 // Create a command to list all commands from the root/commands folder and subfolders in a embed message
 
 const { readdirSync } = require("fs");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { botPath } = require("../../config.json");
 
 module.exports = {
@@ -13,8 +13,8 @@ module.exports = {
     slash: true,
 
     callback: async ({ interaction, client }) => {
-        let embed = new MessageEmbed()
-            .setColor("RANDOM")
+        let embed = new EmbedBuilder()
+            .setColor("#502898")
             .setAuthor({
                 name: `${client.user.username} Commands`,
                 icon_url: client.user.displayAvatarURL({ dynamic: true })
@@ -56,7 +56,7 @@ module.exports = {
                     ephemeral: true
                 }
             } catch (err) {
-                console.log('Something went wrong while trying to list all commands');
+                console.error('Something went wrong while trying to list all commands');
                 return interaction.reply({ content: 'Something went wrong while trying to list commands', ephemeral: true });
             }
     }

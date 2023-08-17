@@ -18,9 +18,9 @@ module.exports = {
         const uptime = client.uptime;
         const ping = client.ws.ping;
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
             .setTitle('DaalBot Stats')
-            .setColor('PURPLE')
+            .setColor('#9B5AB4')
             .setThumbnail(client.user.displayAvatarURL())
             .addFields(
                 {

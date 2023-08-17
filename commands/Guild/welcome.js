@@ -41,9 +41,7 @@ module.exports = {
 
         const embedObject = JSON.parse(embedString);
 
-        const embedJson = embedString != null ? new DJS.MessageEmbed(embedObject).toJSON() : 'none';
-
-        // console.log(embedJson)
+        const embedJson = embedString != null ? new DJS.EmbedBuilder(embedObject).toJSON() : 'none';
         
         if (!channel) return 'Channel not found';
 

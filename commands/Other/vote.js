@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, ButtonInteraction, MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, ButtonInteraction, EmbedBuilder } = require('discord.js');
 module.exports = {
     category: 'Other',
     description: 'Brings up link to vote for the bot',
@@ -22,17 +22,17 @@ module.exports = {
         // return `This command has been temp disabled`
         // const site = await interaction.options.getString('site')
 
-        const Embed = new MessageEmbed()
+        const Embed = new EmbedBuilder()
             .setColor(0x0099FF)
             .setTitle('You can vote here')
             .setDescription('')
 
-        const linkRow = new MessageActionRow().addComponents(
-            new MessageButton()
-              .setURL('https://top.gg/bot/965270659515183206/vote')
+        const linkRow = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+            //   .setURL('https://top.gg/bot/965270659515183206/vote')
               .setLabel('top.gg')
               .setEmoji('1022434657083596831')
-              .setStyle('LINK')
+              .setStyle(ButtonStyle.Link)
           )
 
         // if (interaction.options.getString('site') === null) {
@@ -45,7 +45,7 @@ module.exports = {
         
     //   } else {
     //     if (site === 'top.gg') {
-    //         const tEmbed = new MessageEmbed()
+    //         const tEmbed = new EmbedBuilder()
     //         .setColor(0x0099FF)
     //         .setTitle('Here!')
     //         .setDescription('https://top.gg/bot/965270659515183206/vote')

@@ -41,8 +41,6 @@ const config = require('../../config.json')
         }
 
         interaction.reply(`You roll the dice and get ${P1} and ${P2}`)
-        .then(() => { console.log(':)') })
-        .catch(() => { console.log('bruh') })
         
         
         setTimeout(() => {

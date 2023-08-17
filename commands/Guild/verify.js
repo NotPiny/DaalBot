@@ -6,7 +6,7 @@ function save(GuildId, RoleId) {
     try {
         daalbot.fs.write(`${config.botPath}/db/verify/${GuildId}.role`, `${RoleId}`);
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 }
 
@@ -18,11 +18,12 @@ function autoUpdateSave(GuildId, enabled) {
     }
 }
 
-const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js')
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js')
 
 module.exports = {
     category: 'Guild',
     description: 'Creates a verification message in the server',
+    guildOnly: true,
     permissions: ['MANAGE_ROLES'],
     testOnly: false,
     slash: true,
@@ -63,17 +64,17 @@ module.exports = {
         save(interaction.guild.id, roleId);
         // autoUpdateSave(interaction.guild.id, interaction.options.getBoolean('auto_update'));
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle('Verification')
             .setDescription('Click the button below to verify yourself.')
             .setColor(0x3cff00)
 
-        const button = new MessageButton()
-            .setStyle('SUCCESS')
+        const button = new ButtonBuilder()
+            .setStyle(ButtonStyle.Success)
             .setLabel('Verify')
             .setCustomId('verify')
 
-        const row = new MessageActionRow().addComponents(button)
+        const row = new ActionRowBuilder().addComponents(button)
 
         if (messageId == null) {
             channel.send({ embeds: [embed], components: [row] })

@@ -57,7 +57,7 @@ client.on('ready', () => {
             client.user.setActivity(newActivity, { type: type })
         } else {
             // Status is a default type
-            client.user.setActivity(newActivity, { type: 1 })
+            client.user.setActivity(newActivity, { type: 'STREAMING' })
         }
 
         botLog(`Status > Status is now "${newActivity}"`)

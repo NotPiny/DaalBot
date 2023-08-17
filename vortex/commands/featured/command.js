@@ -1,5 +1,5 @@
 const client = require('../../../client');
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const DJS = require('discord.js');
 require('./buttons/accept');
 require('./buttons/deny');
@@ -45,26 +45,26 @@ client.on('interactionCreate', async (interaction) => {
 
             const channel = VTXserver.channels.cache.get('1092197227646169169') // Skra mess up and forcing this to be changed count: 1
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
             .setTitle('Featured Creator Application')
             .setDescription(`**Username:** ${sacCode}\n**Map Code:** ${mapCode}`)
             .setFooter({
                 text: interaction.user.id,
             })
             .setTimestamp()
-            .setColor('BLUE');
+            .setColor('#239AD9');
 
-            const acceptButton = new MessageButton()
+            const acceptButton = new ButtonBuilder()
             .setCustomId('vortex-featured-accept')
             .setLabel('Accept')
-            .setStyle('SUCCESS');
+            .setStyle(DJS.ButtonStyle.Success);
 
-            const denyButton = new MessageButton()
+            const denyButton = new ButtonBuilder()
             .setCustomId('vortex-featured-deny')
             .setLabel('Deny')
-            .setStyle('DANGER');
+            .setStyle(DJS.ButtonStyle.Danger);
 
-            const row = new MessageActionRow()
+            const row = new ActionRowBuilder()
 
             row.addComponents(acceptButton);
             row.addComponents(denyButton);

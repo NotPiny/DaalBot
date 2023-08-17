@@ -2,7 +2,7 @@ const client = require('../../client.js');
 const config = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 client.on('roleDelete', async (role) => {
@@ -34,11 +34,11 @@ client.on('roleDelete', async (role) => {
             const channelID = fs.readFileSync(path.resolve(`./db/logging/${role.guild.id}/channel.id`), 'utf8');
             const logChannel = client.channels.cache.get(channelID);
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle('Role Deleted')
                 .setDescription(`Role: ${role.name}\nID: ${role.id}`)
                 .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Role.png')
-                .setColor('RED')
+                .setColor('#EF3D48')
                 .setTimestamp()
 
             logChannel.send({

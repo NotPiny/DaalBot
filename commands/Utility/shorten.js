@@ -10,7 +10,7 @@
     ]
     const { botPath } = require('../../config.json')
     const fs = require('fs')
-    const { MessageEmbed } = require('discord.js')
+    const { EmbedBuilder } = require('discord.js')
     async function writeFile(dir, content) {
         try {
           await fs.appendFile(dir, content);

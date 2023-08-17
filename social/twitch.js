@@ -3,7 +3,7 @@ require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 const client = require('../client.js')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 const startingBearer = process.env.TWITCH_BEARER // The bearer that is in the .env file when the bot starts
 let Bearer = process.env.TWITCH_BEARER // The bearer that will be updated if it's invalid
@@ -96,11 +96,11 @@ async function main() {
             if (detectedLiveUsers.includes(liveUserId)) return; 
 
             if (liveUserData) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setTitle(`${user.user_name} is now live on Twitch!`)
                     .setURL(`https://twitch.tv/${user.user_name}`)
                     .setImage(user.thumbnail_url.replace('{width}', '1920').replace('{height}', '1080'))
-                    .setColor('PURPLE')
+                    .setColor('#9B5AB4')
                     .addFields(
                         { name: 'Title', value: user.title, inline: true },
                         { name: 'Game', value: user.game_name, inline: true }

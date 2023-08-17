@@ -40,11 +40,11 @@ client.on('interactionCreate', async (interaction) => {
                     const channelID = fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`), 'utf8');
                     const logChannel = client.channels.cache.get(channelID);
 
-                    const embed = new Discord.MessageEmbed()
+                    const embed = new Discord.EmbedBuilder()
                         .setTitle('Ticket Created')
                         .setDescription(`User: ${interaction.user.tag}\nID: ${interaction.user.id}`)
                         .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Ticket.png')
-                        .setColor('GREEN')
+                        .setColor('#57F28D')
                         .setTimestamp()
 
                     logChannel.send({
@@ -110,18 +110,18 @@ client.on('interactionCreate', async (interaction) => {
             attentionMessage.delete();
 
             if (interaction.guild.id != '973711816226136095') {
-                const ticketEmbed = new Discord.MessageEmbed()
+                const ticketEmbed = new Discord.EmbedBuilder()
                     .setTitle(`Ticket - ${interaction.message.embeds[0].title}`)
                     .setDescription(`Hello ${interaction.user.username}, welcome to your ticket\nSomeone will be with you shortly`)
-                    .setColor('PURPLE')
+                    .setColor('#9B5AB4')
                     .setTimestamp();
 
-                const row = new Discord.MessageActionRow()
+                const row = new Discord.ActionRowBuilder()
 
-                const closeTicketButton = new Discord.MessageButton()
+                const closeTicketButton = new Discord.ButtonBuilder()
                     .setCustomId('close_ticket')
                     .setLabel('Close')
-                    .setStyle('DANGER')
+                    .setStyle(Discord.ButtonStyle.Danger)
                     .setEmoji('🔒')
 
                 row.addComponents(closeTicketButton);
@@ -132,10 +132,10 @@ client.on('interactionCreate', async (interaction) => {
 
             interaction.reply({ content: 'Your ticket has been created.', ephemeral: true })
             .then(() => {
-                console.log(`Ticket opened by ${interaction.user.tag} in ${interaction.guild.name}`)
+                // Everything is fine :)
             })
             .catch((err) => {
-                return console.log(err);
+                return console.error(err);
             })
         }
 
@@ -153,12 +153,12 @@ client.on('interactionCreate', async (interaction) => {
 
             const ticketMessage = await interaction.channel.messages.fetch(fs.readFileSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticketID}.ticket`), 'utf8').split('\n')[1]);
 
-            const row = new Discord.MessageActionRow()
+            const row = new Discord.ActionRowBuilder()
 
-            const openTicketButton = new Discord.MessageButton()
+            const openTicketButton = new Discord.ButtonBuilder()
                 .setCustomId('open_ticket')
                 .setLabel('Open')
-                .setStyle('SUCCESS')
+                .setStyle(Discord.ButtonStyle.Success)
                 .setEmoji('🔓')
 
             row.addComponents(openTicketButton);
@@ -195,12 +195,12 @@ client.on('interactionCreate', async (interaction) => {
 
             const ticketMessage = await interaction.channel.messages.fetch(fs.readFileSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticketID}.ticket`), 'utf8').split('\n')[1]);
 
-            const row = new Discord.MessageActionRow()
+            const row = new Discord.ActionRowBuilder()
 
-            const closeTicketButton = new Discord.MessageButton()
+            const closeTicketButton = new Discord.ButtonBuilder()
                 .setCustomId('close_ticket')
                 .setLabel('Close')
-                .setStyle('DANGER')
+                .setStyle(Discord.ButtonStyle.Danger)
                 .setEmoji('🔒')
 
             row.addComponents(closeTicketButton);
@@ -235,10 +235,10 @@ client.on('interactionCreate', async (interaction) => {
             let cantPurge = 0;
             let ticketsRemaining = ticketFiles.length / 2;
             
-            const purgeEmbed = new Discord.MessageEmbed()
+            const purgeEmbed = new Discord.EmbedBuilder()
                 .setTitle('Purging began.')
                 .setDescription('Please wait while we purge the tickets.')
-                .setColor('GREEN')
+                .setColor('#57F28D')
                 .setFields([
                     {
                         name: 'Tickets purged',
@@ -334,7 +334,7 @@ client.on('interactionCreate', async (interaction) => {
         }
     }
 } catch {
-    console.log('Tickets > Error encountered while dealing with a request.');
+    console.error('Tickets > Error encountered while dealing with a request.');
     return interaction.reply({ content: 'An error occurred.', ephemeral: true });
 }
 })

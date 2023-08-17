@@ -1,7 +1,7 @@
 const {
     Client,
     GuildMember,
-    MessageActionRow,
+    ActionRowBuilder,
     MessageSelectMenu,
     MessageSelectOptionData,
     Role,

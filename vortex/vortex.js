@@ -2,16 +2,13 @@
 const client = require('../client'); // Loads all info needed to login as the bot 
 const daalbot = require('../daalbot.js');
 const warnSchema = require('../models/warn-schema');
-const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
-const DJS = require('discord.js');
-const fs = require('fs');
-const path = require('path')
+const { EmbedBuilder } = require('discord.js');
 function AutomodLog(word, message) {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setTitle('Info')
         .setDescription(`**Message:** ${message.content}\n**Word:** ${word}\n**User:** ${message.author.tag}\n**Channel:** ${message.channel}`)
         .setTimestamp()
-        .setColor('RED')
+        .setColor('#EF3D48')
     daalbot.getChannel('973711816226136095', '974376513891860511').send({
         content: 'Automod blocked a message.',
         embeds: [embed]
@@ -39,7 +36,6 @@ client.on("messageCreate", msg => {
             if (msg.content.includes(':eyes:')) return msg.delete();
         }
         profanity.forEach(word => {
-            let content = msg.content.toLowerCase()
             if (msg.content.toLowerCase().includes(word)) {
                 if (msg.channelId === '974533113042599966') return;
                 if (msg.member.roles.cache.has('1037796843603644578')) return; 

@@ -12,29 +12,6 @@ module.exports = {
     expectedArgs: '[amount]',
 
     callback: ({ args }) => {
-    // create a function to fetch X jokes from icanhazdadjoke API using axios
-    const fetchJokes = (amount) => {
-        const jokes = [];
-        for (let i = 0; i < amount; i++) {
-            const response = axios.get('https://icanhazdadjoke.com/', {
-                headers: {
-                    Accept: 'application/json',
-                },
-            })
-            .then(() => {
-                console.log(':))')
-            })
-            .catch(() => {
-                console.log(':((')
-            })
-            jokes.push(response);
-        }
-        return jokes;
+        return ':)'
     }
-
-    const amount = args[0];
-    const jokes = fetchJokes(amount);
-    console.log(jokes);
-    return 'Check your console!';
-  }
 }

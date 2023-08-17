@@ -38,7 +38,7 @@ client.on('channelUpdate', async(oldChannel, newChannel) => {
         const channelID = fs.readFileSync(path.resolve(`./db/logging/${oldChannel.guild.id}/channel.id`), 'utf8');
         const logChannel = client.channels.cache.get(channelID);
 
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
             .setTitle('Channel Updated')
             .setDescription(`
             **Before**
@@ -56,7 +56,7 @@ client.on('channelUpdate', async(oldChannel, newChannel) => {
             Category: ${newChannel.parent.name ? newChannel.parent.name : 'None'} / ${newChannel.parent.id ? newChannel.parent.id : 'None'}
             `)
             .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Channel.png')
-            .setColor('YELLOW')
+            .setColor('#FFE467')
             .setTimestamp()
 
         logChannel.send({

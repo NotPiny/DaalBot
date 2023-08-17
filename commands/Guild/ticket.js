@@ -169,17 +169,17 @@ module.exports = {
             const colour = interaction.options.getString('colour');
             const messageId = interaction.options.getString('message-id');
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setTitle(title)
                 .setDescription('Click the button below to create a ticket.')
                 .setColor(colour);
 
-            const row = new Discord.MessageActionRow()
+            const row = new Discord.ActionRowBuilder()
                 .addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId('create_ticket')
                         .setLabel('Create Ticket')
-                        .setStyle('SUCCESS')
+                        .setStyle(Discord.ButtonStyle.Success)
                 );
 
             if (messageId == null) {
@@ -209,7 +209,7 @@ module.exports = {
                 fs.appendFileSync(`${config.botPath}/db/tickets/${guild.id}.category`, category.id);
             }
         } catch (err) {
-            console.log('Error writing to file: ' + err);
+            console.error('Error writing to file: ' + err);
         }
 
             return 'Successfully set the category for tickets.';
@@ -238,11 +238,11 @@ module.exports = {
                     if (!fs.existsSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`))) return 'We were unable to find a log channel to send the close message to.';
                     const logChannel = daalbot.getChannel(interaction.guild.id, fs.readFileSync(path.resolve(`./db/logging/${interaction.guild.id}/channel.id`), 'utf8'));
 
-                    const embed = new Discord.MessageEmbed()
+                    const embed = new Discord.EmbedBuilder()
                         .setTitle('Ticket Closed')
                         .setDescription(`Ticket ${ticket.name.replace('ticket-', '')} was closed by ${interaction.user.tag}.`)
                         .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Ticket.png')
-                        .setColor('RED')
+                        .setColor('#EF3D48')
                         .setTimestamp();
 
                     logChannel.send({ content: 'Ticket Closed.', embeds: [embed] });
@@ -284,7 +284,7 @@ module.exports = {
                     });
 
                     if (!fs.existsSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`))) {
-                        console.log('No transcript found.');
+                        console.error('No transcript found.');
                     } else {
                         fs.unlinkSync(path.resolve(`./db/tickets/${interaction.guild.id}/${ticket.name.replace('ticket-', '')}.txt`));
                     }
@@ -379,7 +379,7 @@ module.exports = {
 
             if (action === 'has') {
                 if (fs.existsSync(file)) {
-                    const embed = new Discord.MessageEmbed()
+                    const embed = new Discord.EmbedBuilder()
                         .setTitle('Ticket Blacklist')
                         .addFields({
                             name: 'User',
@@ -425,24 +425,24 @@ module.exports = {
         }
 
         if (subCommand === 'purge') {
-            const row = new Discord.MessageActionRow()
+            const row = new Discord.ActionRowBuilder()
 
-            const confirm = new Discord.MessageButton()
+            const confirm = new Discord.ButtonBuilder()
                 .setCustomId('confirm-ticket-purge')
                 .setLabel('Confirm')
-                .setStyle('SUCCESS');
+                .setStyle(Discord.ButtonStyle.Success);
 
-            const cancel = new Discord.MessageButton()
+            const cancel = new Discord.ButtonBuilder()
                 .setCustomId('cancel-ticket-purge')
                 .setLabel('Cancel')
-                .setStyle('DANGER');
+                .setStyle(Discord.ButtonStyle.Danger);
 
             row.addComponents(confirm, cancel);
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setTitle('Purge Tickets')
                 .setDescription('Are you sure you want to purge all tickets? This action cannot be undone.')
-                .setColor('RED');
+                .setColor('#EF3D48');
 
             interaction.reply({
                 embeds: [embed],

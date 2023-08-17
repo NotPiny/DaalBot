@@ -1,7 +1,7 @@
 const {
     Client,
     GuildMember,
-    MessageActionRow,
+    ActionRowBuilder,
     MessageSelectMenu,
     MessageSelectOptionData,
     Role,
@@ -58,8 +58,6 @@ const {
       const result = text.replace(/<nl>/g, "\n");
   
       targetMessage.edit(result)
-      .then(() => { console.log('Successfully edited the message'); })
-      .catch(() => { console.log('Something went wrong') });
   
       return `Message has been edited`
       
