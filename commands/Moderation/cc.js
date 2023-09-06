@@ -1,14 +1,18 @@
+const DJS = require('discord.js');
+
 module.exports = {
     category: 'Moderation',
     description: 'Deletes multiple messages at once.',
   
-    // permissions: ['ADMINISTRATOR'],
-    requireRoles: true,
+    permissions: [
+      DJS.PermissionFlagsBits.ManageMessages,
+    ],
   
     minArgs: 1,
     maxArgs: 1,
     expectedArgs: '[amount]',
   
+    guildOnly: true,
     slash: true,
     testOnly: false,
   

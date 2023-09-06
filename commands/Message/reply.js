@@ -1,3 +1,5 @@
+const { ChannelType, PermissionFlagsBits } = require("discord.js");
+
 module.exports = {
     name: 'reply',
     description: 'Replys to a message',
@@ -5,7 +7,7 @@ module.exports = {
     slash: 'both',
     minArgs: 3,
     maxArgs: 3,
-    requireRoles: true,
+    permissions: [ PermissionFlagsBits.ManageMessages ],
     expectedArgs: '<message> <text> <channel>',
     options: [
         {
@@ -28,6 +30,7 @@ module.exports = {
         }
     ],
     testOnly: true,
+    guildOnly: true,
 
     callback: ({ message, args, client, prefix, instance, interaction }) => {
         let msgInt;
@@ -58,7 +61,7 @@ module.exports = {
             channel = interaction.options.getChannel('channel');
         }
 
-        if (!channel || channel.type !== 'GUILD_TEXT') {
+        if (!channel || channel.type !== ChannelType.GuildText) {
             return 'Please tag a text channel.'
         }
 

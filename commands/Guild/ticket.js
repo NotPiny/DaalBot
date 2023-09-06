@@ -24,9 +24,11 @@ module.exports = {
 
     slash: true,
     testOnly: false,
-    guidlOnly: true,
+    guildOnly: true,
 
-    requireRoles: true,
+    permissions: [
+        Discord.PermissionFlagsBits.ManageGuild
+    ],
 
     options: [
         {
@@ -196,7 +198,7 @@ module.exports = {
         if (subCommand === 'category') {
             const category = interaction.options.getChannel('category');
 
-            if (category.type !== 'GUILD_CATEGORY') {
+            if (category.type !== Discord.ChannelType.GuildCategory) {
                 return 'That is not a category.';
             }
 

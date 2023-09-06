@@ -1,12 +1,17 @@
 const daalbot = require('../../daalbot.js');
+const DJS = require('discord.js');
+
 module.exports = {
     name: 'addemote',
     description: 'Adds an emote to the server.',
     category: 'Guild',
 
     guildOnly: true,
-    requireRoles: true,
     testOnly: false,
+
+    permissions: [
+        DJS.PermissionFlagsBits.ManageGuildExpressions
+    ],
 
     slash: true,
     options: [
@@ -24,8 +29,12 @@ module.exports = {
         }
     ],
 
+    /**
+     * @param {DJS.Interaction} interaction 
+     * @returns 
+     */
     callback: async (interaction) => {
-        let emoteText = `${await interaction.options.getString('emote')}`.trim();
+        let emoteText = interaction.options.getString('emote').trim();
 
         let emoteArray = emoteText.split(' ');
 
@@ -33,7 +42,7 @@ module.exports = {
         
         // emoteArray.forEach(async(emote) => {
             let emoteID = emoteText.split(':')[2].replace('>', '');
-            let emoteName = await interaction.options.getString('name') || emoteText.split(':')[1];
+            let emoteName = interaction.options.getString('name') || emoteText.split(':')[1];
             let emoteURL = `https://cdn.discordapp.com/emojis/${emoteID}.gif`;
 
             try {

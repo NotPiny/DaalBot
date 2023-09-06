@@ -48,7 +48,7 @@ module.exports = {
         }
     ],
 
-    callback: (interaction) => {
+    callback: ({ interaction }) => {
         const subcommand = interaction.options.getSubcommand();
         const role = interaction.options.getRole('role');
         const dbFolder = path.resolve(`./db/autorole/${interaction.guild.id}`)

@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 const Discord = require('discord.js');
 const cleanText = require('./util/homoglyphs.js');
+require('dotenv').config();
+const axios = require('axios');
 
 const serverAmount = client.guilds.cache.size
 
@@ -236,6 +238,51 @@ async function sendAlert(guild, embed, message) {
     }
 }
 
+/**
+ * @param {string} id
+ */
+async function API_get_user(id) {
+    try {
+        const response = await axios.get(`https://discord.com/api/v9/users/${id}`, {
+            headers: {
+                'Authorization': `Bot ${process.env.TOKEN}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+async function API_get_guild(id) {
+    try {
+        const response = await axios.get(`https://discord.com/api/v9/guilds/${id}`, {
+            headers: {
+                'Authorization': `Bot ${process.env.TOKEN}`
+            }
+        });
+
+        return response.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+async function API_get_role(guild, id) {
+    try {
+        const response = await axios.get(`https://discord.com/api/v9/guilds/${guild}/roles/${id}`, {
+            headers: {
+                'Authorization': `Bot ${process.env.TOKEN}`
+            }
+        });
+
+        return response.data;
+    } catch (err) {
+        return err;
+    }
+}
+
 const text = {
     cleanHomoglyphs: cleanText,
 }
@@ -254,6 +301,14 @@ const guilds = {
     sendAlert
 }
 
+const api = {
+    discord: {
+        getUser: API_get_user,
+        getGuild: API_get_guild,
+        getRole: API_get_role
+    }
+}
+
 module.exports = {
     client,
     serverAmount,
@@ -262,6 +317,7 @@ module.exports = {
     fs: better_fs,
     db,
     guilds,
+    DJS: Discord,
     findServerVanity,
     fetchServer,
     fetchServerName,
@@ -275,6 +331,7 @@ module.exports = {
     getLogChannel,
     getLogChannelId,
     logEvent,
+    api,
     embed: Discord.EmbedBuilder,
     DatabaseEntry
 }

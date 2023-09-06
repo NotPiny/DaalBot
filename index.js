@@ -6,7 +6,7 @@ const config = require('./config.json');
 require('./launch-extra.js');
 client.setMaxListeners(0); // Sets max client listeners to infinity
 const fs = require('fs'); // File system
-const { EmbedBuilder } = require('discord.js'); // Embeds
+const { EmbedBuilder, ActivityType } = require('discord.js'); // Embeds
 
 // Functions
 function OnReady() {
@@ -21,8 +21,7 @@ client.on('ready', () => {
   const NewActivity = config.activities[RandomIndex];
 
     client.user.setActivity(NewActivity, {
-      type: "STREAMING",
-      url: "https://www.twitch.tv/daalbott"
+      type: ActivityType.Custom
     });
     console.log(`Status > Status is now "${NewActivity}"`)
   

@@ -112,7 +112,7 @@ client.on('interactionCreate', async(interaction) => {
                 const filter = m => m.author.id === interaction.user.id;
 
                 try {
-                    const messagesCollected = await interaction.channel.awaitMessages({ filter: filter, max: 1, time: 30000, errors: ['time'] })
+                    const messagesCollected = await interaction.channel.awaitMessages({ filter: filter, max: 1, time: 30 * 1000, errors: ['time'] })
 
                     const message = messagesCollected.first()
 

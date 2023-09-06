@@ -1,200 +1,101 @@
-const {
-  Client,
-  GuildMember,
-  ActionRowBuilder,
-  MessageSelectMenu,
-  MessageSelectOptionData,
-  Role,
-  TextChannel,
-} = require('discord.js')
-const config = require('../../config.json')
+const DJS = require('discord.js');
+const daalbot = require('../../daalbot.js');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
-  category: 'Message',
-  description: 'Adds a role to the self role message.',
+    name: 'selfrole',
+    description: 'Add a role to the selfrole menu',
+    category: 'Message',
 
-  requireRoles: true,
+    type: 'SLASH',
+    // testOnly: true,
 
-  minArgs: 3,
-  maxArgs: 4,
-  expectedArgs: '<channel> <message_id> <role> <place_holder>',
-  expectedArgsTypes: ['CHANNEL', 'STRING', 'ROLE', 'STRING'],
+    guildOnly: true,
+    permissions: [
+        DJS.PermissionFlagsBits.ManageRoles,
+    ],
 
-  slash: true,
-  testOnly: false,
-  ownerOnly: false,
-  guildOnly: true,
-
-  options: [
-    {
-      name: 'channel',
-      description: 'The channel that the message is in',
-      type: 'CHANNEL',
-      required: true
-    },
-    {
-      name: 'message_id',
-      description: 'The message to add to',
-      type: 'STRING',
-      required: true
-    },
-    {
-      name: 'role',
-      description: 'The role to add',
-      type: 'ROLE',
-      required: true
-    },
-    {
-      name: 'place_holder',
-      description: 'The placeholder text when no roles are selected',
-      type: 'STRING',
-      required: false
-    }
-  ],
-
-  init: (client = Client) => {
-    client.on('interactionCreate', (interaction) => {
-      if (!interaction.isStringSelectMenu()) {
-        return
-      }
-
-      const { customId, values, member } = interaction
-
-      if (customId === 'auto_roles' && member instanceof GuildMember) {
-        const component = interaction.component
-        const removed = component.options.filter((option) => {
-          return !values.includes(option.value)
-        })
-
-        for (const id of removed) {
-          member.roles.remove(id.value)
-          .catch(() => { 
-            console.error('Failed to change role')
-          })
-        }
-
-        for (const id of values) {
-          member.roles.add(id)
-          .catch(() => { 
-            console.error('Failed to change role')
-          })
-        }
-
-        interaction.reply({
-          content: 'Roles updated!',
-          ephemeral: true,
-        })
-        .catch(() => { console.error('bruh') })
-      }
-    })
-  },
-
-  callback: async ({ message, interaction, args, client }) => {
-    // if (config.WOKCommands.BotOwners.includes(interaction.user.id)) {
-      const channel = (
-        message
-          ? message.mentions.channels.first()
-          : interaction.options.getChannel('channel')
-      )
-      if (!channel || (channel.type !== 'GUILD_TEXT' && channel.type !== 'GUILD_PUBLIC_THREAD')) {
-        return 'Please tag a text channel.'
-      }
-  
-      const messageId = args[1]
-      const place_holder = interaction.options.getString('place_holder');
-  
-      const role = (
-        message
-          ? message.mentions.roles.first()
-          : interaction.options.getRole('role')
-      )
-      if (!role) {
-        return 'Unknown role!'
-      }
-  
-      const targetMessage = await channel.messages.fetch(messageId, {
-        cache: true,
-        force: true,
-      })
-  
-      if (!targetMessage) {
-        return 'Unknown message ID.'
-      }
-  
-      if (targetMessage.author.id !== client.user?.id) {
-        return `Please provide a message ID that was sent from <@${client.user?.id}>`
-      }
-  
-      let row = targetMessage.components[0]
-      if (!row) {
-        row = new ActionRowBuilder()
-      }
-  
-      const option = [
+    options: [
         {
-          label: role.name,
-          value: role.id,
+            name: 'role',
+            description: 'The role to add to the dropdown',
+            type: DJS.ApplicationCommandOptionType.Role,
+            required: true,
         },
-      ]
-  
-      let menu = row.components[0]
-      if (menu) {
-        for (const o of menu.options) {
-          if (o.value === option[0].value) {
-            return {
-              custom: true,
-              content: `<@&${o.value}> is already part of this menu.`,
-              allowedMentions: {
-                roles: [],
-              },
-              ephemeral: true,
+        {
+            name: 'channel',
+            description: 'The channel to send the dropdown to',
+            type: DJS.ApplicationCommandOptionType.Channel,
+            required: true,
+        },
+        {
+            name: 'message_id',
+            description: 'The message id to add the dropdown to',
+            type: DJS.ApplicationCommandOptionType.String,
+            required: true,
+        },
+        {
+            name: 'placeholder',
+            description: 'The placeholder text for the dropdown',
+            type: DJS.ApplicationCommandOptionType.String,
+            required: false,
+        }
+    ],
+
+    callback: async ({ interaction }) => {
+        const role = interaction.options.getRole('role');
+
+        /**
+         * @type {DJS.TextChannel}
+         */
+        const channel = daalbot.getChannel(interaction.guild.id, interaction.options.getChannel('channel').id)
+        const message_id = interaction.options.getString('message_id');
+        const placeholder = interaction.options.getString('placeholder') || 'Select a role';
+
+        if (channel == undefined) return interaction.reply({ content: 'Channel not found', ephemeral: true });
+        if (channel == 'Channel not found.') return interaction.reply({ content: 'Channel not found', ephemeral: true });
+        if (channel == 'Server not found.') return interaction.reply({ content: 'Server not found', ephemeral: true });
+
+        /**
+         * @type {DJS.Message}
+         */
+        const message = await channel.messages.fetch({ message: `${message_id}` });
+
+        if (message.id == undefined) return interaction.reply({ content: 'Message not found', ephemeral: true });
+
+        if (message.components.length > 0) {
+            const row = message.components[0];
+
+            if (row.components[0].type == DJS.ComponentType.StringSelect) {
+                row.components[0].options.push({
+                    label: role.name,
+                    value: role.id,
+                });
+
+                await message.edit({ components: [row] });
+                return interaction.reply({ content: 'Role added to dropdown', ephemeral: true });
+            } else {
+                return interaction.reply({ content: 'Unsupported message', ephemeral: true });
             }
-          }
-        }
-  
-        menu.addOptions(option)
-        menu.setMaxValues(menu.options.length)
-      } else {
-        if (place_holder == null) {
-          row.addComponents(
-            new MessageSelectMenu()
-              .setCustomId('auto_roles')
-              .setMinValues(0)
-              .setMaxValues(1)
-              .setPlaceholder('Pick your roles!')
-              .addOptions(option)
-          )
         } else {
-        row.addComponents(
-          new MessageSelectMenu()
-            .setCustomId('auto_roles')
-            .setMinValues(0)
-            .setMaxValues(1)
-            .setPlaceholder(place_holder)
-            .addOptions(option)
-        )
+            const row = new DJS.ActionRowBuilder()
+
+            const dropdown = new DJS.StringSelectMenuBuilder()
+                .setCustomId('auto_roles')
+                .setPlaceholder(placeholder)
+                .addOptions([
+                    {
+                        label: role.name,
+                        value: role.id,
+                    }
+                ])
+
+            row.addComponents(dropdown);
+
+            await message.edit({ components: [row] });
+
+            return interaction.reply({ content: 'Role added to dropdown', ephemeral: true });
         }
-      }
-  
-      try {
-      targetMessage.edit({
-        components: [row],
-      })
-    } catch {
-      console.error('bruh')
-      return 'Something went wrong!'
     }
-  
-      return {
-        custom: true,
-        content: `Added <@&${role.id}> to the auto roles menu.`,
-        allowedMentions: {
-          roles: [],
-        },
-        ephemeral: true,
-      }  
-    // } else {
-      // return 'Sorry for the inconvenience, but this command is currently disabled due to bugs.'
-    // }
-  },
 }

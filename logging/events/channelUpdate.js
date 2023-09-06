@@ -5,8 +5,8 @@ const Discord = require('discord.js');
 const path = require('path');
 
 client.on('channelUpdate', async(oldChannel, newChannel) => {
-    if (oldChannel.type === 'DM') return;
-    if (newChannel.type === 'DM') return;
+    if (oldChannel.type === Discord.ChannelType.DM) return;
+    if (newChannel.type === Discord.ChannelType.DM) return;
     try {
         const oldRole = oldChannel;
         if (fs.existsSync(path.resolve(`./db/logging/${oldRole.guild.id}/channelUpdate.cooldown`))) {

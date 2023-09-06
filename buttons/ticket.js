@@ -165,7 +165,7 @@ client.on('interactionCreate', async (interaction) => {
 
             ticketMessage.edit({ components: [row] })
 
-            if (ticketChannel.type != 'GUILD_TEXT') return interaction.reply({ content: 'Something went wrong and we were unable to find the ticket channel.', ephemeral: true });
+            if (ticketChannel.type != Discord.ChannelType.GuildText) return interaction.reply({ content: 'Something went wrong and we were unable to find the ticket channel.', ephemeral: true });
 
             const { Permissions } = require('discord.js');
 

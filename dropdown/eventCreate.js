@@ -27,7 +27,7 @@ client.on('interactionCreate', interaction => {
 
                 const responseDropdown = new DJS.ActionRowBuilder()
                 .addComponents(
-                    new DJS.MessageSelectMenu()
+                    new DJS.StringSelectMenuBuilder()
                         .setCustomId('eventDropdown_create_response')
                         .setPlaceholder('Select a response')
                         .addOptions([
@@ -61,7 +61,7 @@ client.on('interactionCreate', interaction => {
 
                 const responseDropdown = new DJS.ActionRowBuilder()
                 .addComponents(
-                    new DJS.MessageSelectMenu()
+                    new DJS.StringSelectMenuBuilder()
                         .setCustomId('eventDropdown_create_response')
                         .setPlaceholder('Select a response')
                         .addOptions([

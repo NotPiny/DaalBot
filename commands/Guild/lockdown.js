@@ -73,7 +73,7 @@ module.exports = {
 
             await daalbot.logEvent(interaction.guild.id, 'lockdownstarted', embed); // Bugged
 
-            const channels = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT' && c.permissionsFor(roleId).has('SEND_MESSAGES'));
+            const channels = guild.channels.cache.filter(c => c.type === DJS.ChannelType.GuildText && c.permissionsFor(roleId).has('SEND_MESSAGES'));
 
             channels.forEach(channel => {
                 channel.permissionOverwrites.edit(roleId, { SEND_MESSAGES: false }); // Potental bug here

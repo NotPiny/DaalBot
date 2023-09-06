@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-const daalbot = require('../../daalbot.js')
+const daalbot = require('../../daalbot.js');
+const { ChannelType } = require('discord.js');
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -34,7 +35,7 @@ module.exports = {
             return interaction.editReply({ content: 'An error occurred while creating the game thread.' })
         }
 
-        if (gameChannel.type !== 'GUILD_TEXT') return interaction.editReply({ content: 'An error occurred while creating the game thread.' })
+        if (gameChannel.type !== ChannelType.GuildText) return interaction.editReply({ content: 'An error occurred while creating the game thread.' })
 
         await wait(10)
 

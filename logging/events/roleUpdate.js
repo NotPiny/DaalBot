@@ -2,7 +2,7 @@ const client = require('../../client.js');
 const config = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ChannelType } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 client.on('roleUpdate', (oldRole, newRole) => {
@@ -34,7 +34,7 @@ client.on('roleUpdate', (oldRole, newRole) => {
             const channelID = fs.readFileSync(path.resolve(`./db/logging/${oldRole.guild.id}/channel.id`), 'utf8');
             const logChannel = client.channels.cache.get(channelID);
 
-            if (logChannel.type == 'DM') return;
+            if (logChannel.type == ChannelType.DM) return;
             if (logChannel == undefined) return;
 
             const embed = new EmbedBuilder()

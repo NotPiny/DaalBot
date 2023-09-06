@@ -1,8 +1,12 @@
+const { ChannelType, PermissionFlagsBits } = require("discord.js");
+
 module.exports = {
   category: 'Message',
   description: 'Sends a message.',
 
-  requireRoles: true,
+  permissions: [
+    PermissionFlagsBits.ManageMessages,
+  ],
 
   minArgs: 2,
   expectedArgs: '<channel> <text>',
@@ -29,7 +33,7 @@ module.exports = {
 
   callback: (interaction) => {
     const channel = interaction.options.getChannel('channel')
-    if (!channel || channel.type !== 'GUILD_TEXT') {
+    if (!channel || channel.type !== ChannelType.GuildText) {
       return 'Please tag a text channel.'
     }
     const text = interaction.options.getString('text');

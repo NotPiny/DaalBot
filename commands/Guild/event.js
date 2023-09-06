@@ -13,7 +13,10 @@ module.exports = {
     testOnly: true,
 
     guildOnly: true,
-    requireRoles: true,
+
+    permissions: [
+        DJS.PermissionFlagsBits.ManageGuild
+    ],
 
     options: [
         {
@@ -40,7 +43,7 @@ module.exports = {
             // Create event
             const createEventDropdown = new DJS.ActionRowBuilder()
             .addComponents(
-                new DJS.MessageSelectMenu()
+                new DJS.StringSelectMenuBuilder()
                     .setCustomId('eventDropdown_create')
                     .setPlaceholder('Select an event')
                     .addOptions([

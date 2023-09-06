@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js')
 const daalbot = require('../../daalbot.js')
 require('dotenv').config()
 const axios = require('axios')
@@ -11,7 +11,11 @@ module.exports = {
     category: 'Social',
 
     testOnly: false,
-    requireRoles: true,
+    guildOnly: true,
+
+    permissions: [
+        PermissionFlagsBits.ManageWebhooks
+    ],
 
     slash: true,
 

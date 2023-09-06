@@ -7,7 +7,9 @@ module.exports = {
   category: "Moderation",
   description: "Warns a user",
 
-  requireRoles: true,
+  permissions: [
+    daalbot.DJS.PermissionFlagsBits.ModerateMembers,
+  ],
 
   slash: true,
   testOnly: false,

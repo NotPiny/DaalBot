@@ -3,7 +3,7 @@ require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 const client = require('../client.js')
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder, ChannelType } = require('discord.js')
 
 const startingBearer = process.env.TWITCH_BEARER // The bearer that is in the .env file when the bot starts
 let Bearer = process.env.TWITCH_BEARER // The bearer that will be updated if it's invalid
@@ -117,7 +117,7 @@ async function main() {
 
                     pingRoleId = channelRole
 
-                    if (channelObj.type != 'GUILD_TEXT') return console.log(`Twitch link > Channel ${channel} is not a text channel`);
+                    if (channelObj.type != ChannelType.GuildText) return console.log(`Twitch link > Channel ${channel} is not a text channel`);
                     if (channelObj == undefined) return console.log(`Twitch link > Channel ${channel} not found`)
 
                     if (channelObj) {

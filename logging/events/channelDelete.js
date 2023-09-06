@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 const path = require('path');
 
 client.on('channelDelete', async(channel) => {
-    if (channel.type === 'DM') return;
+    if (channel.type === Discord.ChannelType.DM) return;
     try {
     const enabled = fs.readFileSync(path.resolve(`./db/logging/${channel.guild.id}/CHANNELDELETE.enabled`), 'utf8');
     if (enabled == 'true') {

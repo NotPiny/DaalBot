@@ -1,3 +1,4 @@
+const { ActivityType } = require('discord.js')
 const daalbot = require('../../daalbot.js')
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
 
     callback: ({ interaction }) => {
         const newActivity = interaction.options.getString('status')
-        const type = parseInt(interaction.options.getString('type')) || 1
+        const type = parseInt(interaction.options.getString('type')) || ActivityType.Custom
 
         daalbot.client.user.setActivity(newActivity, { type: type })
 

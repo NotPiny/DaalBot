@@ -8,7 +8,10 @@ module.exports = {
     category: 'XP',
 
     slash: true,
-    requireRoles: true,
+
+    permissions: [
+        daalbot.DJS.PermissionFlagsBits.ManageChannels
+    ],
 
     guildOnly: true,
     testOnly: false,

@@ -14,7 +14,7 @@ client.on('interactionCreate', async interaction => {
 
             const row = new DJS.ActionRowBuilder()
 
-            const dropdown = new DJS.MessageSelectMenu()
+            const dropdown = new DJS.StringSelectMenuBuilder()
                 .setCustomId('levelUpMenuDropdown')
                 .setPlaceholder('Select an option')
                 .addOptions([
@@ -50,7 +50,7 @@ client.on('interactionCreate', async interaction => {
 
             const row = new DJS.ActionRowBuilder()
 
-            const dropdown = new DJS.MessageSelectMenu()
+            const dropdown = new DJS.StringSelectMenuBuilder()
                 .setCustomId('levelUpMenuDropdown')
                 .setPlaceholder('Select an option')
                 .addOptions([

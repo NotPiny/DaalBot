@@ -1,9 +1,12 @@
+const { PermissionFlagsBits } = require('discord.js')
+
 module.exports = {
     category: 'Moderation',
   description: 'Bans a user',
 
-  // permissions: ['ADMINISTRATOR'],
-  requireRoles: true,
+  permissions: [
+    PermissionFlagsBits.BanMembers,
+  ],
 
   slash: 'both',
   testOnly: false,

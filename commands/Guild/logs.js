@@ -32,7 +32,11 @@ module.exports = {
 
     slash: true,
     testOnly: false,
-    requireRoles: true,
+    guildOnly: true,
+
+    permissions: [
+        daalbot.DJS.PermissionFlagsBits.ViewAuditLog
+    ],
 
     options: [
         {

@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 const path = require('path');
 
 client.on('channelCreate', async(channel) => {
-    if (channel.type === 'DM') return;
+    if (channel.type === Discord.ChannelType.DM) return;
     try {
         if (!fs.existsSync(path.resolve(`./db/logging/${channel.guild.id}/CHANNELCREATE.enabled`))) return;
         const enabled = fs.readFileSync(path.resolve(`./db/logging/${channel.guild.id}/CHANNELCREATE.enabled`), 'utf8');

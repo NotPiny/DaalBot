@@ -7,7 +7,7 @@ client.on('messageCreate', msg => {
         if (msg.content == '$ticket-drop') {
             const row = new Discord.ActionRowBuilder()
                 .addComponents(
-                    new Discord.MessageSelectMenu()
+                    new Discord.StringSelectMenuBuilder()
                         .setCustomId('vortex-ticket-dropdown')
                         .setPlaceholder('Select a reason for your ticket')
                         .addOptions([

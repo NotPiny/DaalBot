@@ -2,10 +2,11 @@ const {
     Client,
     GuildMember,
     ActionRowBuilder,
-    MessageSelectMenu,
+    StringSelectMenuBuilder,
     MessageSelectOptionData,
     Role,
     TextChannel,
+    ChannelType,
   } = require('discord.js')
   
   module.exports = {
@@ -28,7 +29,7 @@ const {
           ? message.mentions.channels.first()
           : interaction.options.getChannel('channel')
       )
-      if (!channel || channel.type !== 'GUILD_TEXT') {
+      if (!channel || channel.type !== ChannelType.GuildText) {
         return 'Please tag a text channel.'
         
         

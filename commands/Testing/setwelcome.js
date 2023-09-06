@@ -1,3 +1,4 @@
+const { ChannelType } = require('discord.js')
 const welcomeSchema = require('../../models/welcome-schema')
 module.exports = {
   category: 'Testing',
@@ -37,7 +38,7 @@ module.exports = {
     const target = message
       ? message.mentions.channels.first()
       : interaction.options.getChannel('channel')
-    if (!target || target.type !== 'GUILD_TEXT') {
+    if (!target || target.type !== ChannelType.GuildText) {
       return 'Please tag a text channel.'
       
       

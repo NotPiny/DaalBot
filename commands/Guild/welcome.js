@@ -10,7 +10,10 @@ module.exports = {
     slash: true,
     // testOnly: true, //guild testing when true
     guildOnly: true,
-    requireRoles: true,
+    
+    permissions: [
+        DJS.PermissionFlagsBits.ManageGuild
+    ],
 
     options: [
         {

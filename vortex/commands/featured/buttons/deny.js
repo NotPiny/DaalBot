@@ -1,11 +1,11 @@
 const client = require('../../../../client.js');
 const daalbot = require('../../../../daalbot.js');
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, MessageSelectMenu, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, ButtonStyle } = require('discord.js');
 
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         if (interaction.customId === 'vortex-featured-deny') {
-           const denyDropdown = new MessageSelectMenu()
+           const denyDropdown = new StringSelectMenuBuilder()
            .setCustomId('vortex-featured-deny-dropdown')
            .setPlaceholder('Select a reason')
            .addOptions([

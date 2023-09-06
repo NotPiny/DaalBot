@@ -21,7 +21,10 @@ require('./V14/index.js')
 // require('./premium/activateserverpanel.js');
 
 // Social links
-require('./social/twitch.js')
+require('./social/twitch.js');
 
-// Automations
-require('./automations/events.js')
+// Monitoring
+require('./monitoring/monitor.js');
+
+// Modals
+require('./modals/handler.js');
