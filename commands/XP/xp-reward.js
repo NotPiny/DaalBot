@@ -2,27 +2,33 @@ const daalbot = require('../../daalbot.js');
 const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const Discord = require('discord.js');
 
 module.exports = {
     name: 'xp-reward',
     description: 'Sets up a reward for levels.',
     category: 'XP',
 
-    slash: true,
+    type: 'SLASH',
 
-    testOnly: true,
+    testOnly: false,
+    guildOnly: true,
+
+    permissions: [
+        Discord.PermissionFlagsBits.ManageGuild
+    ],
 
     options: [
         {
             name: 'level',
             description: 'The level to grant the reward apon reaching.',
-            type: 'INTEGER',
+            type: Discord.ApplicationCommandOptionType.Integer,
             required: true
         },
         {
             name: 'role',
             description: 'The role to grant apon reaching the level.',
-            type: 'ROLE',
+            type: Discord.ApplicationCommandOptionType.Role,
             required: true
         }
     ],

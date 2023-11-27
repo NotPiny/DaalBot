@@ -99,7 +99,7 @@ async function main() {
                 const embed = new EmbedBuilder()
                     .setTitle(`${user.user_name} is now live on Twitch!`)
                     .setURL(`https://twitch.tv/${user.user_name}`)
-                    .setImage(user.thumbnail_url.replace('{width}', '1920').replace('{height}', '1080'))
+                    .setImage(user.thumbnail_url.replace('{width}', '1920').replace('{height}', '1080') + `?r=${Math.random() * 10000}`) // Add a random number to the end of the url to prevent caching :D
                     .setColor('#9B5AB4')
                     .addFields(
                         { name: 'Title', value: user.title, inline: true },

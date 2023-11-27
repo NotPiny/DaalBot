@@ -1,11 +1,53 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const client = require('../client');
 const daalbot = require('../daalbot.js');
-require('./twitter');
+const fs = require('fs');
+const path = require('path');
 function botLog(text) {
     client.channels.cache.find(channel => channel.id === config.Logchannel).send(text);
     console.log(text);
-  };
+};
+
+/**
+ * @param {string} user 
+ * @param {boolean} premium 
+ * @returns {void}
+ */
+function updatePremiumStatus(user, premium) {
+    const premiumRole = client.guilds.cache.get('1001929445478781030').roles.cache.find(role => role.id === '1166772281029173389');
+    const member = client.guilds.cache.get('1001929445478781030').members.cache.find(member => member.id === user);
+
+    if (premium) {
+        member.roles.add(premiumRole);
+    } else {
+        member.roles.remove(premiumRole);
+    }
+
+    /**
+     * @type {users: {id: string, boosts: number, servers_activated: number, servers: string[]}[], guilds: {id: string, activatedBy: string}[]}
+    */
+    const premiumJson = JSON.parse(fs.readFileSync(path.resolve('./db/premium.json'), 'utf8'));
+    const premiumUser = premiumJson.users.find(user => user.id === member.id);
+
+    if (!premiumUser) {
+        premiumJson.users.push({
+            id: member.id,
+            boosts: 1,
+            servers_activated: 0,
+            servers: []
+        })
+
+        fs.writeFileSync(path.resolve('./db/premium.json'), JSON.stringify(premiumJson, null, 4));
+    } else {
+        if (premium) {
+            premiumUser.boosts++;
+        } else {
+            premiumUser.boosts--;
+        }
+
+        fs.writeFileSync(path.resolve('./db/premium.json'), JSON.stringify(premiumJson, null, 4));
+    }
+}
 
 client.on('ready', () => {
     const server = client.guilds.cache.get('1001929445478781030');
@@ -28,13 +70,13 @@ client.on('ready', () => {
 
 client.on('guildMemberAdd', member => {
     if (member.guild.id === '1001929445478781030') {
-    const welcomeEmbed = new EmbedBuilder()
-    .setTitle(`Welcome to the official DaalBot HQ!`)
-    .setDescription(`You are member #${member.guild.memberCount}`)
-    .setThumbnail(member.avatarURL)
-    .setImage('https://pinymedia.web.app/Daalbot.png')
-    .setColor(0x9b24a9)
-    client.channels.cache.find(channel => channel.id === '1010452045163143209').send({ content: `Everyone welcome <@${member.id}> to the server!`, embeds: [welcomeEmbed]});
+        const welcomeEmbed = new EmbedBuilder()
+            .setTitle(`Welcome to the official DaalBot HQ!`)
+            .setDescription(`You are member #${member.guild.memberCount}`)
+            .setThumbnail(member.avatarURL)
+            .setImage('https://pinymedia.web.app/Daalbot.png')
+            .setColor(0x9b24a9)
+        client.channels.cache.find(channel => channel.id === '1010452045163143209').send({ content: `Everyone welcome <@${member.id}> to the server!`, embeds: [welcomeEmbed]});
     } else {
         return;
     }
@@ -47,6 +89,34 @@ client.on('guildMemberRemove', member => {
         return;
     }
 });
+
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+    if (newMember.guild.id === '1001929445478781030') {
+        // Premium
+
+        // Boost detection
+        const oldBoosts = oldMember.premiumSinceTimestamp;
+        const newBoosts = newMember.premiumSinceTimestamp;
+
+        const type = newMember.guild.premiumSubscriptionCount > oldMember.guild.premiumSubscriptionCount ? 'boost' : 'unboost';
+
+        if (type === 'boost') {
+            const boostEmbed = new EmbedBuilder()
+                .setTitle(`Thanks for boosting the server!`)
+                .setDescription(`Thanks for boosting the server, <@${newMember.id}>!`)
+                .setColor(0x9b24a9)
+            client.channels.cache.find(channel => channel.id === '1010452045163143209').send({ embeds: [boostEmbed] });
+
+            updatePremiumStatus(newMember.id, true);
+        }
+
+        if (oldBoosts !== null && newBoosts === null) {
+            updatePremiumStatus(newMember.id, false);
+        }
+    } else {
+        return;
+    }
+})
 
 client.on('messageCreate', msg => {
     if (msg.guild.id === '1001929445478781030') {
@@ -62,6 +132,16 @@ client.on('messageCreate', msg => {
             daalbot.getChannel(msg.guild.id, '1052304271221198898').send({ embeds: [commitEmbed] });
         } else if (msg.author.bot && msg.author.id == '1055877624230068315') {
             msg.channel.send('<@&1016344487867457597>')
+        } else if (msg.channel.id == '1003822202413662248') {
+            msg.crosspost(); // Publish the message when it is sent in announcements
+        }
+
+        if (msg.content.toLowerCase().startsWith('$sendmsg') && msg.author.id === '900126154881646634') {
+            const messageJson = JSON.parse(msg.content.replace(/\$sendmsg /g, '').replace(/['`]/g, '"').replace('{{DB_PURPLE}}', '10167465'));
+
+            msg.delete();
+
+            msg.channel.send(messageJson);
         }
     } else {
         return;
@@ -117,3 +197,4 @@ client.on('interactionCreate', async interaction => {
         }
     }
 })
+

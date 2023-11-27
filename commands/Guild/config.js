@@ -1,3 +1,4 @@
+const { PermissionFlagsBits } = require('discord.js');
 const daalbot = require('../../daalbot.js');
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
     guildOnly: true,
     
     slash: true,
-    permissions: ['MANAGE_GUILD'],
+    permissions: [PermissionFlagsBits.ManageGuild],
 
     options: [
         {

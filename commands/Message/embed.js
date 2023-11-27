@@ -2,6 +2,7 @@ const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const DJS = require('discord.js');
 const daalbot = require('../../daalbot.js');
 const commandTypes = DJS.ApplicationCommandOptionType; // Nobody needs that long ass name
+require('dotenv').config();
 
 module.exports = {
         category: 'Pen',
@@ -142,33 +143,21 @@ module.exports = {
             const isValidImage = (attachment) => {
                 if (!isUsed(attachment)) return true; // If the image was not provided, it is valid
     
-                const validImageTypes = ['png', 'jpg', 'jpeg'];
-    
-                const link = getAttachmentLink(attachment);
-    
-                const extension = link.split('.').pop();
-    
-                return validImageTypes.includes(extension);
+                const contentType = attachment.contentType;
+
+                if (contentType.startsWith('image/')) return true; // If the image is an image, it is valid (duh)
+
+                return false; // If the image is not an image, it is invalid
             }
+
             const getAttachmentLink = (attachment) => `${attachment.proxyURL}`;
     
             const getPermanentLink = async(attachment) => {
                 if (attachment) {
                     const tempLink = getAttachmentLink(attachment);
     
-                    // const buffer = await axios.get(tempLink, { responseType: 'arraybuffer' });
-    
-                    // const attachmentName = attachment.name;
-    
-                    // const attachmentFile = new MessageAttachment(buffer, attachmentName);
-    
-                    const channel = daalbot.client.guilds.cache.get('1017715574639431680').channels.cache.get('1096419624825929872')
-    
-                    // const message = await channel.send({ files: [attachmentFile] });
-                    const message = await channel.send({ files: [tempLink] });
-    
-                    const url = message.attachments.first().proxyURL;
-    
+                    const url = await daalbot.images.createPermLink(tempLink);
+
                     return url;
                 } else {
                     return null;

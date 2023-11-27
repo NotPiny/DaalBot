@@ -35,10 +35,10 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 
 setInterval(() => {
     // Execute every 5 minutes
-    const olilzHelper = daalbot.getMember(monitoringGuild, '951587858962079778');
+    const olilzHelper = daalbot.getMember(monitoringGuild?.id, '951587858962079778');
 
     if (olilzHelper == 'Member not found.') return console.error('Olilz helper not found.');
-    if (olilzHelper == 'Server not found.') return console.error('Monitoring server not found.');
+    if (olilzHelper == 'Server not found.') return;
     if (olilzHelper == undefined) return console.error('Olilz helper is undefined.');
 
     if (olilzHelper.presence.status === 'offline') {

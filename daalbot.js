@@ -1,6 +1,3 @@
-// This file is here to make gathering data from the client easier.
-// It is not meant to be run on its own, but rather to be included in other files.
-
 const client = require('./client.js');
 const config = require('./config.json');
 const fs = require('fs');
@@ -283,6 +280,118 @@ async function API_get_role(guild, id) {
     }
 }
 
+async function createPermanentImgLink(url) {
+    try {
+        const options = {
+            method: 'POST',
+            headers: {'content-type': 'multipart/form-data; boundary=---011000010111000001101001'},
+        };
+
+        const response = await axios.post(`https://api.imgbb.com/1/upload?key=${process.env.IMGBB_KEY}&image=${url}`, {
+            headers: {}
+        });
+
+        return response.data.data.display_url;
+    } catch (err) {
+        console.log(err.response.data.error)
+        return 'https://pinymedia.web.app/Error.png'
+    }
+}
+
+function premiumActivateServer(guild, user) {
+    /**
+     * @type {{users: {id: string, boosts: number, servers_activated: number, servers: string[]}[], guilds: {id: string, activated_by: string}[]}}
+    */
+    const premiumJSON = JSON.parse(fs.readFileSync(path.resolve(`./db/premium.json`), 'utf8'));
+
+    const premiumUser = premiumJSON.users.find(u => u.id === user);
+
+    if (!premiumUser) {
+        return 1;
+    }
+
+    if (premiumUser.servers_activated >= premiumUser.boosts) {
+        return 2;
+    }
+
+    const premiumGuild = premiumJSON.guilds.find(g => g.id === guild);
+
+    if (premiumGuild) {
+        return 3;
+    }
+
+    premiumUser.servers_activated += 1;
+
+    premiumJSON.guilds.push({
+        id: guild,
+        activated_by: user
+    })
+
+    premiumUser.servers.push(guild);
+
+    fs.writeFileSync(path.resolve(`./db/premium.json`), JSON.stringify(premiumJSON, null, 4));
+
+    return 0;
+}
+
+function premiumDeactivateServer(guild, user) {
+    /**
+     * @type {{users: {id: string, boosts: number, servers_activated: number, servers: string[]}[], guilds: {id: string, activated_by: string}[]}}
+    */
+    const premiumJSON = JSON.parse(fs.readFileSync(path.resolve(`./db/premium.json`), 'utf8'));
+
+    const premiumUser = premiumJSON.users.find(u => u.id === user);
+
+    if (!premiumUser) {
+        return 1;
+    }
+
+    const premiumGuild = premiumJSON.guilds.find(g => g.id === guild);
+
+    if (!premiumGuild) {
+        return 2;
+    }
+
+    if (premiumGuild.activated_by !== user) {
+        return 3;
+    }
+
+    premiumUser.servers_activated -= 1;
+
+    premiumJSON.guilds.splice(premiumJSON.guilds.indexOf(premiumGuild), 1);
+
+    premiumUser.servers.splice(premiumUser.servers.indexOf(guild), 1);
+
+    fs.writeFileSync(path.resolve(`./db/premium.json`), JSON.stringify(premiumJSON, null, 4));
+
+    return 0;
+}
+
+function premiumIsServerActivated(guild) {
+    /**
+     * @type {{users: {id: string, boosts: number, servers_activated: number, servers: string[]}[], guilds: {id: string, activated_by: string}[]}}
+    */
+    const premiumJSON = JSON.parse(fs.readFileSync(path.resolve(`./db/premium.json`), 'utf8'));
+
+    const premiumGuild = premiumJSON.guilds.find(g => g.id === guild);
+
+    if (!premiumGuild) {
+        return false;
+    }
+
+    return true;
+}
+
+const premium = {
+    activateServer: premiumActivateServer,
+    deactivateServer: premiumDeactivateServer,
+    isServerActivated: premiumIsServerActivated
+}
+
+const images = {
+    createPermLink: createPermanentImgLink,
+}
+
 const text = {
     cleanHomoglyphs: cleanText,
 }
@@ -309,6 +418,10 @@ const api = {
     }
 }
 
+const colours = {
+    daalbot_purple: '#502898'
+}
+
 module.exports = {
     client,
     serverAmount,
@@ -318,6 +431,9 @@ module.exports = {
     db,
     guilds,
     DJS: Discord,
+    images,
+    colours,
+    premium,
     findServerVanity,
     fetchServer,
     fetchServerName,

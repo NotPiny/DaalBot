@@ -1,4 +1,4 @@
-const { ChannelType, PermissionFlagsBits } = require("discord.js");
+const { ChannelType, PermissionFlagsBits, ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
   category: 'Message',
@@ -12,7 +12,7 @@ module.exports = {
   expectedArgs: '<channel> <text>',
   expectedArgsTypes: ['CHANNEL', 'STRING'],
 
-  slash: true,
+  type: 'SLASH',
   testOnly: false,
   guildOnly: true,
 
@@ -20,20 +20,20 @@ module.exports = {
     {
       name: 'channel',
       description: 'The channel to send the text to',
-      type: 'CHANNEL',
+      type: ApplicationCommandOptionType.Channel,
       required: true
     },
     {
       name: 'text',
       description: 'The text to send',
-      type: 'STRING',
+      type: ApplicationCommandOptionType.String,
       required: true
     }
   ],
 
-  callback: (interaction) => {
+  callback: ({ interaction }) => {
     const channel = interaction.options.getChannel('channel')
-    if (!channel || channel.type !== ChannelType.GuildText) {
+    if (!channel || (channel.type !== ChannelType.GuildText && channel.type !== ChannelType.GuildAnnouncement)) {
       return 'Please tag a text channel.'
     }
     const text = interaction.options.getString('text');

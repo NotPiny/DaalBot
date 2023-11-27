@@ -26,3 +26,12 @@ CTF.txt
 # Server certificates
 server.key
 server.cert
+
+# Old files
+*/old
+
+# Twitter user data
+/twitter/html/
+
+# Twitter stuff
+/twitter/

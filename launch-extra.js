@@ -22,9 +22,25 @@ require('./V14/index.js')
 
 // Social links
 require('./social/twitch.js');
+// require('./social/twitter.js');
 
 // Monitoring
 require('./monitoring/monitor.js');
 
 // Modals
 require('./modals/handler.js');
+
+// Automations
+require('./automations/launch.js');
+
+// Internal server
+require('./Server/index.js');
+
+// Updates
+require('./updates/files.js');
+
+// Buttons
+require('./buttons/handler.js');
+
+// Dropdowns
+require('./dropdown/handler.js');

@@ -23,104 +23,59 @@ client.on('messageCreate', msg => {
 
     const level = parseInt(newXp.slice(0, -3)) || 0;
 
-    if (msg.guild.id ==  config.servers.vortex.id) {
-        if (level == 0) return;
+    if (level == 0) return;
 
-        const levelObj = config.servers.vortex.roles.levels.find(obj => obj.level == level);
-        if (!levelObj || levelObj.level == undefined) return;
+    const levelFile = path.resolve(`./db/xp/${msg.guild.id}/rewards/${level}.reward`);
 
-        const role = daalbot.getRole(msg.guild.id, levelObj.role);
+    if (!fs.existsSync(levelFile)) return;
 
-        if (role == undefined || role == 'Role not found.' || role == 'Server not found.') return;
+    const rewardRole = fs.readFileSync(levelFile, 'utf8')
 
-        if (msg.member.roles.cache.has(role.id)) return;
+    if (rewardRole == undefined) return;
 
-        msg.member.roles.add(role.id)
-            .then(() => {
-                const botCmdsChannel = msg.guild.channels.cache.get(config.servers.vortex.channels.botCmds);
+    const role = daalbot.getRole(msg.guild.id, rewardRole);
 
-                // if (!botCmdsChannel.type == 'GUILD_TEXT') return;
+    if (role == undefined || role == 'Role not found.' || role == 'Server not found.') return;
 
-                const embed = new daalbot.embed()
-                    .setTitle('Level Up!')
-                    .setDescription(`Congratulations on leveling up ${msg.author.username}! You are now level ${level} and have unlocked the ${role.name.split(' - ')[0]} role`)
-                    .setThumbnail(msg.author.avatarURL())
-                    .setColor('#00aae3')
-                    .setImage('https://pinymedia.web.app/Vortex/LevelUp.png')
-                    .setAuthor({
-                        name: 'Vortex Creative',
-                        iconURL: 'https://pinymedia.web.app/VortexLogo.png',
-                    });
+    if (msg.member.roles.cache.has(role.id)) return;
 
-                const row = new DJS.ActionRowBuilder()
+    msg.member.roles.add(role.id)
+        .then(async() => {
+            const silentUsers = fs.readFileSync(path.resolve(`./db/xp/silent.users`), 'utf8').split('\n');
 
-                const moreInfoButton = new DJS.ButtonBuilder()
+            const levelUpChannel = daalbot.getChannel(msg.guild.id, await daalbot.db.getChannel(msg.guild.id, 'levels'));
+
+            if (levelUpChannel == null) return;
+
+            const levelUpEmbed = new DJS.EmbedBuilder()
+                .setTitle('Level Up!')
+                .setDescription(`Congratulations on leveling up <@${msg.author.id}>! You are now level ${level} and have unlocked the ${role.name} role`)
+                .setTimestamp();
+
+            const row = new DJS.ActionRowBuilder()
+
+            const menuButton = new DJS.ButtonBuilder()
+                .setLabel('Menu')
+                .setStyle(DJS.ButtonStyle.Primary)
+                .setCustomId('levelUpMenu')
+                .setEmoji('📖');
+
+            row.addComponents(menuButton);
+
+            if (msg.guild.id == config.servers.vortex.id) {
+                const vortexMoreInfoButton = new DJS.ButtonBuilder()
                     .setLabel('More Info')
                     .setStyle(DJS.ButtonStyle.Link)
-                    .setURL('https://discord.com/channels/973711816226136095/1001724255215558766/1059587784496648212')
-                    .setEmoji('📖');
+                    .setURL('https://discord.com/channels/973711816226136095/1001724255215558766')
+                    .setEmoji('🔗');
 
-                row.addComponents(moreInfoButton);
+                row.addComponents(vortexMoreInfoButton);
+            }
 
-                botCmdsChannel.send({
-                    content: `<@${msg.author.id}>`,
-                    embeds: [embed],
-                    components: [
-                        row
-                    ]
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            levelUpChannel.send({
+                content: silentUsers.includes(msg.author.id) ? null : `<@${msg.author.id}>`,
+                embeds: [levelUpEmbed],
+                components: [row]
             })
-            .catch(err => {
-                console.log(err);
-            })
-    } else {
-        if (level == 0) return;
-
-        const levelFile = path.resolve(`./db/xp/${msg.guild.id}/rewards/${level}.reward`);
-
-        if (!fs.existsSync(levelFile)) return;
-
-        const rewardRole = fs.readFileSync(levelFile, 'utf8')
-
-        if (rewardRole == undefined) return;
-
-        const role = daalbot.getRole(msg.guild.id, rewardRole);
-
-        if (role == undefined || role == 'Role not found.' || role == 'Server not found.') return;
-
-        if (msg.member.roles.cache.has(role.id)) return;
-
-        msg.member.roles.add(role.id)
-            .then(async() => {
-                const silentUsers = fs.readFileSync(path.resolve(`./db/xp/silent.users`), 'utf8').split('\n');
-
-                const levelUpChannel = daalbot.getChannel(msg.guild.id, await daalbot.db.getChannel(msg.guild.id, 'levels'));
-
-                if (levelUpChannel == null) return;
-
-                const levelUpEmbed = new DJS.EmbedBuilder()
-                    .setTitle('Level Up!')
-                    .setDescription(`Congratulations on leveling up <@${msg.author.id}>! You are now level ${level} and have unlocked the ${role.name} role`)
-                    .setTimestamp();
-
-                const row = new DJS.ActionRowBuilder()
-
-                const menuButton = new DJS.ButtonBuilder()
-                    .setLabel('Menu')
-                    .setStyle(DJS.ButtonStyle.Primary)
-                    .setCustomId('levelUpMenu')
-                    .setEmoji('📖');
-
-                row.addComponents(menuButton);
-
-                levelUpChannel.send({
-                    content: silentUsers.includes(msg.author.id) ? null : `<@${msg.author.id}>`,
-                    embeds: [levelUpEmbed],
-                    components: [row]
-                })
-            })
-    }
+        })
 })

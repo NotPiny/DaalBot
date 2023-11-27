@@ -6,7 +6,7 @@ const config = require('./config.json');
 require('./launch-extra.js');
 client.setMaxListeners(0); // Sets max client listeners to infinity
 const fs = require('fs'); // File system
-const { EmbedBuilder, ActivityType } = require('discord.js'); // Embeds
+const { EmbedBuilder, ActivityType, ApplicationCommandType } = require('discord.js'); // Embeds
 
 // Functions
 function OnReady() {
@@ -43,5 +43,9 @@ client.on('ready', () => {
 if (!fs.existsSync(`./db/`)) {
   require('./db-setup.js') // If the database doesn't exist, run the setup
 }
+
+setInterval(() => {
+  fs.writeFileSync('/home/piny/.pm2/logs/Discord-error.log', '') // Clear the error log every 5 minutes because now curl spams it every 10 seconds and it's annoying
+}, 5 * 60 * 1000)
 
 client.login(process.env.TOKEN);

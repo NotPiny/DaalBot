@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { EmbedBuilder, PermissionFlagsBits } = require('discord.js')
+const { EmbedBuilder, PermissionFlagsBits, ApplicationCommandOptionType, ChannelType } = require('discord.js')
 const daalbot = require('../../daalbot.js')
 require('dotenv').config()
 const axios = require('axios')
@@ -17,35 +17,70 @@ module.exports = {
         PermissionFlagsBits.ManageWebhooks
     ],
 
-    slash: true,
+    type: 'SLASH',
 
     options: [
         {
             name: 'twitch',
             description: 'Modifies the Twitch feeds for the server.',
-            type: 'SUB_COMMAND_GROUP',
+            type: ApplicationCommandOptionType.SubcommandGroup,
             options: [
                 {
                     name: 'add',
                     description: 'Adds a Twitch feed to a channel.',
-                    type: 'SUB_COMMAND',
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'channel',
                             description: 'The name of the twitch channel to add.',
-                            type: 'STRING',
+                            type: ApplicationCommandOptionType.String,
                             required: true
                         },
                         {
                             name: 'feed_channel',
                             description: 'The channel to send the feed to.',
-                            type: 'CHANNEL',
+                            type: ApplicationCommandOptionType.Channel,
                             required: true
                         },
                         {
                             name: 'role',
                             description: 'The role to ping when the stream goes live.',
-                            type: 'ROLE',
+                            type: ApplicationCommandOptionType.Role,
+                            required: false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: 'twitter',
+            description: 'Modifies the Twitter feeds for the server.',
+            type: ApplicationCommandOptionType.SubcommandGroup,
+            options: [
+                {
+                    name: 'add',
+                    description: 'Adds a Twitter feed to a channel.',
+                    type: ApplicationCommandOptionType.Subcommand,
+                    options: [
+                        {
+                            name: 'account',
+                            description: 'The name of the twitter account to add.',
+                            type: ApplicationCommandOptionType.String,
+                            required: true
+                        },
+                        {
+                            name: 'channel',
+                            description: 'The channel to send the feed to.',
+                            type: ApplicationCommandOptionType.Channel,
+                            required: true,
+                            channel_types: [
+                                ChannelType.GuildText,
+                            ]
+                        },
+                        {
+                            name: 'role',
+                            description: 'The role to ping when a new tweet is made.',
+                            type: ApplicationCommandOptionType.Role,
                             required: false
                         }
                     ]
@@ -125,6 +160,41 @@ module.exports = {
                 fs.writeFileSync(path.resolve('./db/socialalert/twitch.txt'), newTwitchData);
 
                 await interaction.reply({ content: `Successfully added ${feedChannel} to the Twitch feed for ${startingChannel}.`, ephemeral: true })
+            }
+        }
+
+        if (subCommandGroup == 'twitter') {
+            if (subCommand == 'add') {
+                /**
+                 * @type {string}
+                 */
+                const account = interaction.options.getString('account').toLowerCase();
+                const feedChannel = interaction.options.getChannel('channel')
+                const role = interaction.options.getRole('role')
+
+                /**
+                 * @type {{username: string, channel: {id: string, role: string}}[]}
+                 */
+                let twitterJson = JSON.parse(fs.readFileSync(path.resolve('./db/socialalert/twitter.json'), 'utf8'))
+
+                // Check if the user is already linked to the channel
+                if (twitterJson.find(i => i.username == account && i.channel.id == feedChannel.id)) {
+                    return await interaction.reply({ content: 'That Twitter account is already linked to the channel.', ephemeral: true })
+                }
+
+                // Add the user to the json
+                twitterJson.push({
+                    username: account,
+                    channel: {
+                        id: feedChannel.id,
+                        role: role == null ? null : role.id // If the role is null then set it to null otherwise set it to the role id :D
+                    }
+                })
+
+                // Write the json to the file
+                fs.writeFileSync(path.resolve('./db/socialalert/twitter.json'), JSON.stringify(twitterJson, null, 4))
+
+                await interaction.reply({ content: `Successfully added ${feedChannel} to the Twitter feed for ${account}.\nThis may take up to 30 minutes to apply`, ephemeral: true })
             }
         }
     }
