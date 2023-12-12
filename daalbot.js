@@ -6,6 +6,7 @@ const Discord = require('discord.js');
 const cleanText = require('./util/homoglyphs.js');
 require('dotenv').config();
 const axios = require('axios');
+const { EventEmitter } = require('events');
 
 const serverAmount = client.guilds.cache.size
 
@@ -382,6 +383,14 @@ function premiumIsServerActivated(guild) {
     return true;
 }
 
+const timestampEvents = new EventEmitter();
+
+// Constantly emit the current timestamp so that other files can set up listeners for a timestamp they need and get a callback when it happens
+// Tick every 100ms (10tps)
+setInterval(() => {
+    timestampEvents.emit(Date.now())
+}, 100);
+
 const premium = {
     activateServer: premiumActivateServer,
     deactivateServer: premiumDeactivateServer,
@@ -434,6 +443,7 @@ module.exports = {
     images,
     colours,
     premium,
+    timestampEvents,
     findServerVanity,
     fetchServer,
     fetchServerName,

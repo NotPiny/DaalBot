@@ -14,7 +14,7 @@ client.on('guildCreate', guild => {
   const owner = client.users.cache.find(user => user.id === guild.ownerId);
   const embed = new DJS.EmbedBuilder()
     .setTitle('Bot added to server')
-    .setDescription(`Bot added to \`${guild.name}\` (${guild.id})`)
+    .setDescription(`Bot added to \`${guild.name}\` (${guild.id}) with ${guild.memberCount} members`)
     .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Guild.png')
     .setTimestamp()
     .setFooter({
@@ -31,7 +31,7 @@ client.on('guildDelete', guild => {
   const owner = client.users.cache.find(user => user.id === guild.ownerId);
   const embed = new DJS.EmbedBuilder()
     .setTitle('Bot removed from server')
-    .setDescription(`Bot removed from \`${guild.name}\` (${guild.id})`)
+    .setDescription(`Bot removed from \`${guild.name}\` (${guild.id}) with ${guild.memberCount} members`)
     .setThumbnail('https://pinymedia.web.app/daalbot/embed/thumbnail/logs/Guild.png')
     .setTimestamp()
     .setFooter({

@@ -21,7 +21,7 @@
     "@discordjs/rest": "^1.1.0",
     "@discordjs/voice": "^0.14.0",
     "@google-cloud/translate": "^7.0.3",
-    "@npiny/csvman": "^0.0.2",
+    "@npiny/csvman": "^0.0.3",
     "axios": "^0.27.2",
     "discord-webhook.js": "^0.0.3",
     "discord.js": "^14.13.0",

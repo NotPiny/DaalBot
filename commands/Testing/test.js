@@ -59,7 +59,8 @@ module.exports = {
 
     callback: async({interaction}) => {
         try {
-            return `# Output \n\`\`\`\nThis command does nothing rn :)\n\`\`\``;
+            const message = await interaction.channel.messages.cache.get(interaction.options.getString('string'));
+            return `# Output \n\`\`\`json\n${JSON.stringify(message, null, 4)}\n\`\`\``;
         } catch (err) {
             return `# Error\n\`\`\`\n${err}\n\`\`\``;
         }

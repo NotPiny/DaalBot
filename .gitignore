@@ -7,6 +7,9 @@ logs
 db/
 /db
 
+# Duplicate files
+/testdb
+
 # Temporary files
 temp/
 

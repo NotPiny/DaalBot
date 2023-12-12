@@ -22,7 +22,7 @@ require('./V14/index.js')
 
 // Social links
 require('./social/twitch.js');
-// require('./social/twitter.js');
+require('./social/twitter.js'); // 6726
 
 // Monitoring
 require('./monitoring/monitor.js');
@@ -44,3 +44,6 @@ require('./buttons/handler.js');
 
 // Dropdowns
 require('./dropdown/handler.js');
+
+// Context menus
+require('./context/handler.js');
