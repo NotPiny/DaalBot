@@ -230,7 +230,7 @@ module.exports = {
             if (isUsed(image)) embed.setImage(await getPermanentLink(image));
     
             if (isUsed(messageId)) {
-                const message = await channel.messages.fetch(messageId)
+                const message = await daalbot.getMessageFromString(messageId, channel);
     
                 if (message.id == undefined) {
                     interaction.editReply('Invalid message ID');

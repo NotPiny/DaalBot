@@ -383,6 +383,24 @@ function premiumIsServerActivated(guild) {
     return true;
 }
 
+/**
+ * @param {string} input
+ * @param {Discord.TextChannel} channel
+*/
+async function getMessageFromString(input, channel) {
+    let messageId = null;
+
+    if (input.includes('https')) {
+        messageId = input.split('/').slice(-1)[0];
+    } else {
+        messageId = input;
+    }
+
+    const message = await channel.messages.fetch(messageId);
+
+    return message;
+}
+
 const timestampEvents = new EventEmitter();
 
 // Constantly emit the current timestamp so that other files can set up listeners for a timestamp they need and get a callback when it happens
@@ -457,6 +475,7 @@ module.exports = {
     getLogChannel,
     getLogChannelId,
     logEvent,
+    getMessageFromString,
     api,
     embed: Discord.EmbedBuilder,
     DatabaseEntry

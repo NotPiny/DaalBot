@@ -31,7 +31,7 @@ module.exports = {
         },
         {
             name: 'message_id',
-            description: 'The message id to add the dropdown to',
+            description: 'The message id / link to add the menu to',
             type: DJS.ApplicationCommandOptionType.String,
             required: true,
         },
@@ -50,17 +50,14 @@ module.exports = {
          * @type {DJS.TextChannel}
          */
         const channel = daalbot.getChannel(interaction.guild.id, interaction.options.getChannel('channel').id)
-        const message_id = interaction.options.getString('message_id');
+        const message_input = interaction.options.getString('message_id');
         const placeholder = interaction.options.getString('placeholder') || 'Select a role';
 
         if (channel == undefined) return interaction.reply({ content: 'Channel not found', ephemeral: true });
         if (channel == 'Channel not found.') return interaction.reply({ content: 'Channel not found', ephemeral: true });
         if (channel == 'Server not found.') return interaction.reply({ content: 'Server not found', ephemeral: true });
 
-        /**
-         * @type {DJS.Message}
-         */
-        const message = await channel.messages.fetch({ message: `${message_id}` });
+        const message = await daalbot.getMessageFromString(message_input, channel);
 
         if (message.id == undefined) return interaction.reply({ content: 'Message not found', ephemeral: true });
 

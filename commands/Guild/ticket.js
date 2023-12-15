@@ -17,12 +17,14 @@ const embedColours = [
     'Aqua',
 ]
 
+Discord.ApplicationCommandOptionType.Channel
+
 module.exports = {
     name: 'ticket',
-    description: 'Manages tickets for the server',
+    description: 'Manages tickets for the server.',
     category: 'Guild',
 
-    slash: true,
+    type: 'SLASH',
     testOnly: false,
     guildOnly: true,
 
@@ -34,24 +36,24 @@ module.exports = {
         {
             name: 'send',
             description: 'Send a ticket panel to a channel.',
-            type: 'SUB_COMMAND',
+            type: Discord.ApplicationCommandOptionType.Subcommand,
             options: [
                 {
-                    name: 'channel',
+                    name: Discord.ApplicationCommandOptionType.Channel,
                     description: 'The channel to send the ticket panel to.',
-                    type: 'CHANNEL',
+                    type: Discord.ApplicationCommandOptionType.Channel,
                     required: true
                 },
                 {
                     name: 'title',
                     description: 'The title of the ticket panel.',
-                    type: 'STRING',
+                    type: Discord.ApplicationCommandOptionType.String,
                     required: true
                 },
                 {
                     name: 'colour',
                     description: 'The colour of the ticket panel.',
-                    type: 'STRING',
+                    type: Discord.ApplicationCommandOptionType.String,
                     required: true,
                     choices: embedColours.map((colour) => ({
                         name: colour,
@@ -61,7 +63,7 @@ module.exports = {
                 {
                     name: 'message-id',
                     description: 'If used, the bot will edit the message instead of sending a new one.',
-                    type: 'STRING',
+                    type: Discord.ApplicationCommandOptionType.String,
                     required: false
                 }
             ]
@@ -69,18 +71,18 @@ module.exports = {
         {
             name: 'close',
             description: 'Close a ticket.',
-            type: 'SUB_COMMAND',
+            type: Discord.ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: 'ticket',
                     description: 'The ticket to close.',
-                    type: 'CHANNEL',
+                    type: Discord.ApplicationCommandOptionType.Channel,
                     required: false
                 },
                 {
                     name: 'transcript',
                     description: 'Whether or not to send the transcript of the ticket.',
-                    type: 'BOOLEAN',
+                    type: Discord.ApplicationCommandOptionType.Boolean,
                     required: false
                 }
             ]
@@ -88,12 +90,12 @@ module.exports = {
         {
             name: 'category',
             description: 'Set the category for tickets.',
-            type: 'SUB_COMMAND',
+            type: Discord.ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: 'category',
                     description: 'The category to set.',
-                    type: 'CHANNEL',
+                    type: Discord.ApplicationCommandOptionType.Channel,
                     required: true
                 }
             ]
@@ -101,36 +103,36 @@ module.exports = {
         {
             name: 'permissions',
             description: 'Modifies the permissions for the ticket channels.',
-            type: 'SUB_COMMAND',
+            type: Discord.ApplicationCommandOptionType.Subcommand,
             options: [
                 {
-                    name: 'role',
+                    name: Discord.ApplicationCommandOptionType.Boolean,
                     description: 'The role to modify the permissions for.',
-                    type: 'ROLE',
+                    type: Discord.ApplicationCommandOptionType.Boolean,
                     required: true
                 },
                 {
                     name: 'allow',
                     description: 'Whether to allow or deny the role to see the tickets.',
-                    type: 'BOOLEAN',
+                    type: Discord.ApplicationCommandOptionType.Boolean,
                 }
             ]
         },
         {
             name: 'blacklist',
             description: 'Blacklist a user from creating tickets.',
-            type: 'SUB_COMMAND',
+            type: Discord.ApplicationCommandOptionType.Subcommand,
             options: [
                 {
-                    name: 'user',
+                    name: Discord.ApplicationCommandOptionType.User,
                     description: 'The user to blacklist / unblacklist.',
-                    type: 'USER',
+                    type: Discord.ApplicationCommandOptionType.User,
                     required: true
                 },
                 {
                     name: 'action',
                     description: 'Whether to blacklist or unblacklist the user.',
-                    type: 'STRING',
+                    type: Discord.ApplicationCommandOptionType.String,
                     required: true,
                     choices: [
                         {
@@ -150,7 +152,7 @@ module.exports = {
                 {
                     name: 'reason',
                     description: 'The reason for blacklisting / unblacklisting the user.',
-                    type: 'STRING',
+                    type: Discord.ApplicationCommandOptionType.String,
                     required: false
                 }
             ]
@@ -158,7 +160,7 @@ module.exports = {
         {
             name: 'purge',
             description: 'Purge all tickets.',
-            type: 'SUB_COMMAND'
+            type: Discord.ApplicationCommandOptionType.Subcommand
         }
     ],
 
@@ -166,7 +168,7 @@ module.exports = {
         const subCommand = interaction.options.getSubcommand();
 
         if (subCommand === 'send') {
-            const channel = interaction.options.getChannel('channel');
+            const channel = interaction.options.getChannel(Discord.ApplicationCommandOptionType.Channel);
             const title = interaction.options.getString('title');
             const colour = interaction.options.getString('colour');
             const messageId = interaction.options.getString('message-id');
@@ -187,7 +189,7 @@ module.exports = {
             if (messageId == null) {
                 channel.send({ embeds: [embed], components: [row] });
             } else {
-                channel.messages.fetch(messageId).then((message) => {
+                daalbot.getMessageFromString(messageId, channel).then((message) => {
                     message.edit({ embeds: [embed], components: [row] });
                 });
             }

@@ -1,6 +1,7 @@
 const config = require("../../config.json");
 const fs = require('fs');
 const daalbot = require('../../daalbot.js');
+const { PermissionFlagsBits, ApplicationCommandOptionType } = require('discord.js');
 
 function save(GuildId, RoleId) {
     try {
@@ -24,32 +25,35 @@ module.exports = {
     category: 'Guild',
     description: 'Creates a verification message in the server',
     guildOnly: true,
-    permissions: ['MANAGE_ROLES'],
+    permissions: [
+        PermissionFlagsBits.ManageRoles,
+        PermissionFlagsBits.ManageChannels
+    ],
     testOnly: false,
-    slash: true,
+    type: 'SLASH',
     options: [
         {
             name: 'verified_role',
             description: 'The role to give to verified users',
-            type: 'ROLE',
+            type: ApplicationCommandOptionType.Role,
             required: true
         },
         {
             name: 'channel',
             description: 'The channel to send the message in',
-            type: 'CHANNEL',
+            type: ApplicationCommandOptionType.Channel,
             required: true
         },
         {
             name: 'auto_update',
             description: 'Automatically adds the recommended permissions to new channels (coming soon)',
-            type: 'BOOLEAN',
+            type: ApplicationCommandOptionType.Boolean,
             required: false
         },
         {
             name: 'message-id',
             description: 'If used, the bot will add a button to the message instead of sending a new one',
-            type: 'STRING',
+            type: ApplicationCommandOptionType.String,
             required: false
         }
     ],
@@ -79,7 +83,7 @@ module.exports = {
         if (messageId == null) {
             channel.send({ embeds: [embed], components: [row] })
         } else {
-            channel.messages.fetch(messageId).then(message => {
+            daalbot.getMessageFromString(messageId, channel).then(message => {
                 message.edit({ components: [row] })
             })
         }
