@@ -45,6 +45,7 @@ setInterval(async () => {
     const twitterJson = JSON.parse(fs.readFileSync(path.resolve('./db/socialalert/twitter.json'), 'utf8'));
 
     for (const { username, channel: { id, role } } of twitterJson) {
+        // if (id !== '1017715576073895958') continue; // Skip if channel if not testing channel (Debug)
         const channelEntries = twitterJson.filter(i => i.username === username);
 
         await sendNewTweets(username, channelEntries);

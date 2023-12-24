@@ -53,6 +53,7 @@ client.on('messageCreate', async message => {
         embed.setDescription(desc)
 
         message.channel.send({
+            content: `<@&1015702175361540147>`,
             embeds: [embed]
         })
 

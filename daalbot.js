@@ -401,6 +401,46 @@ async function getMessageFromString(input, channel) {
     return message;
 }
 
+async function youtube_GetChannelUploads(channelId, minified = false) {
+    try {
+        // Get channel info
+        const response = await axios.get(`https://pipedapi.kavin.rocks/channel/${channelId}`);
+        const data = response.data;
+
+        if (minified) {
+            return data.relatedStreams.map(video => {
+                return video.url.replace('/watch?v=', ''); // Only need the video id to get the video in the future
+            })
+        } else {
+            return data.relatedStreams;
+        }
+    } catch {
+        return null;
+    }
+}
+
+async function youtube_isVideoValid(videoId) {
+    try {
+        const response = await axios.get(`https://pipedapi.kavin.rocks/video/${videoId}`);
+        const data = response.data;
+
+        return !(data.disabled); // If the video is disabled, return false (not valid)
+    } catch {
+        return false;
+    }
+}
+
+async function youtube_channelIdToName(channelId) {
+    try {
+        const response = await axios.get(`https://pipedapi.kavin.rocks/channel/${channelId}`);
+        const data = response.data;
+
+        return data.name;
+    } catch {
+        return null;
+    }
+}
+
 const timestampEvents = new EventEmitter();
 
 // Constantly emit the current timestamp so that other files can set up listeners for a timestamp they need and get a callback when it happens
@@ -408,6 +448,12 @@ const timestampEvents = new EventEmitter();
 setInterval(() => {
     timestampEvents.emit(Date.now())
 }, 100);
+
+const youtube = {
+    getChannelUploads: youtube_GetChannelUploads,
+    isVideoValid: youtube_isVideoValid,
+    channelIdToName: youtube_channelIdToName
+}
 
 const premium = {
     activateServer: premiumActivateServer,
@@ -462,6 +508,7 @@ module.exports = {
     colours,
     premium,
     timestampEvents,
+    youtube,
     findServerVanity,
     fetchServer,
     fetchServerName,
