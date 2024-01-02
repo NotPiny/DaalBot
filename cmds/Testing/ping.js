@@ -1,1 +1,0 @@
-// This file is useless now, but it was used to test the bot's backup handler.

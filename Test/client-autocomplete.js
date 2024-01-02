@@ -1,1 +1,0 @@
-// This file is here to check if a option is valid when working on files without autocomplete
